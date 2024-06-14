@@ -56,7 +56,7 @@ export const useEditProfileForm = ({ onSave, onInvalid }: UseEditProfileFormProp
                 name="avatar"
                 control={form.control}
               />
-              <FormDescription>This is your public display name.</FormDescription>
+              <FormDescription>This is your public display avatar.</FormDescription>
             </div>
           </FormControl>
           <FormMessage />

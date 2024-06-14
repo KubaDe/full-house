@@ -15,7 +15,8 @@ import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { forwardRef, useMemo } from "react";
 import { z } from "zod";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Button } from "@/components/uiKit/button";
+import { lowerCase, startCase } from "lodash";
+import { Button, type ButtonProps } from "@/components/uiKit/button";
 import { cn } from "@/lib/utils";
 
 type AvatarPickerProps = {
@@ -24,7 +25,7 @@ type AvatarPickerProps = {
   onChange?: (value: Avatar) => void;
 };
 
-const partsOptions = {
+export const partsOptions = {
   body: Object.keys(BustPose),
   face: Object.keys(Face),
   hair: Object.keys(Hair),
@@ -50,7 +51,7 @@ export const avatarPickerInputSchema = z.object({
   ),
 });
 
-type Avatar = z.infer<typeof avatarPickerInputSchema>;
+export type Avatar = z.infer<typeof avatarPickerInputSchema>;
 
 const defaultAvatar = {
   body: "ArmsCrossed",
@@ -60,7 +61,7 @@ const defaultAvatar = {
   accessory: "GlassRound",
 } satisfies Avatar;
 
-type ArrowButtonProps = {
+type ArrowButtonProps = ButtonProps & {
   direction: "left" | "right";
   onClick: () => void;
   className?: string;
@@ -71,7 +72,9 @@ enum Direction {
   Right = "right",
 }
 
-const ArrowButton = ({ direction, onClick, className }: ArrowButtonProps) => {
+const transformPartNameToLabel = (part: string) => lowerCase(startCase(part));
+
+const ArrowButton = ({ direction, onClick, className, ...rest }: ArrowButtonProps) => {
   const icon = useMemo(() => {
     switch (direction) {
       case "left":
@@ -88,6 +91,7 @@ const ArrowButton = ({ direction, onClick, className }: ArrowButtonProps) => {
       variant="default"
       size="icon"
       onClick={onClick}
+      {...rest}
     >
       {icon}
     </Button>
@@ -97,27 +101,30 @@ const ArrowButton = ({ direction, onClick, className }: ArrowButtonProps) => {
 type ControlRowProps = {
   className?: string;
   onClick: (direction: Direction) => void;
+  partName: string;
 };
 
-const ControlRow = ({ onClick, className }: ControlRowProps) => {
+const ControlRow = ({ onClick, className, partName }: ControlRowProps) => {
   return (
     <>
       <ArrowButton
         className={cn("col-start-1 row-span-1", className)}
         direction="left"
         onClick={() => onClick(Direction.Left)}
+        aria-label={`Previous ${transformPartNameToLabel(partName)}`}
       />
       <ArrowButton
         className={cn("col-start-3 row-span-1", className)}
         direction="right"
         onClick={() => onClick(Direction.Right)}
+        aria-label={`Next ${transformPartNameToLabel(partName)}`}
       />
     </>
   );
 };
 
-export const AvatarPicker = forwardRef<HTMLDivElement>(
-  ({ onChange, defaultValue = defaultAvatar, value }: AvatarPickerProps, ref) => {
+export const AvatarPicker = forwardRef<HTMLDivElement, AvatarPickerProps>(
+  ({ onChange, defaultValue = defaultAvatar, value }, ref) => {
     const [controllableState, setControllableState] = useControllableState<Avatar>({
       prop: value,
       defaultProp: defaultValue,
@@ -131,10 +138,10 @@ export const AvatarPicker = forwardRef<HTMLDivElement>(
         : 0;
       let partNewStateIndex = partCurrentStateIndex;
       switch (direction) {
-        case Direction.Left:
+        case Direction.Right:
           partNewStateIndex = (partCurrentStateIndex + 1) % options.length;
           break;
-        case Direction.Right:
+        case Direction.Left:
           partNewStateIndex = (partCurrentStateIndex - 1 + options.length) % options.length;
           break;
       }
@@ -147,20 +154,31 @@ export const AvatarPicker = forwardRef<HTMLDivElement>(
         ref={ref}
         className="grid h-56 w-80  grid-cols-[50px_minmax(0,1fr)_50px] grid-rows-[40px_40px_30px_30px_minmax(0,1fr)] items-end justify-items-center"
       >
-        <ControlRow onClick={(direction) => loopOver({ direction, part: "hair" })} className="row-start-1" />
+        <ControlRow
+          onClick={(direction) => loopOver({ direction, part: "hair" })}
+          className="row-start-1"
+          partName="hair"
+        />
 
         <ControlRow
           onClick={(direction) => loopOver({ direction, part: "accessory" })}
           className="row-start-2"
+          partName="accessory"
         />
-        <ControlRow onClick={(direction) => loopOver({ direction, part: "face" })} className="row-start-3" />
+        <ControlRow
+          onClick={(direction) => loopOver({ direction, part: "face" })}
+          className="row-start-3"
+          partName="face"
+        />
         <ControlRow
           onClick={(direction) => loopOver({ direction, part: "facialHair" })}
           className="row-start-4"
+          partName="facialHair"
         />
         <ControlRow
           onClick={(direction) => loopOver({ direction, part: "body" })}
           className="row-start-5 self-center"
+          partName="body"
         />
         <div className="col-start-2 row-span-full row-start-1 size-full overflow-hidden rounded-full border-2 border-current">
           <Peep
