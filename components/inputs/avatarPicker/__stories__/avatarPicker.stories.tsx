@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { AvatarPicker } from "./avatarPicker";
+import { AvatarPicker } from "../avatarPicker";
 
 const meta = {
   title: "inputs/AvatarPicker",

@@ -1,5 +1,5 @@
-import { type Avatar } from "./ControlRow";
 import { defaultAvatar, Direction, partsOptions } from "./consts";
+import { type Avatar } from "./ControlRow";
 
 export const loopOverPart = ({
   direction,

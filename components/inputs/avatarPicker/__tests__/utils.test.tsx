@@ -1,15 +1,7 @@
 import { expect, it, describe } from "vitest";
 import { type FaceType } from "react-peeps";
-import { type Avatar, Direction, partsOptions } from "./consts";
-import { loopOverPart } from "./utils";
-
-const defaultValue = {
-  accessory: partsOptions.accessory[0],
-  body: partsOptions.body[0],
-  face: partsOptions.face[0],
-  facialHair: partsOptions.facialHair[0],
-  hair: partsOptions.hair[0],
-} as Avatar;
+import { defaultAvatar, Direction, partsOptions } from "../consts";
+import { loopOverPart } from "../utils";
 
 describe("AvatarPicker => utils", () => {
   describe("loopOverPart", () => {
@@ -17,12 +9,12 @@ describe("AvatarPicker => utils", () => {
       const part = "face";
       const direction = Direction.Right;
       const currentState = {
-        ...defaultValue,
+        ...defaultAvatar,
         face: partsOptions.face[2] as FaceType,
       };
       const newState = loopOverPart({ direction, part, currentState });
       expect(newState).toEqual({
-        ...defaultValue,
+        ...defaultAvatar,
         face: partsOptions.face[3],
       });
     });
@@ -31,12 +23,12 @@ describe("AvatarPicker => utils", () => {
       const part = "face";
       const direction = Direction.Right;
       const currentState = {
-        ...defaultValue,
+        ...defaultAvatar,
         face: partsOptions.face[partsOptions.face.length - 1] as FaceType,
       };
       const newState = loopOverPart({ direction, part, currentState });
       expect(newState).toEqual({
-        ...defaultValue,
+        ...defaultAvatar,
         face: partsOptions.face[0],
       });
     });
@@ -45,12 +37,12 @@ describe("AvatarPicker => utils", () => {
       const part = "face";
       const direction = Direction.Left;
       const currentState = {
-        ...defaultValue,
+        ...defaultAvatar,
         face: partsOptions.face[3] as FaceType,
       };
       const newState = loopOverPart({ direction, part, currentState });
       expect(newState).toEqual({
-        ...defaultValue,
+        ...defaultAvatar,
         face: partsOptions.face[2],
       });
     });
@@ -59,12 +51,12 @@ describe("AvatarPicker => utils", () => {
       const part = "face";
       const direction = Direction.Left;
       const currentState = {
-        ...defaultValue,
+        ...defaultAvatar,
         face: partsOptions.face[0] as FaceType,
       };
       const newState = loopOverPart({ direction, part, currentState });
       expect(newState).toEqual({
-        ...defaultValue,
+        ...defaultAvatar,
         face: partsOptions.face[partsOptions.face.length - 1],
       });
     });

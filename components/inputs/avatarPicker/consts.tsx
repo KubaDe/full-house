@@ -21,20 +21,25 @@ export const partsOptions = {
 };
 
 export const avatarPickerInputSchema = z.object({
-  body: z.custom<BustPoseType>((value: string): value is BustPoseType =>
-    partsOptions.body.includes(value as BustPoseType),
+  body: z.custom<BustPoseType>(
+    (value: string): value is BustPoseType => partsOptions.body.includes(value as BustPoseType),
+    "Incorrect body type",
   ),
-  face: z.custom<FaceType>((value: string): value is FaceType =>
-    partsOptions.face.includes(value as FaceType),
+  face: z.custom<FaceType>(
+    (value: string): value is FaceType => partsOptions.face.includes(value as FaceType),
+    "Incorrect face type",
   ),
-  hair: z.custom<HairType>((value: string): value is HairType =>
-    partsOptions.hair.includes(value as HairType),
+  hair: z.custom<HairType>(
+    (value: string): value is HairType => partsOptions.hair.includes(value as HairType),
+    "Incorrect hair type",
   ),
-  facialHair: z.custom<FacialHairType>((value: string): value is FacialHairType =>
-    partsOptions.facialHair.includes(value as FacialHairType),
+  facialHair: z.custom<FacialHairType>(
+    (value: string): value is FacialHairType => partsOptions.facialHair.includes(value as FacialHairType),
+    "Incorrect facial hair type",
   ),
-  accessory: z.custom<AccessoryType>((value: string): value is AccessoryType =>
-    partsOptions.accessory.includes(value as AccessoryType),
+  accessory: z.custom<AccessoryType>(
+    (value: string): value is AccessoryType => partsOptions.accessory.includes(value as AccessoryType),
+    "Incorrect accessory type",
   ),
 });
 
@@ -46,9 +51,9 @@ export enum Direction {
 }
 
 export const defaultAvatar = {
-  body: "ArmsCrossed",
-  face: "Cheeky",
-  hair: "Buns",
-  facialHair: "FullMedium",
-  accessory: "GlassRound",
-} satisfies Avatar;
+  accessory: partsOptions.accessory[0],
+  body: partsOptions.body[0],
+  face: partsOptions.face[0],
+  facialHair: partsOptions.facialHair[0],
+  hair: partsOptions.hair[0],
+} as Avatar;
