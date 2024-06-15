@@ -3,7 +3,7 @@ import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { forwardRef } from "react";
 import { type Avatar, ControlRow } from "./ControlRow";
 import { defaultAvatar, type Direction, type partsOptions } from "./consts";
-import { loopOver } from "@/components/inputs/avatarPicker/utils";
+import { loopOverPart } from "./utils";
 
 type AvatarPickerProps = {
   value?: Avatar;
@@ -26,7 +26,7 @@ export const AvatarPicker = forwardRef<HTMLDivElement, AvatarPickerProps>(
       part: keyof typeof partsOptions;
       direction: Direction;
     }) => {
-      const newControllableState = loopOver({
+      const newControllableState = loopOverPart({
         direction,
         part,
         currentState: controllableState ?? defaultAvatar,
