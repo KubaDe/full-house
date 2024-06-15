@@ -22,7 +22,7 @@ import {
 import { ScrollArea } from "@/components/uiKit/scroll-area";
 import { useEditProfileForm, type UseEditProfileFormProps } from "@/components/forms/editProfileForm";
 
-type EditProfileModalProps = UseEditProfileFormProps & {};
+type EditProfileModalProps = UseEditProfileFormProps;
 
 export const EditProfileModal = createModal(
   ({ onSave = () => {}, onInvalid = () => {} }: EditProfileModalProps) => {

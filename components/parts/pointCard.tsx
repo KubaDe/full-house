@@ -37,11 +37,7 @@ export const PointCard = ({
     </>
   );
 
-  const reverse = (
-    <>
-      <div className="text-4xl">🎰️</div>
-    </>
-  );
+  const reverse = <div className="text-4xl">🎰️</div>;
 
   return (
     <motion.div

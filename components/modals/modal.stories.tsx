@@ -38,6 +38,7 @@ type Story = StoryObj<typeof meta>;
 
 export const EditProfile: Story = {
   args: {
-    action: () => showModal(EditProfileModal, { onSave: action("onSave"), onInvalid: action("onInvalid") }),
+    action: () =>
+      void showModal(EditProfileModal, { onSave: action("onSave"), onInvalid: action("onInvalid") }),
   },
 } satisfies Story;

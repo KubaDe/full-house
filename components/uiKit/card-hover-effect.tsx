@@ -21,6 +21,7 @@ export const HoverEffect = ({
           className="group relative  block size-full"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
+          aria-hidden
         >
           <AnimatePresence>
             {hoveredIndex === idx && hoveredIndex !== selectedIndex && (
