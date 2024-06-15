@@ -1,8 +1,9 @@
 import { expect, vi, it, describe } from "vitest";
 import { render, fireEvent, cleanup } from "@testing-library/react";
 import { get } from "lodash";
-import { type Avatar, AvatarPicker, partsOptions } from "./avatarPicker";
 import * as avatarPickerTestUtils from "./avatarPicker.testUtils";
+import { type Avatar, partsOptions } from "./consts";
+import { AvatarPicker } from "./avatarPicker";
 
 const defaultValue = {
   accessory: partsOptions.accessory[0],
