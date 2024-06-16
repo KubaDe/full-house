@@ -35,6 +35,11 @@ jobs:
         id: lint
         run: pnpm run lint
 
+      - name: 🧪 Run tests
+        if: (failure() || success()) && steps.install.outcome == 'success'
+        id: tests
+        run: pnpm run test
+
       - name: 🪦 Check for dead code
         if: (failure() || success()) && steps.install.outcome == 'success'
         id: deadcode
@@ -57,11 +62,12 @@ jobs:
               body: `
               # PR code checks results:
               |    |  Step               | Status                                                                                                           |
-              | -- | ------------------  | ----------------------------------------------------------------------------------------------------------------|
-              | 🚚 |  Install packages | ${{ (steps.install.outcome == 'success' && '✅') || (steps.install.outcome == 'failure' && '❌') || '⏭️' }}   |
+              | -- | ------------------  | -----------------------------------------------------------------------------------------------------------------|
+              | 🚚 |  Install packages   | ${{ (steps.install.outcome == 'success' && '✅') || (steps.install.outcome == 'failure' && '❌') || '⏭️' }}     |
               | 🕵️ |  Lint project       | ${{ (steps.lint.outcome == 'success' && '✅') || (steps.lint.outcome == 'failure' && '❌') || '⏭️' }}           |
-              | 🪦 | Check for dead code | ${{ (steps.deadcode.outcome == 'success' && '✅') || (steps.deadcode.outcome == 'failure' && '❌') || '⏭️' }}   |
-              | 🏭 | Build project       | ${{ (steps.build.outcome == 'success' && '✅') || (steps.build.outcome == 'failure' && '❌') || '⏭️' }}         |
+              | 🧪️ |  Run test           | ${{ (steps.tests.outcome == 'success' && '✅') || (steps.tests.outcome == 'failure' && '❌') || '⏭️' }}           |
+              | 🪦 |  Check for dead code| ${{ (steps.deadcode.outcome == 'success' && '✅') || (steps.deadcode.outcome == 'failure' && '❌') || '⏭️' }}   |
+              | 🏭 |  Build project      | ${{ (steps.build.outcome == 'success' && '✅') || (steps.build.outcome == 'failure' && '❌') || '⏭️' }}         |
               ------------
               [See details]( ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
               `
