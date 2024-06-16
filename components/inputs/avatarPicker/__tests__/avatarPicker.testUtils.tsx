@@ -1,35 +1,33 @@
 import { screen } from "@testing-library/react";
 
-export const selectNextPart = (part: string) => {
-  switch (part) {
-    case "face":
-      return screen.getByRole("button", { name: "Next face" });
-    case "body":
-      return screen.getByRole("button", { name: "Next body" });
-    case "facialHair":
-      return screen.getByRole("button", { name: "Next facial hair" });
-    case "hair":
-      return screen.getByRole("button", { name: "Next hair" });
-    case "accessory":
-      return screen.getByRole("button", { name: "Next accessory" });
-    default:
-      throw new Error(`Invalid part: ${part}`);
+const nextPartLabels = {
+  face: "Next face",
+  body: "Next body",
+  facialHair: "Next facial hair",
+  hair: "Next hair",
+  accessory: "Next accessory",
+} as const;
+
+export const selectNextPart = (part: keyof typeof nextPartLabels) => {
+  const buttonName = nextPartLabels[part];
+  if (!buttonName) {
+    throw new Error(`Invalid part: ${part}`);
   }
+  return screen.getByRole("button", { name: buttonName });
 };
 
-export const selectPreviousPart = (part: string) => {
-  switch (part) {
-    case "face":
-      return screen.getByRole("button", { name: "Previous face" });
-    case "body":
-      return screen.getByRole("button", { name: "Previous body" });
-    case "facialHair":
-      return screen.getByRole("button", { name: "Previous facial hair" });
-    case "hair":
-      return screen.getByRole("button", { name: "Previous hair" });
-    case "accessory":
-      return screen.getByRole("button", { name: "Previous accessory" });
-    default:
-      throw new Error(`Invalid part: ${part}`);
+const previousPartLabels = {
+  face: "Previous face",
+  body: "Previous body",
+  facialHair: "Previous facial hair",
+  hair: "Previous hair",
+  accessory: "Previous accessory",
+} as const;
+
+export const selectPreviousPart = (part: keyof typeof previousPartLabels) => {
+  const buttonName = previousPartLabels[part];
+  if (!buttonName) {
+    throw new Error(`Invalid part: ${part}`);
   }
+  return screen.getByRole("button", { name: buttonName });
 };
