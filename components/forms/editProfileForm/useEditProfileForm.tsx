@@ -20,7 +20,7 @@ const editProfileFormSchema = z.object({
   name: z.string().min(2).max(50),
 });
 
-export type EditProfileFormValues = z.infer<typeof editProfileFormSchema>;
+type EditProfileFormValues = z.infer<typeof editProfileFormSchema>;
 
 export type UseEditProfileFormProps = {
   onSave: SubmitHandler<EditProfileFormValues>;

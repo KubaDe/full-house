@@ -9,6 +9,7 @@ module.exports = defineConfig({
   },
   extends: [
     "eslint:recommended",
+    "plugin:storybook/recommended",
     "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",
     "plugin:import/recommended",
