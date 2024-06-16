@@ -1,10 +1,13 @@
-{
-  "$schema": "https://json.schemastore.org/eslintrc.json",
-  "plugins": ["@typescript-eslint", "import"],
-  "parserOptions": {
-    "project": "tsconfig.json"
+const { defineConfig } = require('eslint-define-config')
+
+module.exports = defineConfig({
+  $schema: "https://json.schemastore.org/eslintrc.json",
+  plugins: ["@typescript-eslint", "import"],
+  parserOptions: {
+    project: "tsconfig.json",
+    tsconfigRootDir: __dirname,
   },
-  "extends": [
+  extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",
@@ -12,9 +15,9 @@
     "plugin:import/typescript",
     "plugin:tailwindcss/recommended",
     "prettier",
-    "next/core-web-vitals"
+    "next/core-web-vitals",
   ],
-  "rules": {
+  rules: {
     // sort imports
     "import/order": "error",
 
@@ -26,25 +29,25 @@
 
     "import/no-unresolved": "off",
 
-    "no-irregular-whitespace": ["error", { "skipJSXText": true }],
+    "no-irregular-whitespace": ["error", { skipJSXText: true }],
 
     // allow {} even though it's unsafe but comes handy
     "@typescript-eslint/ban-types": [
       "error",
       {
-        "types": {
-          "{}": false
-        }
-      }
+        types: {
+          "{}": false,
+        },
+      },
     ],
 
     "@typescript-eslint/consistent-type-imports": [
       "error",
       {
-        "prefer": "type-imports",
-        "fixStyle": "inline-type-imports",
-        "disallowTypeAnnotations": false
-      }
+        prefer: "type-imports",
+        fixStyle: "inline-type-imports",
+        disallowTypeAnnotations: false,
+      },
     ],
 
     "@typescript-eslint/consistent-type-definitions": ["error", "type"],
@@ -70,28 +73,25 @@
     "@typescript-eslint/return-await": ["error", "in-try-catch"],
 
     // allow unused vars prefixed with `_`
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
 
     // numbers and booleans are fine in template strings
-    "@typescript-eslint/restrict-template-expressions": [
-      "error",
-      { "allowNumber": true, "allowBoolean": true }
-    ],
+    "@typescript-eslint/restrict-template-expressions": ["error", { allowNumber: true, allowBoolean: true }],
 
     "@typescript-eslint/no-misused-promises": [
       "error",
       {
-        "checksVoidReturn": false
-      }
-    ]
+        checksVoidReturn: false,
+      },
+    ],
   },
-  "overrides": [
+  overrides: [
     {
-      "files": ["app/**/{page,layout,error,loading,not-found}.tsx", "*.ts", "*.stories.tsx"],
-      "rules": {
-        "import/no-default-export": "off"
-      }
-    }
+      files: ["app/**/{page,layout,error,loading,not-found}.tsx", "*.ts", "*.stories.tsx"],
+      rules: {
+        "import/no-default-export": "off",
+      },
+    },
   ],
-  "ignorePatterns": ["*.js", "*.jsx", "*.cjs", "*.mjs"]
-}
+  ignorePatterns: ["*.js", "*.jsx", "*.cjs", "*.mjs"],
+});

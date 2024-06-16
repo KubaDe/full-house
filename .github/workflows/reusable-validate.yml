@@ -1,0 +1,67 @@
+on:
+  workflow_call:
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: ./
+
+    steps:
+      - name: ☁️ Checkout source code
+        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+
+      - name: ⚙️Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8.15.5
+
+      - name: ⚙️ Set node version
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.14.0'
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: 🚚 Install Node dependencies
+        id: install
+        run: pnpm install
+
+      - name: 🕵️ Lint project
+        if: (failure() || success()) && steps.install.outcome == 'success'
+        id: lint
+        run: pnpm run lint
+
+#      - name: 🪦 Check for dead code
+#        if: (failure() || success()) && steps.install.outcome == 'success'
+#        id: deadcode
+#        run: pnpm run knip
+
+      - name: 🏭 Build project
+        if: (failure() || success()) && steps.install.outcome == 'success'
+        id: build
+        run: pnpm run build
+
+      - name: 📰 Publish summary comment
+        if: success() || failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `
+              # PR code checks results:
+              |    |  Step               | Status                                                                                                           |
+              | -- | ------------------  | ----------------------------------------------------------------------------------------------------------------|
+              | 🚚 |  Install packages | ${{ (steps.install.outcome == 'success' && '✅') || (steps.install.outcome == 'failure' && '❌') || '⏭️' }}   |
+              | 🕵️ |  Lint project       | ${{ (steps.lint.outcome == 'success' && '✅') || (steps.lint.outcome == 'failure' && '❌') || '⏭️' }}           |
+              | 🏭 | Build project       | ${{ (steps.build.outcome == 'success' && '✅') || (steps.build.outcome == 'failure' && '❌') || '⏭️' }}         |
+              ------------
+              [See details]( ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+              `
+            })
