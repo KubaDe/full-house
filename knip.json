@@ -1,0 +1,4 @@
+{
+  "ignore": ["components/uiKit/*"],
+  "ignoreDependencies": ["@radix-ui/*", "@storybook/*", "prettier-plugin-tailwindcss"]
+}
