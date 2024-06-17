@@ -71,7 +71,7 @@
     "knip": "^5.20.0",
     "postcss": "^8",
     "postcss-load-config": "^6.0.1",
-    "prettier-plugin-tailwindcss": "^0.5.14",
+    "prettier-plugin-tailwindcss": "^0.6.0",
     "storybook": "^8.0.8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.4.5",
