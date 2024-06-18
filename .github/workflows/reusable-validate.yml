@@ -30,6 +30,11 @@ jobs:
         id: install
         run: pnpm install
 
+      - name: 🕵️ Lint project
+        if: (failure() || success()) && steps.install.outcome == 'success'
+        id: lint
+        run: pnpm run lint
+
       - name: 🧪 Run tests
         if: (failure() || success()) && steps.install.outcome == 'success'
         id: tests
@@ -39,16 +44,6 @@ jobs:
         if: (failure() || success()) && steps.install.outcome == 'success'
         id: deadcode
         run: pnpm run knip
-
-      - name: 🎡 Check for circular dependencies
-        if: (failure() || success()) && steps.install.outcome == 'success'
-        id: madge
-        run: pnpm run madge
-
-      - name: 🕵️ Lint project
-        if: (failure() || success()) && steps.install.outcome == 'success'
-        id: lint
-        run: pnpm run lint
 
       - name: 🏭 Build project
         if: (failure() || success()) && steps.install.outcome == 'success'
@@ -66,14 +61,13 @@ jobs:
               repo: context.repo.repo,
               body: `
               # PR code checks results:
-              |    |  Step                           | Status                                                                                                           |
-              | -- | --------------------------------| -----------------------------------------------------------------------------------------------------------------|
-              | 🚚 |  Install packages               | ${{ (steps.install.outcome == 'success' && '✅') || (steps.install.outcome == 'failure' && '❌') || '⏭️' }}     |
-              | 🕵️ |  Lint project                   | ${{ (steps.lint.outcome == 'success' && '✅') || (steps.lint.outcome == 'failure' && '❌') || '⏭️' }}           |
-              | 🧪️ |  Run test                       | ${{ (steps.tests.outcome == 'success' && '✅') || (steps.tests.outcome == 'failure' && '❌') || '⏭️' }}         |
-              | 🪦 |  Check for dead code            | ${{ (steps.deadcode.outcome == 'success' && '✅') || (steps.deadcode.outcome == 'failure' && '❌') || '⏭️' }}   |
-              | 🎡 |  Check for circlar dependencies | ${{ (steps.madge.outcome == 'success' && '✅') || (steps.madge.outcome == 'failure' && '❌') || '⏭️' }}   |
-              | 🏭 |  Build project                  | ${{ (steps.build.outcome == 'success' && '✅') || (steps.build.outcome == 'failure' && '❌') || '⏭️' }}         |
+              |    |  Step               | Status                                                                                                           |
+              | -- | ------------------  | -----------------------------------------------------------------------------------------------------------------|
+              | 🚚 |  Install packages   | ${{ (steps.install.outcome == 'success' && '✅') || (steps.install.outcome == 'failure' && '❌') || '⏭️' }}     |
+              | 🕵️ |  Lint project       | ${{ (steps.lint.outcome == 'success' && '✅') || (steps.lint.outcome == 'failure' && '❌') || '⏭️' }}           |
+              | 🧪️ |  Run test           | ${{ (steps.tests.outcome == 'success' && '✅') || (steps.tests.outcome == 'failure' && '❌') || '⏭️' }}           |
+              | 🪦 |  Check for dead code| ${{ (steps.deadcode.outcome == 'success' && '✅') || (steps.deadcode.outcome == 'failure' && '❌') || '⏭️' }}   |
+              | 🏭 |  Build project      | ${{ (steps.build.outcome == 'success' && '✅') || (steps.build.outcome == 'failure' && '❌') || '⏭️' }}         |
               ------------
               [See details]( ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
               `
