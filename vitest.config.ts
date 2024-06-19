@@ -5,6 +5,7 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: "jsdom",
+    globals: true,
     coverage: {
       provider: "istanbul",
       reporter: ["text", "json", "html"],

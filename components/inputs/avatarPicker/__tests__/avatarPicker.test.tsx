@@ -1,5 +1,5 @@
 import { expect, vi, it, describe } from "vitest";
-import { render, fireEvent, cleanup } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import { get } from "lodash";
 import { defaultAvatar, partsOptions } from "../consts";
 import { AvatarPicker } from "../avatarPicker";
@@ -7,7 +7,6 @@ import * as avatarPickerTestUtils from "./avatarPicker.testUtils";
 
 describe("AvatarPicker", () => {
   it.each(["face", "body", "facialHair", "hair", "accessory"])("should change %s", (part) => {
-    cleanup();
     const onChange = vi.fn();
     render(<AvatarPicker onChange={onChange} defaultValue={defaultAvatar} />);
 
