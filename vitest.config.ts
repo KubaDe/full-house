@@ -24,6 +24,7 @@ export default defineConfig({
         "**/*.stories.ts",
         "**/*.testUtils.tsx",
         "**/*.testUtils.ts",
+        ".eslintrc.cjs",
       ],
     },
   },
