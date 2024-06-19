@@ -2,7 +2,7 @@ import { Controller, useForm, type SubmitErrorHandler, type SubmitHandler } from
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
-import { AvatarPicker, avatarPickerInputSchema } from "@/components/inputs/avatarPicker";
+import { AvatarPicker, avatarPickerInputSchema, defaultAvatar } from "@/components/inputs/avatarPicker";
 import {
   Form,
   FormControl,
@@ -34,14 +34,8 @@ export const useEditProfileForm = ({ onSave, onInvalid, defaultValues }: UseEdit
   const form = useForm<EditProfileFormValues>({
     resolver: zodResolver(editProfileFormSchema),
     defaultValues: defaultValues ?? {
-      name: "foo",
-      avatar: {
-        body: "Turtleneck",
-        face: "Awe",
-        hair: "Bald",
-        facialHair: "Dali",
-        accessory: "None",
-      },
+      name: "",
+      avatar: defaultAvatar,
     },
   });
 
@@ -49,7 +43,6 @@ export const useEditProfileForm = ({ onSave, onInvalid, defaultValues }: UseEdit
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSave, onInvalid)} className="space-y-8" id={formName}>
         <FormItem>
-          <FormLabel>Avatar</FormLabel>
           <FormControl>
             <div className="flex flex-col items-center justify-center">
               <Controller
@@ -57,7 +50,6 @@ export const useEditProfileForm = ({ onSave, onInvalid, defaultValues }: UseEdit
                 name="avatar"
                 control={form.control}
               />
-              <FormDescription>This is your public display avatar.</FormDescription>
             </div>
           </FormControl>
           <FormMessage />
@@ -68,11 +60,10 @@ export const useEditProfileForm = ({ onSave, onInvalid, defaultValues }: UseEdit
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="Username" {...field} />
               </FormControl>
-              <FormDescription>This is your public display name.</FormDescription>
+              <FormDescription>This is your public displayed name and avatar</FormDescription>
               <FormMessage />
             </FormItem>
           )}

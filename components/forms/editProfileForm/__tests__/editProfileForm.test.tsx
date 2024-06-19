@@ -22,7 +22,7 @@ describe("EditProfileForm", () => {
 
     fireEvent.click(avatarPickerTestUtils.selectNextPart("face"));
     fireEvent.click(avatarPickerTestUtils.selectNextPart("body"));
-    fireEvent.change(screen.getByLabelText("Username"), { target: { value: "John Smith" } });
+    fireEvent.change(screen.getByPlaceholderText("Username"), { target: { value: "John Smith" } });
 
     fireEvent.click(screen.getByText("Save profile"));
     await waitFor(() => expect(onSave).toHaveBeenCalled());
