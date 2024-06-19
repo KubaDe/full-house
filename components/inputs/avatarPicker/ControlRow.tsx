@@ -1,10 +1,7 @@
-import { type z } from "zod";
 import { lowerCase, startCase } from "lodash";
-import { type avatarPickerInputSchema } from "./consts";
 import { ArrowButton } from "./arrowButton";
 import { cn } from "@/lib/utils";
 
-export type Avatar = z.infer<typeof avatarPickerInputSchema>;
 enum Direction {
   Left = "left",
   Right = "right",

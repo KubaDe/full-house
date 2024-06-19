@@ -1,8 +1,8 @@
 import Peep from "react-peeps";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { forwardRef } from "react";
-import { defaultAvatar, type Direction, type partsOptions } from "./consts";
-import { type Avatar, ControlRow } from "./ControlRow";
+import { defaultAvatar, type Direction, type partsOptions, type Avatar } from "./consts";
+import { ControlRow } from "./ControlRow";
 import { loopOverPart } from "./utils";
 
 type AvatarPickerProps = {
@@ -37,7 +37,7 @@ export const AvatarPicker = forwardRef<HTMLDivElement, AvatarPickerProps>(
     return (
       <div
         ref={ref}
-        className="grid h-56 w-80  grid-cols-[50px_minmax(0,1fr)_50px] grid-rows-[40px_40px_30px_30px_minmax(0,1fr)] items-end justify-items-center"
+        className="grid h-56 w-80 grid-cols-[50px_minmax(0,1fr)_50px] grid-rows-[40px_40px_30px_30px_minmax(0,1fr)] items-end justify-items-center"
       >
         <ControlRow
           onClick={(direction) => handleRowClick({ direction, part: "hair" })}

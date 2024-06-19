@@ -1,8 +1,8 @@
 import { vi, it, describe, expect } from "vitest";
 import { fireEvent, screen, render, renderHook, waitFor } from "@testing-library/react";
 import { useEditProfileForm } from "../useEditProfileForm";
-import { defaultAvatar } from "@/components/inputs/avatarPicker";
-import { selectNextPart } from "@/components/inputs/avatarPicker/__tests__/avatarPicker.testUtils";
+import * as avatarPickerMock from "@/components/inputs/avatarPicker/__mocks__/avatarPicker.mock";
+import * as avatarPickerTestUtils from "@/components/inputs/avatarPicker/__tests__/avatarPicker.testUtils";
 
 describe("EditProfileForm", () => {
   it("should call submit when form is valid", async () => {
@@ -13,15 +13,15 @@ describe("EditProfileForm", () => {
         onSave,
         defaultValues: {
           name: "",
-          avatar: defaultAvatar,
+          avatar: avatarPickerMock.avatar,
         },
       }),
     );
     const { formUI } = result.current;
     render(formUI);
 
-    fireEvent.click(selectNextPart("face"));
-    fireEvent.click(selectNextPart("body"));
+    fireEvent.click(avatarPickerTestUtils.selectNextPart("face"));
+    fireEvent.click(avatarPickerTestUtils.selectNextPart("body"));
     fireEvent.change(screen.getByLabelText("Username"), { target: { value: "John Smith" } });
 
     fireEvent.click(screen.getByText("Save profile"));
@@ -29,7 +29,7 @@ describe("EditProfileForm", () => {
     expect(onSave).toHaveBeenCalledWith(
       {
         avatar: {
-          ...defaultAvatar,
+          ...avatarPickerMock.avatar,
           body: "Shirt",
           face: "Blank",
         },
@@ -49,7 +49,7 @@ describe("EditProfileForm", () => {
         onInvalid,
         defaultValues: {
           name: "",
-          avatar: defaultAvatar,
+          avatar: avatarPickerMock.avatar,
         },
       }),
     );

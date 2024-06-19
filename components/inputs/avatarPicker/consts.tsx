@@ -43,7 +43,7 @@ export const avatarPickerInputSchema = z.object({
   ),
 });
 
-type Avatar = z.infer<typeof avatarPickerInputSchema>;
+export type Avatar = z.infer<typeof avatarPickerInputSchema>;
 
 export enum Direction {
   Left = "left",
