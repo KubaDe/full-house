@@ -25,14 +25,15 @@ type EditProfileFormValues = z.infer<typeof editProfileFormSchema>;
 export type UseEditProfileFormProps = {
   onSave: SubmitHandler<EditProfileFormValues>;
   onInvalid?: SubmitErrorHandler<EditProfileFormValues>;
+  defaultValues?: EditProfileFormValues;
 };
 
 const formName = "editProfileForm";
 
-export const useEditProfileForm = ({ onSave, onInvalid }: UseEditProfileFormProps) => {
+export const useEditProfileForm = ({ onSave, onInvalid, defaultValues }: UseEditProfileFormProps) => {
   const form = useForm<EditProfileFormValues>({
     resolver: zodResolver(editProfileFormSchema),
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       name: "foo",
       avatar: {
         body: "Turtleneck",
@@ -76,6 +77,9 @@ export const useEditProfileForm = ({ onSave, onInvalid }: UseEditProfileFormProp
             </FormItem>
           )}
         />
+        <button type="submit" className="sr-only">
+          Save profile
+        </button>
       </form>
     </Form>
   );

@@ -8,8 +8,8 @@ const nextPartLabels = {
   accessory: "Next accessory",
 } as const;
 
-export const selectNextPart = (part: keyof typeof nextPartLabels) => {
-  const buttonName = nextPartLabels[part];
+export const selectNextPart = (part: string) => {
+  const buttonName = nextPartLabels[part as keyof typeof nextPartLabels];
   if (!buttonName) {
     throw new Error(`Invalid part: ${part}`);
   }
@@ -24,8 +24,8 @@ const previousPartLabels = {
   accessory: "Previous accessory",
 } as const;
 
-export const selectPreviousPart = (part: keyof typeof previousPartLabels) => {
-  const buttonName = previousPartLabels[part];
+export const selectPreviousPart = (part: string) => {
+  const buttonName = previousPartLabels[part as keyof typeof previousPartLabels];
   if (!buttonName) {
     throw new Error(`Invalid part: ${part}`);
   }
