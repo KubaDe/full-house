@@ -11,7 +11,6 @@ type PersonProps = {
   isOpen?: boolean;
   openOnHover?: boolean;
   avatar?: Avatar;
-  width?: number;
 };
 
 export const PersonBadge = ({
