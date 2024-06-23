@@ -3,6 +3,7 @@ import { Inter as FontSans } from "next/font/google";
 
 import { type Metadata } from "next";
 import { cn } from "@/lib/utils";
+import { AppConfigBar, AppConfigBarWrapper } from "@/components/parts/appConfigBar";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -22,6 +23,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head />
       <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
+        <AppConfigBarWrapper>
+          <AppConfigBar />
+        </AppConfigBarWrapper>
         {children}
       </body>
     </html>
