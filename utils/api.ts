@@ -1,5 +1,6 @@
 import { httpBatchLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
+import superjson from "superjson";
 import type { AppRouter } from "@/server/api/_app";
 
 function getBaseUrl() {
@@ -16,17 +17,16 @@ function getBaseUrl() {
   return `http://localhost:${process.env.PORT ?? 3000}`;
 }
 export const api = createTRPCNext<AppRouter>({
-  config: () => ({
-    links: [
-      httpBatchLink({
-        url: `${getBaseUrl()}/api/trpc`,
-        async headers() {
-          return {
-            // authorization: getAuthCookie(),
-          };
-        },
-      }),
-    ],
-  }),
+  transformer: superjson,
+  config: () => {
+    return {
+      links: [
+        httpBatchLink({
+          transformer: superjson,
+          url: `${getBaseUrl()}/api/trpc`,
+        }),
+      ],
+    };
+  },
   ssr: false,
 });

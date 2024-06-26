@@ -79,6 +79,8 @@ module.exports = defineConfig({
     // numbers and booleans are fine in template strings
     "@typescript-eslint/restrict-template-expressions": ["error", { allowNumber: true, allowBoolean: true }],
 
+    "@typescript-eslint/unbound-method": 'off',
+
     "@typescript-eslint/no-misused-promises": [
       "error",
       {
