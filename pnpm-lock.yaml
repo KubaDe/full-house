@@ -67,7 +67,7 @@ importers:
         version: 2.1.1
       colorjs.io:
         specifier: ^0.5.0
-        version: 0.5.1
+        version: 0.5.2
       dayjs:
         specifier: ^1.11.11
         version: 1.11.11
@@ -3356,8 +3356,8 @@ packages:
   colorette@2.0.20:
     resolution: {integrity: sha512-IfEDxwoWIjkeXL1eXcDiow4UbKjhLdq6/EuSVR9GMN7KVH3r9gQ83e73hsz1Nd1T3ijd5xv1wcWRYO+D6kCI2w==}
 
-  colorjs.io@0.5.1:
-    resolution: {integrity: sha512-6EGsdo/R0IQ7u8eGJhvNwIMhbJvSKCZNWF0LW89INod0EhD7nNOnNZ1LF5v0gktF/99YJgiAGTLCBbXr8Ymg/g==}
+  colorjs.io@0.5.2:
+    resolution: {integrity: sha512-twmVoizEW7ylZSN32OgKdXRmo1qg+wT5/6C3xu5b9QsWzSFAhHLn2xd8ro0diCsKfCj1RdaTP/nrcW+vAoQPIw==}
 
   combined-stream@1.0.8:
     resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
@@ -11034,7 +11034,7 @@ snapshots:
 
   colorette@2.0.20: {}
 
-  colorjs.io@0.5.1: {}
+  colorjs.io@0.5.2: {}
 
   combined-stream@1.0.8:
     dependencies:
