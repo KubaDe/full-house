@@ -13,4 +13,4 @@ const Home = () => {
   );
 };
 
-export default api.withTRPC(Home);
+export default Home;

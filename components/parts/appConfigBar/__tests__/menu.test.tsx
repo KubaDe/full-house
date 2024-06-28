@@ -1,8 +1,10 @@
-import { describe, expect, it } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import { within } from "@storybook/test";
 import { userEvent } from "@testing-library/user-event";
 import { Menu } from "../menu";
+import { render, screen } from "@/testUtils/render";
+
+vi.mock("@/modules/user/hooks/useMe");
 
 describe("Menu - MVP", () => {
   it("should render all menus", () => {

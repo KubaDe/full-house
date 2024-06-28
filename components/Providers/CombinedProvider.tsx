@@ -1,11 +1,15 @@
-import { type ReactNode } from "react";
+"use client";
 import { ClerkProvider } from "@clerk/nextjs";
+import { type ReactNode } from "react";
 import { DayjsProvider } from "@/components/Providers/DayjsProvider";
+import { ApiProvider } from "@/components/Providers/ApiProvider";
 
-export const CombinedProvider = ({ children }: { children: ReactNode }) => {
+export const CombinedProvider = ({ children }: { children: ReactNode }): ReactNode => {
   return (
-    <DayjsProvider>
-      <ClerkProvider>{children}</ClerkProvider>
-    </DayjsProvider>
+    <ApiProvider>
+      <DayjsProvider>
+        <ClerkProvider>{children}</ClerkProvider>
+      </DayjsProvider>
+    </ApiProvider>
   );
 };

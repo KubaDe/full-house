@@ -50,11 +50,6 @@ jobs:
         id: lint
         run: pnpm run lint
 
-      - name: 🏭 Build project
-        if: (failure() || success()) && steps.install.outcome == 'success'
-        id: build
-        run: pnpm run build
-
       - name: 📰 Publish summary comment
         if: success() || failure()
         uses: actions/github-script@v7
@@ -73,7 +68,6 @@ jobs:
               | 🧪️ |  Run test                       | ${{ (steps.tests.outcome == 'success' && '✅') || (steps.tests.outcome == 'failure' && '❌') || '⏭️' }}         |
               | 🪦 |  Check for dead code            | ${{ (steps.deadcode.outcome == 'success' && '✅') || (steps.deadcode.outcome == 'failure' && '❌') || '⏭️' }}   |
               | 🎡 |  Check for circlar dependencies | ${{ (steps.madge.outcome == 'success' && '✅') || (steps.madge.outcome == 'failure' && '❌') || '⏭️' }}   |
-              | 🏭 |  Build project                  | ${{ (steps.build.outcome == 'success' && '✅') || (steps.build.outcome == 'failure' && '❌') || '⏭️' }}         |
               ------------
               [See details]( ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
               `
