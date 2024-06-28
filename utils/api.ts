@@ -24,6 +24,11 @@ export const api = createTRPCNext<AppRouter>({
         httpBatchLink({
           transformer: superjson,
           url: `${getBaseUrl()}/api/trpc`,
+          async headers() {
+            return {
+              // authorization: getAuthCookie(),
+            };
+          },
         }),
       ],
     };

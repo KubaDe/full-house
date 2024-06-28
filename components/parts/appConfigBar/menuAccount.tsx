@@ -1,4 +1,3 @@
-import { SignOutButton } from "@clerk/nextjs";
 import {
   MenubarContent,
   MenubarItem,
@@ -16,9 +15,7 @@ export const MenuAccount = () => {
       <MenubarContent>
         <MenubarItem disabled>Edit Profile</MenubarItem>
         <MenubarSeparator />
-        <SignOutButton redirectUrl={auth.buildSignInUrl()}>
-          <MenubarItem>Logout</MenubarItem>
-        </SignOutButton>
+        <MenubarItem onClick={() => auth.signOut({ redirectUrl: auth.buildSignInUrl() })}>Logout</MenubarItem>
       </MenubarContent>
     </MenubarMenu>
   );

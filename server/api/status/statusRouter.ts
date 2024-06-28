@@ -12,3 +12,5 @@ export const statusRouter = router({
     };
   }),
 });
+
+export type StatusRouter = typeof statusRouter;

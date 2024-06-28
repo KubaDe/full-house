@@ -9,3 +9,5 @@ export const meRouter = router({
     };
   }),
 });
+
+export type MeRouter = typeof meRouter;
