@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { within } from "@storybook/test";
 import { userEvent } from "@testing-library/user-event";
 import { Menu } from "../menu";
