@@ -1,11 +1,11 @@
 import { protectedProcedure, router } from "../../trpc";
 
 export const meRouter = router({
-  profile: protectedProcedure.query(() => {
+  profile: protectedProcedure.query(({ ctx }) => {
     return {
       name: "John Doe",
       email: "foobar@mail.com",
-      createdAt: new Date(),
+      createdAt: ctx.user.createdAt,
     };
   }),
 });
