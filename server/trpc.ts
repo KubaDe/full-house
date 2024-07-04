@@ -20,7 +20,13 @@ const isAuthed = t.middleware(({ next, ctx }) => {
   });
 });
 
+const syncUser = t.middleware(({ next }) => {
+  // TODO: sync user
+  // console.log(ctx.auth.userId);
+  return next();
+});
+
 export const router = t.router;
 
 export const publicProcedure = t.procedure;
-export const protectedProcedure = t.procedure.use(isAuthed);
+export const protectedProcedure = t.procedure.use(isAuthed).use(syncUser);
