@@ -17,5 +17,6 @@ export const useMe = () => {
     profileData,
     profileQueryInfo,
     auth,
+    isSignedIn,
   };
 };

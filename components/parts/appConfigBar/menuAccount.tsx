@@ -15,7 +15,7 @@ export const MenuAccount = () => {
       <MenubarContent>
         <MenubarItem disabled>Edit Profile</MenubarItem>
         <MenubarSeparator />
-        <MenubarItem onClick={() => auth.signOut({ redirectUrl: auth.buildSignInUrl() })}>Logout</MenubarItem>
+        <MenubarItem onClick={() => auth.signOut()}>Logout</MenubarItem>
       </MenubarContent>
     </MenubarMenu>
   );
