@@ -11,7 +11,8 @@
     "build-storybook": "storybook build",
     "knip": "knip",
     "madge": "madge --circular --ts-config ./tsconfig.json --extensions js,jsx,ts,tsx ./ ",
-    "test": "vitest"
+    "test": "vitest",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.1.6",
