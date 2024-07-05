@@ -1,6 +1,6 @@
 {
   "ignore": ["components/uiKit/*"],
-  "ignoreDependencies": ["@radix-ui/*", "@storybook/*", "prettier-plugin-tailwindcss"],
+  "ignoreDependencies": ["@radix-ui/*", "@storybook/*", "prettier-plugin-tailwindcss", "dotenv-cli"],
   "entry": [
     "{index,main,cli}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
     "src/{index,main,cli}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
