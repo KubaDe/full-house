@@ -1,7 +1,7 @@
 import type { Preview } from "@storybook/react";
 import "@/styles/globals.css";
 import { Inter as FontSans } from "next/font/google";
-import { ModalsProvider } from "@/components/modals/Provider";
+import { ModalsProvider } from "@/components/providers/niceModalProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],

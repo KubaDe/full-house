@@ -14,7 +14,31 @@ model User {
   id        String   @id @default(cuid())
   clerkId   String   @unique
   createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  profile   Profile? @relation(fields: [profileId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  profileId String?  @unique
 
   @@map(name: "users")
+}
+
+model Avatar {
+  id         String   @id @default(cuid())
+  body       String
+  face       String
+  hair       String
+  facialHair String
+  accessory  String
+  profile    Profile?
+
+  @@map(name: "avatar")
+}
+
+model Profile {
+  id   String @id @default(cuid())
+  name String
+  user User?
+
+  avatar   Avatar @relation(fields: [avatarId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  avatarId String @unique
+
+  @@map(name: "profile")
 }

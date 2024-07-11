@@ -1,4 +1,6 @@
-import { defaultAvatar, Direction, partsOptions, type Avatar } from "./consts";
+import { Direction } from "./consts";
+import { defaultAvatar } from "@/modules/user/consts/avatarConsts";
+import { type Avatar, partsOptions } from "@/modules/user/schemas/avatarSchema";
 
 export const loopOverPart = ({
   direction,

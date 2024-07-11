@@ -18,53 +18,71 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
+  DrawerClose,
 } from "@/components/uiKit/drawer";
 import { ScrollArea } from "@/components/uiKit/scroll-area";
-import { useEditProfileForm, type UseEditProfileFormProps } from "@/components/forms/editProfileForm";
+import { useEditProfileForm } from "@/components/forms/editProfileForm";
+import { ButtonSpinner } from "@/components/uiKit/buttonSpinner";
+import { useMe } from "@/modules/user/hooks/useMe";
 
-type EditProfileModalProps = UseEditProfileFormProps;
+type EditProfileModalProps = {
+  canClose?: boolean;
+};
 
-export const EditProfileModal = createModal(
-  ({ onSave = () => {}, onInvalid = () => {} }: EditProfileModalProps) => {
-    const { visible, show, hide } = useModal();
-    const { formUI, formName } = useEditProfileForm({ onSave, onInvalid });
-    const isDialog = useMediaQuery({ minWidth: theme.screens.md });
+export const EditProfileModal = createModal(({ canClose = true }: EditProfileModalProps) => {
+  const { userData } = useMe();
+  const { visible, show, hide } = useModal();
+  const {
+    formUI,
+    formName,
+    form,
+    mutationParams: { isPending },
+  } = useEditProfileForm({
+    onSuccess: hide,
+  });
+  const isDialog = useMediaQuery({ minWidth: theme.screens.md });
+  const onOpenChange = (value: boolean) => (value ? show() : hide());
 
-    if (isDialog) {
-      return (
-        <Dialog open={visible} onOpenChange={(value) => (value ? show() : hide())}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Edit profile</DialogTitle>
-              <DialogDescription>Choose your avatar and nickname</DialogDescription>
-            </DialogHeader>
-            {formUI}
-            <DialogFooter>
-              <Button type="submit" form={formName}>
-                Save profile
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      );
-    }
+  const title = userData?.profile ? "Edit profile" : "Create profile";
+  const disabled = !form.formState.isDirty || isPending;
+
+  if (isDialog) {
     return (
-      <Drawer open={visible} onOpenChange={(value) => (value ? show() : hide())}>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>Edit profile</DrawerTitle>
-            <DrawerDescription>Choose your avatar and nickname</DrawerDescription>
-          </DrawerHeader>
-          <ScrollArea className="overflow-y-auto">
-            <div className="px-4 pb-8">{formUI}</div>
-          </ScrollArea>
-          <DrawerFooter>
-            <Button type="submit" form={formName}>
+      <Dialog open={visible} onOpenChange={userData?.profile ? onOpenChange : undefined}>
+        <DialogContent canClose={canClose}>
+          <DialogHeader>
+            <DialogTitle>{title}</DialogTitle>
+            <DialogDescription>Choose your avatar and nickname</DialogDescription>
+            <DrawerClose />
+          </DialogHeader>
+          {formUI}
+          <DialogFooter>
+            <Button type="submit" form={formName} disabled={disabled}>
+              <ButtonSpinner isLoading={isPending} />
               Save profile
             </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     );
-  },
-);
+  }
+  return (
+    <Drawer open={visible} onOpenChange={onOpenChange} dismissible={canClose}>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>{title}</DrawerTitle>
+          <DrawerDescription>Choose your avatar and nickname</DrawerDescription>
+        </DrawerHeader>
+        <ScrollArea className="overflow-y-auto">
+          <div className="px-4 pb-8">{formUI}</div>
+        </ScrollArea>
+        <DrawerFooter>
+          <Button type="submit" form={formName} disabled={disabled}>
+            <ButtonSpinner isLoading={isPending} />
+            Save profile
+          </Button>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  );
+});

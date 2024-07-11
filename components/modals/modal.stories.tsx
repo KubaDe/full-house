@@ -1,10 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { show as showModal } from "@ebay/nice-modal-react";
 import { useMount } from "react-use";
-import { action } from "@storybook/addon-actions";
 import { Button } from "@/components/uiKit/button";
-import { ModalsProvider } from "@/components/modals/Provider";
 import { EditProfileModal } from "@/components/modals/editProfileModal";
+import { ModalsProvider } from "@/components/providers/niceModalProvider";
 
 type TestComponentProps = { action: () => void };
 const TestComponent = ({ action }: TestComponentProps) => {
@@ -38,7 +37,6 @@ type Story = StoryObj<typeof meta>;
 
 export const EditProfile: Story = {
   args: {
-    action: () =>
-      void showModal(EditProfileModal, { onSave: action("onSave"), onInvalid: action("onInvalid") }),
+    action: () => void showModal(EditProfileModal, {}),
   },
 } satisfies Story;

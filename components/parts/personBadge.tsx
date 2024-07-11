@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { Badge } from "@/components/uiKit/badge";
 import { cn } from "@/lib/utils";
-import { PersonAvatar, type Avatar } from "@/components/parts/personAvatar";
+import { PersonAvatar } from "@/components/parts/personAvatar";
+import { type Avatar } from "@/modules/user/schemas/avatarSchema";
 
 export type Profile = { name: string; id: string };
 

@@ -1,9 +1,3 @@
-import { partsOptions, type Avatar } from "../consts";
+import { defaultAvatar } from "@/modules/user/consts/avatarConsts";
 
-export const avatar = {
-  accessory: partsOptions.accessory[0],
-  body: partsOptions.body[0],
-  face: partsOptions.face[0],
-  facialHair: partsOptions.facialHair[0],
-  hair: partsOptions.hair[0],
-} as Avatar;
+export const avatar = defaultAvatar;

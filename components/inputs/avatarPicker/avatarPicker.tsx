@@ -1,9 +1,11 @@
 import Peep from "react-peeps";
 import { useControllableState } from "@radix-ui/react-use-controllable-state";
 import { forwardRef } from "react";
-import { defaultAvatar, type Direction, type partsOptions, type Avatar } from "./consts";
-import { ControlRow } from "./ControlRow";
+import { type Direction } from "./consts";
+import { ControlRow } from "./controlRow";
 import { loopOverPart } from "./utils";
+import { defaultAvatar } from "@/modules/user/consts/avatarConsts";
+import { type Avatar, type partsOptions } from "@/modules/user/schemas/avatarSchema";
 
 type AvatarPickerProps = {
   value?: Avatar;
