@@ -12,8 +12,8 @@ describe("AppConfigBar - MVP", () => {
     const avatar = screen.getByLabelText("Avatar");
     await userEvent.hover(avatar);
     const hoverCard = await screen.findByLabelText("About me info");
-    expect(within(hoverCard).getByText("John Doe")).toBeDefined();
-    expect(within(hoverCard).getByText("foo@mail.com")).toBeDefined();
+    expect(within(hoverCard).getByText("Test User")).toBeDefined();
+    expect(within(hoverCard).getByText("foo@bar.com")).toBeDefined();
     expect(within(hoverCard).getByText("Joined January 1, 2021")).toBeDefined();
   });
 });

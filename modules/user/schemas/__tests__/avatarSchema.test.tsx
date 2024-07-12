@@ -1,6 +1,6 @@
 import { expect, it, describe } from "vitest";
-import * as avatarPickerMock from "../__mocks__/avatarPicker.mock";
-import { avatarSchema } from "@/modules/user/schemas/avatarSchema";
+import { avatarSchema } from "../avatarSchema";
+import * as avatarPickerMock from "../../__mocks__/avatar.mock";
 
 describe("AvatarPicker => const", () => {
   describe("avatarPickerInputSchema", () => {

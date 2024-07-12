@@ -1,33 +1,45 @@
-import { vi, it, describe, expect } from "vitest";
-import { fireEvent, screen, render, renderHook, waitFor } from "@testing-library/react";
+import { vi, it, describe, expect, beforeAll, afterEach, afterAll } from "vitest";
+import { setupServer } from "msw/node";
 import { useEditProfileForm } from "../useEditProfileForm";
+import { fireEvent, screen, render, waitFor, renderHook } from "@/testUtils/render";
 import * as avatarPickerMock from "@/components/inputs/avatarPicker/__mocks__/avatarPicker.mock";
 import * as avatarPickerTestUtils from "@/components/inputs/avatarPicker/__tests__/avatarPicker.testUtils";
+import { getMeUserHandler, updateMeProfileHandler } from "@/server/api/user/meRouter.mock";
+
+export const server = setupServer(getMeUserHandler.default());
 
 describe("EditProfileForm", () => {
-  it("should call submit when form is valid", async () => {
-    const onSave = vi.fn();
+  beforeAll(() => {
+    server.listen();
+  });
 
-    const { result } = renderHook(() =>
-      useEditProfileForm({
-        onSave,
-        defaultValues: {
-          name: "",
-          avatar: avatarPickerMock.avatar,
-        },
-      }),
-    );
-    const { formUI } = result.current;
-    render(formUI);
+  afterEach(() => {
+    server.resetHandlers();
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
+  it("should call submit when form is valid", async () => {
+    const onSuccess = vi.fn();
+    const updateMeProfileSpy = vi.fn();
+    server.use(updateMeProfileHandler.default(updateMeProfileSpy));
+
+    const { result } = renderHook(() => useEditProfileForm({ onSuccess }));
+    await waitFor(() => expect(result.current.formUI).toBeDefined());
+    render(result.current.formUI);
 
     fireEvent.click(avatarPickerTestUtils.selectNextPart("face"));
     fireEvent.click(avatarPickerTestUtils.selectNextPart("body"));
     fireEvent.change(screen.getByPlaceholderText("Username"), { target: { value: "John Smith" } });
 
     fireEvent.click(screen.getByText("Save profile"));
-    await waitFor(() => expect(onSave).toHaveBeenCalled());
-    expect(onSave).toHaveBeenCalledWith(
-      {
+
+    await waitFor(() => expect(onSuccess).toHaveBeenCalled());
+
+    expect(updateMeProfileSpy).toHaveBeenCalledWith({
+      json: {
         avatar: {
           ...avatarPickerMock.avatar,
           body: "Shirt",
@@ -35,26 +47,18 @@ describe("EditProfileForm", () => {
         },
         name: "John Smith",
       },
-      expect.anything(),
-    );
+    });
   });
 
   it("should call onInvalid when form is invalid", async () => {
-    const onSave = vi.fn();
+    server.use(getMeUserHandler.noProfile());
+
+    const onSuccess = vi.fn();
     const onInvalid = vi.fn();
 
-    const { result } = renderHook(() =>
-      useEditProfileForm({
-        onSave,
-        onInvalid,
-        defaultValues: {
-          name: "",
-          avatar: avatarPickerMock.avatar,
-        },
-      }),
-    );
-    const { formUI } = result.current;
-    render(formUI);
+    const { result } = renderHook(() => useEditProfileForm({ onSuccess, onInvalid }));
+    await waitFor(() => expect(result.current.formUI).toBeDefined());
+    render(result.current.formUI);
 
     fireEvent.click(screen.getByText("Save profile"));
     await waitFor(() => expect(onInvalid).toHaveBeenCalled());
@@ -64,6 +68,6 @@ describe("EditProfileForm", () => {
       }),
       expect.anything(),
     );
-    expect(onSave).not.toHaveBeenCalled();
+    expect(onSuccess).not.toHaveBeenCalled();
   });
 });

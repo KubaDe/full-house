@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import { api } from "@/utils/api";
 
 export const useMe = () => {
-  const { data: profileData, ...profileQueryInfo } = api.me.profile.useQuery(undefined, { retry: false });
+  const { data: userData, ...userQueryInfo } = api.me.user.useQuery(undefined, { retry: false });
   const auth = useClerk();
 
-  const { refetch } = profileQueryInfo;
+  const { refetch } = userQueryInfo;
   const { isSignedIn } = useUser();
 
   useEffect(() => {
@@ -14,8 +14,8 @@ export const useMe = () => {
   }, [isSignedIn, refetch]);
 
   return {
-    profileData,
-    profileQueryInfo,
+    userData,
+    userQueryInfo,
     auth,
     isSignedIn,
   };

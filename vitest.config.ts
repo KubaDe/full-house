@@ -32,6 +32,11 @@ export default defineConfig({
       ],
     },
   },
+  server: {
+    fs: {
+      cachedChecks: false,
+    },
+  },
   resolve: {
     alias: {
       "@": "/",

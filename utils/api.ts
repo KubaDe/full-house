@@ -1,4 +1,4 @@
-import { httpBatchLink } from "@trpc/client";
+import { httpLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
 import superjson from "superjson";
 import type { AppRouter } from "@/server/api/_app";
@@ -21,7 +21,7 @@ export const api = createTRPCNext<AppRouter>({
   config: () => {
     return {
       links: [
-        httpBatchLink({
+        httpLink({
           transformer: superjson,
           url: `${getBaseUrl()}/api/trpc`,
           async headers() {

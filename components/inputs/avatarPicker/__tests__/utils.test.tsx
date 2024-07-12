@@ -1,8 +1,9 @@
 import { expect, it, describe } from "vitest";
 import { type FaceType } from "react-peeps";
-import { Direction, partsOptions } from "../consts";
+import { Direction } from "../consts";
 import { loopOverPart } from "../utils";
 import * as avatarPickerMock from "../__mocks__/avatarPicker.mock";
+import { partsOptions } from "@/modules/user/schemas/avatarSchema";
 
 describe("AvatarPicker => utils", () => {
   describe("loopOverPart", () => {

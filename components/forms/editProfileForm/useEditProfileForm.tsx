@@ -1,8 +1,8 @@
-import { Controller, useForm, type SubmitErrorHandler, type SubmitHandler } from "react-hook-form";
-import { z } from "zod";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
-import { AvatarPicker, avatarPickerInputSchema, defaultAvatar } from "@/components/inputs/avatarPicker";
+import { toast } from "sonner";
+import { AvatarPicker } from "@/components/inputs/avatarPicker";
 import {
   Form,
   FormControl,
@@ -11,36 +11,55 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/uiKit/form";
-
 import { Input } from "@/components/uiKit/input";
+import { api } from "@/utils/api";
+import { handleFormSubmitServerErrors } from "@/lib/handleFormSubmitServerErrors";
+import { defaultAvatar } from "@/modules/user/consts/avatarConsts";
+import { type Profile, profileSchema } from "@/modules/user/schemas/profileSchema";
 
-const editProfileFormSchema = z.object({
-  avatar: avatarPickerInputSchema,
-  name: z.string().min(2).max(50),
-});
-
-type EditProfileFormValues = z.infer<typeof editProfileFormSchema>;
-
-export type UseEditProfileFormProps = {
-  onSave: SubmitHandler<EditProfileFormValues>;
-  onInvalid?: SubmitErrorHandler<EditProfileFormValues>;
-  defaultValues?: EditProfileFormValues;
+type UseEditProfileFormProps = {
+  onSuccess?: () => void;
+  onError?: () => void;
+  onInvalid?: () => void;
 };
 
 const formName = "editProfileForm";
 
-export const useEditProfileForm = ({ onSave, onInvalid, defaultValues }: UseEditProfileFormProps) => {
-  const form = useForm<EditProfileFormValues>({
-    resolver: zodResolver(editProfileFormSchema),
-    defaultValues: defaultValues ?? {
+export const useEditProfileForm = ({ onSuccess, onError, onInvalid }: UseEditProfileFormProps = {}) => {
+  const { mutate: updateProfile, ...mutationParams } = api.me.updateProfile.useMutation();
+  const [userData] = api.me.user.useSuspenseQuery(undefined, {});
+  const utils = api.useUtils();
+
+  const form = useForm<Profile>({
+    resolver: zodResolver(profileSchema),
+    defaultValues: userData?.profile ?? {
       name: "",
       avatar: defaultAvatar,
     },
   });
 
+  const onSubmit = form.handleSubmit(async (values) => {
+    updateProfile(
+      { avatar: values.avatar, name: values.name },
+      {
+        onError: (error) => {
+          toast.error("Failed to update profile");
+          handleFormSubmitServerErrors({ form, error });
+          onError?.();
+        },
+        onSuccess: ({ profile }) => {
+          toast.success("Profile updated successfully!");
+          void utils.me.user.invalidate();
+          onSuccess?.();
+          form.reset(profile ?? undefined);
+        },
+      },
+    );
+  }, onInvalid);
+
   const formUI = (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSave, onInvalid)} className="space-y-8" id={formName}>
+      <form onSubmit={onSubmit} className="space-y-8" id={formName}>
         <FormItem>
           <FormControl>
             <div className="flex flex-col items-center justify-center">
@@ -57,13 +76,14 @@ export const useEditProfileForm = ({ onSave, onInvalid, defaultValues }: UseEdit
         <FormField
           control={form.control}
           name="name"
+          defaultValue=""
           render={({ field }) => (
             <FormItem>
               <FormControl>
                 <Input placeholder="Username" {...field} />
               </FormControl>
-              <FormDescription>This is your public displayed name and avatar</FormDescription>
               <FormMessage />
+              <FormDescription>This is your public displayed name and avatar</FormDescription>
             </FormItem>
           )}
         />
@@ -73,5 +93,5 @@ export const useEditProfileForm = ({ onSave, onInvalid, defaultValues }: UseEdit
       </form>
     </Form>
   );
-  return { form, formUI, formName };
+  return { form, formUI, formName, mutationParams };
 };

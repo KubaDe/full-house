@@ -1,10 +1,10 @@
 import { expect, vi, it, describe } from "vitest";
 import { render, fireEvent } from "@testing-library/react";
 import { get } from "lodash";
-import { partsOptions } from "../consts";
 import { AvatarPicker } from "../avatarPicker";
 import * as avatarPickerMock from "../__mocks__/avatarPicker.mock";
 import * as avatarPickerTestUtils from "./avatarPicker.testUtils";
+import { partsOptions } from "@/modules/user/schemas/avatarSchema";
 
 describe("AvatarPicker", () => {
   it.each(["face", "body", "facialHair", "hair", "accessory"])("should change %s", (part) => {
