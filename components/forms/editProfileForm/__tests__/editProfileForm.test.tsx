@@ -4,7 +4,8 @@ import { useEditProfileForm } from "../useEditProfileForm";
 import { fireEvent, screen, render, waitFor, renderHook } from "@/testUtils/render";
 import * as avatarPickerMock from "@/components/inputs/avatarPicker/__mocks__/avatarPicker.mock";
 import * as avatarPickerTestUtils from "@/components/inputs/avatarPicker/__tests__/avatarPicker.testUtils";
-import { getMeUserHandler, updateMeProfileHandler } from "@/server/api/user/meRouter.mock";
+import { updateMeProfileHandler } from "@/server/api/user/__mocks__/updateMeProfileHandler.mock";
+import { getMeUserHandler } from "@/server/api/user/__mocks__/getMeUserHandler.mock";
 
 export const server = setupServer(getMeUserHandler.default());
 
@@ -39,14 +40,12 @@ describe("EditProfileForm", () => {
     await waitFor(() => expect(onSuccess).toHaveBeenCalled());
 
     expect(updateMeProfileSpy).toHaveBeenCalledWith({
-      json: {
-        avatar: {
-          ...avatarPickerMock.avatar,
-          body: "Shirt",
-          face: "Blank",
-        },
-        name: "John Smith",
+      avatar: {
+        ...avatarPickerMock.avatar,
+        body: "Shirt",
+        face: "Blank",
       },
+      name: "John Smith",
     });
   });
 
