@@ -43,7 +43,7 @@ export const useEditProfileForm = ({ onSuccess, onError, onInvalid }: UseEditPro
       { avatar: values.avatar, name: values.name },
       {
         onError: (error) => {
-          toast.error("Failed to update profile");
+          toast.error(error.message ?? "Failed to update profile", { richColors: true });
           handleFormSubmitServerErrors({ form, error });
           onError?.();
         },

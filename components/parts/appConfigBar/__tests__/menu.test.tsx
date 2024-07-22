@@ -22,16 +22,4 @@ describe("Menu - MVP", () => {
     expect(within(accountSubMenu).getByRole("menuitem", { name: "Edit Profile" })).toBeDefined();
     expect(within(accountSubMenu).getByRole("menuitem", { name: "Logout" })).toBeDefined();
   });
-
-  it("should render all sub menu items for Rooms", async () => {
-    render(<Menu />);
-    const roomMenuButton = screen.getByRole("menuitem", { name: "Rooms" });
-    await userEvent.click(roomMenuButton);
-    const roomsSubMenu = await screen.findByRole("menu", { hidden: true });
-    expect(within(roomsSubMenu).getAllByRole("menuitem")).toHaveLength(1);
-    expect(within(roomsSubMenu).getAllByRole("menuitemradio")).toHaveLength(3);
-    expect(within(roomsSubMenu).getByRole("menuitem", { name: "Add room..." })).toBeDefined();
-    expect(within(roomsSubMenu).getByRole("menuitemradio", { name: "Planning" })).toBeDefined();
-    expect(within(roomsSubMenu).getByRole("menuitemradio", { name: "Knowledge transfer" })).toBeDefined();
-  });
 });

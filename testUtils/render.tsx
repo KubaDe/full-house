@@ -1,12 +1,29 @@
 import { type ReactElement, type ReactNode, Suspense } from "react";
 import { render, renderHook, type RenderOptions, type RenderResult } from "@testing-library/react";
+import NiceModal from "@ebay/nice-modal-react";
+import { vi } from "vitest";
 import { ApiProvider } from "@/components/providers/apiProvider";
 import { DayjsProvider } from "@/components/providers/dayjsProvider";
+
+window.matchMedia = (query) => ({
+  matches: false,
+  media: query,
+  onchange: null,
+  addEventListener: vi.fn(),
+  removeEventListener: vi.fn(),
+  dispatchEvent: vi.fn(),
+  addListener: vi.fn(),
+  removeListener: vi.fn(),
+});
+
+window.scrollTo = vi.fn() as (options?: ScrollToOptions) => void;
 
 const Provider = ({ children }: { children: ReactNode }) => (
   <ApiProvider>
     <Suspense fallback="loading">
-      <DayjsProvider>{children}</DayjsProvider>
+      <NiceModal.Provider>
+        <DayjsProvider>{children}</DayjsProvider>
+      </NiceModal.Provider>
     </Suspense>
   </ApiProvider>
 );
