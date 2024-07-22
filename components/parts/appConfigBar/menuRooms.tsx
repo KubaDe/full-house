@@ -13,35 +13,39 @@ import {
 import { AddRoomModal } from "@/components/modals/addRoomModal";
 import { api } from "@/utils/api";
 
-const SHOW_ROOMS = 5;
+const ROOMS_NUMBER = 5;
 
 export const MenuRooms = () => {
-  const { data: userRoomsData } = api.userRoom.myRooms.useQuery({ skip: 0, take: SHOW_ROOMS });
+  const { data: userRoomsData } = api.userRoom.myRooms.useQuery({ skip: 0, take: ROOMS_NUMBER });
   return (
     <MenubarMenu>
       <MenubarTrigger>Rooms</MenubarTrigger>
       <MenubarContent>
-        <MenubarRadioGroup value="benoit">
-          {userRoomsData?.items.map((userRoom) => (
-            <MenubarRadioItem key={userRoom.room.id} value="userRoom.room.id">
-              {userRoom.room.name}
-              {userRoom.isOwner && (
-                <MenubarShortcut>
-                  <UserCog size={16} />
-                </MenubarShortcut>
-              )}
-            </MenubarRadioItem>
-          ))}
-        </MenubarRadioGroup>
-        <MenubarSeparator />
+        {userRoomsData?.items && (
+          <>
+            <MenubarRadioGroup value="benoit">
+              {userRoomsData.items.map((userRoom) => (
+                <MenubarRadioItem key={userRoom.room.id} value="userRoom.room.id">
+                  {userRoom.room.name}
+                  {userRoom.isOwner && (
+                    <MenubarShortcut>
+                      <UserCog size={16} />
+                    </MenubarShortcut>
+                  )}
+                </MenubarRadioItem>
+              ))}
+            </MenubarRadioGroup>
+            <MenubarSeparator />
 
-        {(userRoomsData?.total ?? 0) > SHOW_ROOMS && (
-          <MenubarItem disabled inset>
-            Show all rooms...
-          </MenubarItem>
+            {(userRoomsData?.total ?? 0) > ROOMS_NUMBER && (
+              <MenubarItem disabled inset>
+                Show all rooms...
+              </MenubarItem>
+            )}
+
+            <MenubarSeparator />
+          </>
         )}
-
-        <MenubarSeparator />
         <MenubarItem inset onClick={() => showModal(AddRoomModal)}>
           Add room...
         </MenubarItem>
