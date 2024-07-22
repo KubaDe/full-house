@@ -1,5 +1,6 @@
 import { show as showModal } from "@ebay/nice-modal-react";
 import { UserCog } from "lucide-react";
+import { isEmpty } from "lodash";
 import {
   MenubarContent,
   MenubarItem,
@@ -21,10 +22,10 @@ export const MenuRooms = () => {
     <MenubarMenu>
       <MenubarTrigger>Rooms</MenubarTrigger>
       <MenubarContent>
-        {userRoomsData?.items && (
+        {!isEmpty(userRoomsData?.items) && (
           <>
             <MenubarRadioGroup value="benoit">
-              {userRoomsData.items.map((userRoom) => (
+              {userRoomsData?.items.map((userRoom) => (
                 <MenubarRadioItem key={userRoom.room.id} value="userRoom.room.id">
                   {userRoom.room.name}
                   {userRoom.isOwner && (
