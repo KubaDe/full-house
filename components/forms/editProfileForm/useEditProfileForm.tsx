@@ -15,7 +15,7 @@ import { Input } from "@/components/uiKit/input";
 import { api } from "@/utils/api";
 import { handleFormSubmitServerErrors } from "@/lib/handleFormSubmitServerErrors";
 import { defaultAvatar } from "@/modules/user/consts/avatarConsts";
-import { type Profile, profileSchema } from "@/modules/user/schemas/profileSchema";
+import { type Profile, profileInputSchema } from "@/modules/user/schemas/profileSchema";
 
 type UseEditProfileFormProps = {
   onSuccess?: () => void;
@@ -31,7 +31,7 @@ export const useEditProfileForm = ({ onSuccess, onError, onInvalid }: UseEditPro
   const utils = api.useUtils();
 
   const form = useForm<Profile>({
-    resolver: zodResolver(profileSchema),
+    resolver: zodResolver(profileInputSchema),
     defaultValues: userData?.profile ?? {
       name: "",
       avatar: defaultAvatar,
@@ -47,7 +47,7 @@ export const useEditProfileForm = ({ onSuccess, onError, onInvalid }: UseEditPro
           handleFormSubmitServerErrors({ form, error });
           onError?.();
         },
-        onSuccess: ({ profile }) => {
+        onSuccess: (profile) => {
           toast.success("Profile updated successfully!");
           void utils.me.user.invalidate();
           onSuccess?.();
@@ -80,7 +80,7 @@ export const useEditProfileForm = ({ onSuccess, onError, onInvalid }: UseEditPro
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Username" {...field} />
+                <Input placeholder="Username" {...field} autoFocus />
               </FormControl>
               <FormMessage />
               <FormDescription>This is your public displayed name and avatar</FormDescription>

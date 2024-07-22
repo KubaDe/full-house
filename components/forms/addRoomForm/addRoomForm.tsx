@@ -55,7 +55,7 @@ export const useAddRoomForm = ({ onSuccess, onError, onInvalid }: UseAddRoomForm
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Room name" {...field} />
+                <Input placeholder="Room name" {...field} autoFocus />
               </FormControl>
               <FormMessage />
             </FormItem>

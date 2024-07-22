@@ -1,10 +1,11 @@
+import { TRPCError } from "@trpc/server";
 import { protectedProcedure, router } from "../../trpc";
 import { db } from "@/server/db/prisma";
-import { userSchema } from "@/modules/user/schemas/userSchema";
-import { profileSchema } from "@/modules/user/schemas/profileSchema";
+import { userOutputSchema } from "@/modules/user/schemas/userOutputSchema";
+import { profileInputSchema, profileOutputSchema } from "@/modules/user/schemas/profileSchema";
 
 export const meRouter = router({
-  user: protectedProcedure.output(userSchema.nullish()).query(async ({ ctx }) => {
+  user: protectedProcedure.output(userOutputSchema.nullish()).query(async ({ ctx }) => {
     if (!ctx.user.id) {
       return null;
     }
@@ -21,11 +22,11 @@ export const meRouter = router({
     if (!user) {
       return null;
     }
-    return userSchema.safeParse(user).data;
+    return userOutputSchema.safeParse(user).data;
   }),
   updateProfile: protectedProcedure
-    .input(profileSchema)
-    .output(userSchema)
+    .input(profileInputSchema)
+    .output(profileOutputSchema.nullish())
     .mutation(async ({ ctx, input }) => {
       const user = await db.user.update({
         where: { id: ctx.user.id },
@@ -59,13 +60,9 @@ export const meRouter = router({
         },
       });
       if (!user) {
-        throw new Error("User not found");
+        throw new TRPCError({ code: "NOT_FOUND", message: "User not found" });
       }
-      const userParsed = userSchema.safeParse(user);
-      if (!userParsed.data) {
-        throw new Error("User data is incorrect");
-      }
-      return userParsed.data;
+      return profileOutputSchema.safeParse(user.profile).data;
     }),
 });
 

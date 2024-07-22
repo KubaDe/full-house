@@ -1,7 +1,8 @@
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 import { protectedProcedure, router } from "../../trpc";
 import { db } from "@/server/db/prisma";
-import { userRoomInputSchema, userRoomSchema } from "@/modules/room/schemas/userRoomSchema";
+import { userRoomInputSchema, userRoomOutputSchema } from "@/modules/room/schemas/userRoomSchema";
 import { paginationInputSchema, paginationOutputSchema } from "@/modules/utils/schemas/pagination";
 
 export const userRoomRouter = router({
@@ -9,7 +10,7 @@ export const userRoomRouter = router({
     .input(paginationInputSchema)
     .output(
       paginationOutputSchema.extend({
-        items: z.array(userRoomSchema),
+        items: z.array(userRoomOutputSchema),
       }),
     )
     .query(async ({ ctx, input }) => {
@@ -35,24 +36,30 @@ export const userRoomRouter = router({
         skip,
         take,
         total,
-        items: userRooms.map((userRoom) => userRoomSchema.parse(userRoom)),
+        items: userRooms.map((userRoom) => userRoomOutputSchema.parse(userRoom)),
       };
     }),
+
   addRoom: protectedProcedure
     .input(userRoomInputSchema)
-    .output(userRoomSchema.nullish())
-    .mutation(async ({ ctx, input }) => {
+    .use(async (opts) => {
       const existingUserOwnedRoomsCount = await db.usersOnRooms.count({
         where: {
-          userId: ctx.user.id,
+          userId: opts.ctx.user.id,
           isOwner: true,
         },
       });
 
       if (existingUserOwnedRoomsCount >= 10) {
-        throw new Error("You can't create more than 10 rooms");
+        throw new TRPCError({
+          code: "UNPROCESSABLE_CONTENT",
+          message: "You can't create more than 10 rooms",
+        });
       }
-
+      return opts.next();
+    })
+    .output(userRoomOutputSchema.nullish())
+    .mutation(async ({ ctx, input }) => {
       const room = await db.room.create({
         data: {
           name: input.room.name,
