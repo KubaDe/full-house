@@ -11,11 +11,12 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  clerkId   String   @unique
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  profile   Profile? @relation(fields: [profileId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  profileId String?  @unique
+  id           String         @id @default(cuid())
+  clerkId      String         @unique
+  createdAt    DateTime       @default(now()) @map(name: "created_at")
+  profile      Profile?       @relation(fields: [profileId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  profileId    String?        @unique
+  UsersOnRooms UsersOnRooms[]
 
   @@map(name: "users")
 }
@@ -41,4 +42,25 @@ model Profile {
   avatarId String @unique
 
   @@map(name: "profile")
+}
+
+model Room {
+  id    String         @id @default(cuid())
+  name  String
+  users UsersOnRooms[]
+
+  @@map(name: "room")
+}
+
+model UsersOnRooms {
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
+  room       Room     @relation(fields: [roomId], references: [id])
+  roomId     String
+  assignedAt DateTime @default(now())
+  isOwner    Boolean  @default(false)
+  alias      String?
+
+  @@id([userId, roomId])
+  @@map(name: "users_on_rooms")
 }

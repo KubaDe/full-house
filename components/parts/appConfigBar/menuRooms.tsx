@@ -1,3 +1,5 @@
+import { show as showModal } from "@ebay/nice-modal-react";
+import { UserCog } from "lucide-react";
 import {
   MenubarContent,
   MenubarItem,
@@ -5,27 +7,42 @@ import {
   MenubarRadioGroup,
   MenubarRadioItem,
   MenubarSeparator,
+  MenubarShortcut,
   MenubarTrigger,
 } from "@/components/uiKit/menubar";
+import { AddRoomModal } from "@/components/modals/addRoomModal";
+import { api } from "@/utils/api";
+
+const SHOW_ROOMS = 5;
 
 export const MenuRooms = () => {
+  const { data: userRoomsData } = api.userRoom.myRooms.useQuery({ skip: 0, take: SHOW_ROOMS });
   return (
     <MenubarMenu>
       <MenubarTrigger>Rooms</MenubarTrigger>
       <MenubarContent>
         <MenubarRadioGroup value="benoit">
-          <MenubarRadioItem value="andy" disabled>
-            Planning
-          </MenubarRadioItem>
-          <MenubarRadioItem value="benoit" disabled>
-            FE weekly
-          </MenubarRadioItem>
-          <MenubarRadioItem value="Luis" disabled>
-            Knowledge transfer
-          </MenubarRadioItem>
+          {userRoomsData?.items.map((userRoom) => (
+            <MenubarRadioItem key={userRoom.room.id} value="userRoom.room.id">
+              {userRoom.room.name}
+              {userRoom.isOwner && (
+                <MenubarShortcut>
+                  <UserCog size={16} />
+                </MenubarShortcut>
+              )}
+            </MenubarRadioItem>
+          ))}
         </MenubarRadioGroup>
         <MenubarSeparator />
-        <MenubarItem inset disabled>
+
+        {(userRoomsData?.total ?? 0) > SHOW_ROOMS && (
+          <MenubarItem disabled inset>
+            Show all rooms...
+          </MenubarItem>
+        )}
+
+        <MenubarSeparator />
+        <MenubarItem inset onClick={() => showModal(AddRoomModal)}>
           Add room...
         </MenubarItem>
       </MenubarContent>
