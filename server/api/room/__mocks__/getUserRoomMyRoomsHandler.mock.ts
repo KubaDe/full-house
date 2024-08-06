@@ -4,7 +4,7 @@ import { parse } from "superjson";
 
 export const getUserRoomMyRoomsHandler = {
   default: (spy?: Mock) =>
-    http.get("*/trpc/userRoom.myRooms", async ({ request, params }) => {
+    http.get("*/trpc/userRoom.myRooms", async ({ request }) => {
       const url = new URL(request.url);
       spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
@@ -30,7 +30,7 @@ export const getUserRoomMyRoomsHandler = {
                       name: "Room 2",
                     },
                     alias: null,
-                    isOwner: true,
+                    isOwner: false,
                   },
                   {
                     room: {
@@ -70,7 +70,7 @@ export const getUserRoomMyRoomsHandler = {
       );
     }),
   lessThan5Rooms: (spy?: Mock) =>
-    http.get("*/trpc/userRoom.myRooms", async ({ request, params }) => {
+    http.get("*/trpc/userRoom.myRooms", async ({ request }) => {
       const url = new URL(request.url);
       spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(

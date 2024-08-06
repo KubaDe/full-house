@@ -12,14 +12,14 @@ import {
 import { Button } from "@/components/uiKit/button";
 
 import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerClose,
-} from "@/components/uiKit/drawer";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetFooter,
+} from "@/components/uiKit/sheet";
+
 import { ScrollArea } from "@/components/uiKit/scroll-area";
 import { useEditProfileForm } from "@/components/forms/editProfileForm";
 import { ButtonSpinner } from "@/components/uiKit/buttonSpinner";
@@ -53,7 +53,6 @@ export const EditProfileModal = createModal(({ canClose = true }: EditProfileMod
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>Choose your avatar and nickname</DialogDescription>
-            <DrawerClose />
           </DialogHeader>
           {formUI}
           <DialogFooter>
@@ -67,22 +66,22 @@ export const EditProfileModal = createModal(({ canClose = true }: EditProfileMod
     );
   }
   return (
-    <Drawer open={visible} onOpenChange={onOpenChange} dismissible={canClose}>
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>{title}</DrawerTitle>
-          <DrawerDescription>Choose your avatar and nickname</DrawerDescription>
-        </DrawerHeader>
-        <ScrollArea className="overflow-y-auto">
-          <div className="px-4 pb-8">{formUI}</div>
+    <Sheet open={visible} onOpenChange={onOpenChange}>
+      <SheetContent side="bottom" className="flex flex-col gap-8">
+        <SheetHeader>
+          <SheetTitle>{title}</SheetTitle>
+          <SheetDescription>Choose your avatar and nickname</SheetDescription>
+        </SheetHeader>
+        <ScrollArea>
+          <div className="m-1">{formUI}</div>
         </ScrollArea>
-        <DrawerFooter>
+        <SheetFooter>
           <Button type="submit" form={formName} disabled={disabled}>
             <ButtonSpinner isLoading={isPending} />
             Save profile
           </Button>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 });

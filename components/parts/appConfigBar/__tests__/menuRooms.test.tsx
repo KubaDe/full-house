@@ -1,12 +1,21 @@
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { userEvent } from "@testing-library/user-event";
 import { setupServer } from "msw/node";
+import { useParams } from "next/navigation";
+import { within } from "@storybook/test";
 import { render, screen } from "@/testUtils/render";
 import { MenuRooms } from "@/components/parts/appConfigBar/menuRooms";
 import { Menubar } from "@/components/uiKit/menubar";
 import { getUserRoomMyRoomsHandler } from "@/server/api/room/__mocks__/getUserRoomMyRoomsHandler.mock";
 
 export const server = setupServer();
+
+vi.mock("next/navigation", async () => ({
+  ...(await vi.importActual("next-router-mock")),
+  useParams: vi.fn().mockImplementation(() => {
+    return {};
+  }),
+}));
 
 describe("MenuRooms", () => {
   beforeAll(() => {
@@ -74,5 +83,35 @@ describe("MenuRooms", () => {
     const roomMenuButton = screen.getByRole("menuitem", { name: "Rooms" });
     await userEvent.click(roomMenuButton);
     expect(screen.queryByRole("menuitem", { name: "Show all rooms..." })).toBeNull();
+  });
+
+  it("should highlight selected room", async () => {
+    server.use(getUserRoomMyRoomsHandler.default());
+    vi.mocked(useParams).mockImplementation(() => ({ roomId: ["clyw3nw6z0002tz76hwd51xfm"] }));
+
+    render(
+      <Menubar>
+        <MenuRooms />
+      </Menubar>,
+    );
+
+    const roomMenuButton = screen.getByRole("menuitem", { name: "Rooms" });
+    await userEvent.click(roomMenuButton);
+    expect(screen.getByRole("menuitemradio", { name: "Room 1" })).toHaveAttribute("aria-checked", "true");
+  });
+
+  it("should show owner badge only for owners", async () => {
+    server.use(getUserRoomMyRoomsHandler.default());
+    render(
+      <Menubar>
+        <MenuRooms />
+      </Menubar>,
+    );
+
+    const roomsMenuButton = screen.getByRole("menuitem", { name: "Rooms" });
+    await userEvent.click(roomsMenuButton);
+    const buttons = screen.getAllByRole("menuitemradio");
+    expect(within(buttons[0]).queryByTestId("owner")).toBeDefined();
+    expect(within(buttons[1]).queryByTestId("owner")).toBeNull();
   });
 });

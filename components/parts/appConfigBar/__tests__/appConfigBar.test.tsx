@@ -5,6 +5,12 @@ import { render, screen } from "@/testUtils/render";
 import { AppConfigBar } from "@/components/parts/appConfigBar";
 
 vi.mock("@/modules/user/hooks/useMe");
+vi.mock("next/navigation", async () => ({
+  ...(await vi.importActual("next-router-mock")),
+  useParams: vi.fn().mockImplementation(() => {
+    return {};
+  }),
+}));
 
 describe("AppConfigBar - MVP", () => {
   it("should render avatar in app config bar", async () => {

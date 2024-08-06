@@ -12,14 +12,14 @@ import {
 import { Button } from "@/components/uiKit/button";
 
 import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerClose,
-} from "@/components/uiKit/drawer";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetClose,
+} from "@/components/uiKit/sheet";
 import { ScrollArea } from "@/components/uiKit/scroll-area";
 import { ButtonSpinner } from "@/components/uiKit/buttonSpinner";
 import { useAddRoomForm } from "@/components/forms/addRoomForm";
@@ -48,7 +48,7 @@ export const AddRoomModal = createModal(() => {
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{subtitle}</DialogDescription>
-            <DrawerClose />
+            <SheetClose />
           </DialogHeader>
           {formUI}
           <DialogFooter>
@@ -62,22 +62,22 @@ export const AddRoomModal = createModal(() => {
     );
   }
   return (
-    <Drawer open={visible} onOpenChange={onOpenChange}>
-      <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle>{title}</DrawerTitle>
-          <DrawerDescription>{subtitle}</DrawerDescription>
-        </DrawerHeader>
-        <ScrollArea className="overflow-y-auto">
-          <div className="px-4 pb-8">{formUI}</div>
+    <Sheet open={visible} onOpenChange={onOpenChange}>
+      <SheetContent side="bottom" className="flex flex-col gap-8">
+        <SheetHeader>
+          <SheetTitle>{title}</SheetTitle>
+          <SheetDescription>{subtitle}</SheetDescription>
+        </SheetHeader>
+        <ScrollArea className="pb-8">
+          <div className="m-1">{formUI}</div>
         </ScrollArea>
-        <DrawerFooter>
+        <SheetFooter>
           <Button type="submit" form={formName} disabled={disabled}>
             <ButtonSpinner isLoading={isPending} />
             Add room
           </Button>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+        </SheetFooter>
+      </SheetContent>
+    </Sheet>
   );
 });

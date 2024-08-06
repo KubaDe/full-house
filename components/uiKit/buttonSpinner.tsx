@@ -27,5 +27,5 @@ export const ButtonSpinner = ({ isLoading }: ButtonSpinnerProps) => {
 
   if (!isVisible) return null;
 
-  return <Orbit className="mr-2 size-4 animate-spin" />;
+  return <Orbit className="mr-2 size-4 animate-spin" data-testid="button-spinner" />;
 };
