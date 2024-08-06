@@ -80,7 +80,7 @@ export const useEditProfileForm = ({ onSuccess, onError, onInvalid }: UseEditPro
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Username" {...field} autoFocus />
+                <Input placeholder="Username" {...field} />
               </FormControl>
               <FormMessage />
               <FormDescription>This is your public displayed name and avatar</FormDescription>

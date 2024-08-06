@@ -5,6 +5,12 @@ import { Menu } from "../menu";
 import { render, screen } from "@/testUtils/render";
 
 vi.mock("@/modules/user/hooks/useMe");
+vi.mock("next/navigation", async () => ({
+  ...(await vi.importActual("next-router-mock")),
+  useParams: vi.fn().mockImplementation(() => {
+    return {};
+  }),
+}));
 
 describe("Menu - MVP", () => {
   it("should render all menus", () => {

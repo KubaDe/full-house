@@ -40,6 +40,25 @@ export const userRoomRouter = router({
       };
     }),
 
+  myRoom: protectedProcedure
+    .input(z.object({ roomId: z.string() }))
+    .output(userRoomOutputSchema.nullish())
+    .query(async ({ ctx, input }) => {
+      const { roomId } = input;
+      const userRoom = await db.usersOnRooms.findUnique({
+        where: {
+          userId_roomId: {
+            userId: ctx.user.id,
+            roomId,
+          },
+        },
+        include: {
+          room: true,
+        },
+      });
+      return userRoom;
+    }),
+
   addRoom: protectedProcedure
     .input(userRoomInputSchema)
     .use(async (opts) => {
@@ -83,5 +102,61 @@ export const userRoomRouter = router({
         },
       });
       return userRoom;
+    }),
+  deleteRoom: protectedProcedure
+    .input(z.object({ roomId: z.string() }))
+    .use(async (opts) => {
+      const canDelete = await db.usersOnRooms.findFirst({
+        where: {
+          userId: opts.ctx.user.id,
+          roomId: opts.input.roomId,
+          isOwner: true,
+        },
+      });
+
+      if (!canDelete) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You can't delete this room",
+        });
+      }
+
+      return opts.next();
+    })
+    .mutation(async ({ input }) => {
+      const { roomId } = input;
+      await db.room.delete({
+        where: {
+          id: roomId,
+        },
+      });
+    }),
+  leaveRoom: protectedProcedure
+    .input(z.object({ roomId: z.string() }))
+    .use(async (opts) => {
+      const canLeave = await db.usersOnRooms.findFirst({
+        where: {
+          userId: opts.ctx.user.id,
+          roomId: opts.input.roomId,
+        },
+      });
+
+      if (!canLeave) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You can't leave this room",
+        });
+      }
+
+      return opts.next();
+    })
+    .mutation(async ({ input, ctx }) => {
+      const { roomId } = input;
+      await db.usersOnRooms.deleteMany({
+        where: {
+          roomId,
+          userId: ctx.user.id,
+        },
+      });
     }),
 });
