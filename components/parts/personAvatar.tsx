@@ -11,7 +11,7 @@ type PersonProps = {
 
 export const PersonAvatar = ({ className, avatar }: PersonProps) => {
   return (
-    <div className={cn("size-8 overflow-hidden rounded-full text-primary", className)}>
+    <div className={cn("size-8 min-h-8 min-w-8 overflow-hidden rounded-full text-primary", className)}>
       <Peep {...(avatar ?? defaultAvatar)} strokeColor="currentColor" />
     </div>
   );

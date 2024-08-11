@@ -12,7 +12,7 @@ export const AppConfigBar = () => {
   return (
     <div className="flex content-center gap-4">
       <ProfileInfoHoverCard>
-        <PersonAvatar width={100} className="size-8 border" avatar={userData?.profile?.avatar} />
+        <PersonAvatar width={100} className="border" avatar={userData?.profile?.avatar} />
       </ProfileInfoHoverCard>
       <Menu />
     </div>

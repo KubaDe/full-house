@@ -4,6 +4,7 @@ import { protectedProcedure, router } from "../../trpc";
 import { db } from "@/server/db/prisma";
 import { userRoomInputSchema, userRoomOutputSchema } from "@/modules/room/schemas/userRoomSchema";
 import { paginationInputSchema, paginationOutputSchema } from "@/modules/utils/schemas/pagination";
+import { participantsOutputSchema } from "@/modules/room/schemas/participantsSchema";
 
 export const userRoomRouter = router({
   myRooms: protectedProcedure
@@ -42,7 +43,7 @@ export const userRoomRouter = router({
 
   myRoom: protectedProcedure
     .input(z.object({ roomId: z.string() }))
-    .output(userRoomOutputSchema.nullish())
+    .output(userRoomOutputSchema)
     .query(async ({ ctx, input }) => {
       const { roomId } = input;
       const userRoom = await db.usersOnRooms.findUnique({
@@ -56,7 +57,66 @@ export const userRoomRouter = router({
           room: true,
         },
       });
+      if (!userRoom) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Room not found",
+        });
+      }
       return userRoom;
+    }),
+
+  participants: protectedProcedure
+    .input(z.object({ roomId: z.string(), includeMe: z.boolean().optional().default(true) }))
+    .output(participantsOutputSchema)
+    .use(async (opts) => {
+      const canAccess = await db.usersOnRooms.findFirst({
+        where: {
+          userId: opts.ctx.user.id,
+          roomId: opts.input.roomId,
+          isOwner: true,
+        },
+      });
+
+      if (!canAccess) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "You can't access this room",
+        });
+      }
+
+      return opts.next();
+    })
+    .query(async ({ input, ctx }) => {
+      const { roomId } = input;
+      const userRoom = await db.usersOnRooms.findMany({
+        where: {
+          roomId,
+          user: {
+            NOT: [
+              {
+                profile: null,
+              },
+              ...(input.includeMe ? [] : [{ id: ctx.user.id }]),
+            ],
+          },
+        },
+        select: {
+          user: {
+            select: {
+              profile: {
+                select: {
+                  id: true,
+                  name: true,
+                  avatar: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      const participants = userRoom.map((userRoom) => userRoom.user.profile);
+      return participantsOutputSchema.safeParse(participants).data ?? [];
     }),
 
   addRoom: protectedProcedure

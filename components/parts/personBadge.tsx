@@ -14,6 +14,7 @@ type PersonProps = {
   avatar?: Avatar;
 };
 
+// TODO: put avatar inside profile
 export const PersonBadge = ({
   profile,
   className,
@@ -27,6 +28,7 @@ export const PersonBadge = ({
       animate={isOpen ? "open" : "close"}
       initial={isOpen ? "open" : "close"}
       whileHover={openOnHover ? "open" : undefined}
+      aria-label="Avatar with name"
     >
       <Badge variant="outline" className="max-w-44 cursor-default overflow-hidden bg-white p-0">
         <PersonAvatar avatar={avatar} className="rounded-l-full" />
