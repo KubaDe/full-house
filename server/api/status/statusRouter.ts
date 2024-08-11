@@ -1,14 +1,19 @@
-import { protectedProcedure, publicProcedure, router } from "../../trpc";
+import { publicProcedure, router } from "../../trpc";
+import { db } from "@/server/db/prisma";
 
 export const statusRouter = router({
-  status: publicProcedure.query(() => {
+  status: publicProcedure.query(async () => {
+    let database = false;
+    try {
+      await db.$queryRaw`SELECT 1`;
+      database = true;
+    } catch {
+      void 0;
+    }
+
     return {
-      status: "ok",
-    };
-  }),
-  secret: protectedProcedure.query(({ ctx }) => {
-    return {
-      secret: `${ctx.auth?.userId} is using a protected procedure`,
+      api: true,
+      database,
     };
   }),
 });

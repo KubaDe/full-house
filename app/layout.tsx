@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { AppConfigBar, AppConfigBarWrapper } from "@/components/parts/appConfigBar";
 import { CombinedProvider } from "@/components/providers/combinedProvider";
 import { Toaster } from "@/components/uiKit/sonner";
+import { BodyContentWrapper } from "@/components/parts/bodyContentWrapper";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -27,11 +28,13 @@ const RootLayout = ({
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         </head>
         <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
-          <AppConfigBarWrapper>
-            <AppConfigBar />
-          </AppConfigBarWrapper>
-          {children}
-          <Toaster />
+          <BodyContentWrapper>
+            <AppConfigBarWrapper>
+              <AppConfigBar />
+            </AppConfigBarWrapper>
+            {children}
+            <Toaster />
+          </BodyContentWrapper>
         </body>
       </html>
     </CombinedProvider>

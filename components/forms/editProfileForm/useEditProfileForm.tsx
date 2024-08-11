@@ -50,6 +50,7 @@ export const useEditProfileForm = ({ onSuccess, onError, onInvalid }: UseEditPro
         onSuccess: (profile) => {
           toast.success("Profile updated successfully!");
           void utils.me.user.invalidate();
+          void utils.userRoom.participants.invalidate();
           onSuccess?.();
           form.reset(profile ?? undefined);
         },
