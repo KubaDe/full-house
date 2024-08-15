@@ -2,7 +2,7 @@ import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { setupServer } from "msw/node";
 import { BodyContentWrapper } from "../bodyContentWrapper";
 import { render, screen, waitFor } from "@/testUtils/render";
-import { getStatusHandler } from "@/server/api/status/__mocks__/getStatusHandler.mock";
+import { statusQueryMock } from "@/server/api/status/__mocks__/statusQuery.mock";
 
 export const server = setupServer();
 
@@ -20,7 +20,7 @@ describe("BodyContentWrapper", () => {
   });
 
   it("should render children when db is connected", async () => {
-    server.use(getStatusHandler.apiOk());
+    server.use(statusQueryMock.apiOk());
     render(
       <BodyContentWrapper>
         <p>Body content</p>
@@ -30,7 +30,7 @@ describe("BodyContentWrapper", () => {
   });
 
   it("should render db error when db is not connected", async () => {
-    server.use(getStatusHandler.apiError());
+    server.use(statusQueryMock.apiError());
     render(
       <BodyContentWrapper>
         <p>Body content</p>

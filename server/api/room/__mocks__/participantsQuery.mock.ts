@@ -2,9 +2,9 @@ import { http, HttpResponse } from "msw";
 import { type Mock } from "vitest";
 import { parse } from "superjson";
 
-export const getParticipantsHandler = {
+export const participantsQueryMock = {
   default: (spy?: Mock) =>
-    http.get("*/trpc/userRoom.participants", async ({ request }) => {
+    http.get("*/trpc/room.participantsQuery", async ({ request }) => {
       const url = new URL(request.url);
       spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
@@ -42,7 +42,7 @@ export const getParticipantsHandler = {
       );
     }),
   noParticipants: (spy?: Mock) =>
-    http.get("*/trpc/userRoom.participants", async ({ request }) => {
+    http.get("*/trpc/userRoom.participantsQuery", async ({ request }) => {
       const url = new URL(request.url);
       spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(

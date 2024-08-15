@@ -1,6 +1,7 @@
 import { show as showModal } from "@ebay/nice-modal-react";
 import { ChevronRight } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "@/components/uiKit/menubar";
 import { api } from "@/utils/api";
 import { ConfirmActionModal } from "@/components/modals/confirmActionModal";
@@ -10,24 +11,32 @@ export const MenuRoom = () => {
   const { replace } = useRouter();
   const roomId = params?.roomId?.[0] ?? "";
 
-  const { data: roomData } = api.userRoom.myRoom.useQuery({ roomId }, { enabled: !!roomId });
-  const { userRoom } = api.useUtils();
+  const { data: roomData } = api.room.userRoomQuery.useQuery({ roomId }, { enabled: !!roomId });
+  const { room } = api.useUtils();
 
-  const { mutateAsync: deleteRoom } = api.userRoom.deleteRoom.useMutation({
+  const { mutateAsync: deleteRoom } = api.room.deleteRoomMutation.useMutation({
     onSuccess: async () => {
       replace("/");
+      toast.success("Room removed successfully!");
     },
     onSettled: async () => {
-      await userRoom.myRooms.invalidate();
+      await room.userRoomsQuery.invalidate();
+    },
+    onError: (error) => {
+      toast.error(error.message ?? "Failed to remove the room", { richColors: true });
     },
   });
 
-  const { mutateAsync: leaveRoom } = api.userRoom.leaveRoom.useMutation({
+  const { mutateAsync: leaveRoom } = api.room.leaveRoomMutation.useMutation({
     onSuccess: async () => {
       replace("/");
     },
     onSettled: async () => {
-      await userRoom.myRooms.invalidate();
+      await room.userRoomsQuery.invalidate();
+      toast.success("Room vacated successfully!");
+    },
+    onError: (error) => {
+      toast.error(error.message ?? "Failed to leave the room", { richColors: true });
     },
   });
 

@@ -2,9 +2,9 @@ import { http, HttpResponse } from "msw";
 import { type Mock } from "vitest";
 import { parse } from "superjson";
 
-export const getUserRoomMyRoomsHandler = {
+export const userRoomsQueryMock = {
   default: (spy?: Mock) =>
-    http.get("*/trpc/userRoom.myRooms", async ({ request }) => {
+    http.get("*/trpc/room.userRoomsQuery", async ({ request }) => {
       const url = new URL(request.url);
       spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
@@ -70,7 +70,7 @@ export const getUserRoomMyRoomsHandler = {
       );
     }),
   lessThan5Rooms: (spy?: Mock) =>
-    http.get("*/trpc/userRoom.myRooms", async ({ request }) => {
+    http.get("*/trpc/room.userRoomsQuery", async ({ request }) => {
       const url = new URL(request.url);
       spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(

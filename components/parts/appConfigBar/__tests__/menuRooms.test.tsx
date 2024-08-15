@@ -6,7 +6,7 @@ import { within } from "@storybook/test";
 import { render, screen } from "@/testUtils/render";
 import { MenuRooms } from "@/components/parts/appConfigBar/menuRooms";
 import { Menubar } from "@/components/uiKit/menubar";
-import { getUserRoomMyRoomsHandler } from "@/server/api/room/__mocks__/getUserRoomMyRoomsHandler.mock";
+import { userRoomsQueryMock } from "@/server/api/room/__mocks__/userRoomsQuery.mock";
 
 export const server = setupServer();
 
@@ -31,7 +31,7 @@ describe("MenuRooms", () => {
   });
 
   it("should render 'Add room...' option", async () => {
-    server.use(getUserRoomMyRoomsHandler.default());
+    server.use(userRoomsQueryMock.default());
     render(
       <Menubar>
         <MenuRooms />
@@ -46,7 +46,7 @@ describe("MenuRooms", () => {
 
   it("should request only 5 rooms", async () => {
     const querySpy = vi.fn();
-    server.use(getUserRoomMyRoomsHandler.default(querySpy));
+    server.use(userRoomsQueryMock.default(querySpy));
     render(
       <Menubar>
         <MenuRooms />
@@ -60,7 +60,7 @@ describe("MenuRooms", () => {
   });
 
   it("should display 'Show all rooms' when there are more than 5 rooms", async () => {
-    server.use(getUserRoomMyRoomsHandler.default());
+    server.use(userRoomsQueryMock.default());
     render(
       <Menubar>
         <MenuRooms />
@@ -73,7 +73,7 @@ describe("MenuRooms", () => {
   });
 
   it("should not display 'Show all rooms' when there are less than 5 rooms", async () => {
-    server.use(getUserRoomMyRoomsHandler.lessThan5Rooms());
+    server.use(userRoomsQueryMock.lessThan5Rooms());
     render(
       <Menubar>
         <MenuRooms />
@@ -86,7 +86,7 @@ describe("MenuRooms", () => {
   });
 
   it("should highlight selected room", async () => {
-    server.use(getUserRoomMyRoomsHandler.default());
+    server.use(userRoomsQueryMock.default());
     vi.mocked(useParams).mockImplementation(() => ({ roomId: ["clyw3nw6z0002tz76hwd51xfm"] }));
 
     render(
@@ -101,7 +101,7 @@ describe("MenuRooms", () => {
   });
 
   it("should show owner badge only for owners", async () => {
-    server.use(getUserRoomMyRoomsHandler.default());
+    server.use(userRoomsQueryMock.default());
     render(
       <Menubar>
         <MenuRooms />

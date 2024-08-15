@@ -2,7 +2,7 @@ import { vi, it, describe, expect, beforeAll, afterEach, afterAll } from "vitest
 import { setupServer } from "msw/node";
 import { useAddRoomForm } from "../addRoomForm";
 import { fireEvent, screen, render, waitFor, renderHook } from "@/testUtils/render";
-import { addUserRoomHandler } from "@/server/api/room/__mocks__/addUserRoomHandler.mock";
+import { addRoomMutationMock } from "@/server/api/room/__mocks__/addRoomMutation.mock";
 
 export const server = setupServer();
 
@@ -22,7 +22,7 @@ describe("AddRoomForm", () => {
   it("should call submit when form is valid", async () => {
     const onSuccess = vi.fn();
     const addRoomSpy = vi.fn();
-    server.use(addUserRoomHandler.default(addRoomSpy));
+    server.use(addRoomMutationMock.default(addRoomSpy));
 
     const { result } = renderHook(() => useAddRoomForm({ onSuccess }));
     await waitFor(() => expect(result.current.formUI).toBeDefined());
@@ -42,7 +42,7 @@ describe("AddRoomForm", () => {
   });
 
   it("should call onInvalid when form is invalid", async () => {
-    server.use(addUserRoomHandler.default());
+    server.use(addRoomMutationMock.default());
 
     const onSuccess = vi.fn();
     const onInvalid = vi.fn();

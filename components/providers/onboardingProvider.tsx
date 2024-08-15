@@ -5,7 +5,7 @@ import { api } from "@/utils/api";
 import { EditProfileModal } from "@/components/modals/editProfileModal";
 
 const useForceToFillProfile = () => {
-  const { data: userData } = api.me.user.useQuery();
+  const { data: userData } = api.me.userQuery.useQuery();
 
   useEffect(() => {
     if (userData && !userData?.profile) {
