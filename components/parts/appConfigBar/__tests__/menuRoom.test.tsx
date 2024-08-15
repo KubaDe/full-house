@@ -4,10 +4,10 @@ import { setupServer } from "msw/node";
 import { useParams } from "next/navigation";
 import { render, screen } from "@/testUtils/render";
 import { Menubar } from "@/components/uiKit/menubar";
-import { getUserRoomMyRoomHandler } from "@/server/api/room/__mocks__/getUserRoomMyRoomHandler.mock";
 import { MenuRoom } from "@/components/parts/appConfigBar/menuRoom";
-import { deleteUserRoomHandler } from "@/server/api/room/__mocks__/deleteUserRoomHandler.mock";
-import { leaveUserRoomHandler } from "@/server/api/room/__mocks__/leaveUserRoomHandler.mock";
+import { userRoomQueryMock } from "@/server/api/room/__mocks__/userRoomQuery.mock";
+import { deleteRoomMutationMock } from "@/server/api/room/__mocks__/deleteRoomMutation.mock";
+import { leaveRoomMutationMock } from "@/server/api/room/__mocks__/leaveRoomMutation.mock";
 
 export const server = setupServer();
 
@@ -33,7 +33,7 @@ describe("MenuRoom", () => {
 
   it("should render room menu when room is selected", async () => {
     vi.mocked(useParams).mockImplementation(() => ({ roomId: ["clyw3nw6z0002tz76hwd51xfm"] }));
-    server.use(getUserRoomMyRoomHandler.default());
+    server.use(userRoomQueryMock.default());
     render(
       <Menubar>
         <MenuRoom />
@@ -45,7 +45,7 @@ describe("MenuRoom", () => {
 
   it("should render delete room and leave room options for owner", async () => {
     vi.mocked(useParams).mockImplementation(() => ({ roomId: ["clyw3nw6z0002tz76hwd51xfm"] }));
-    server.use(getUserRoomMyRoomHandler.default());
+    server.use(userRoomQueryMock.default());
     render(
       <Menubar>
         <MenuRoom />
@@ -61,7 +61,7 @@ describe("MenuRoom", () => {
 
   it("should render leave room option and no delete room option for member", async () => {
     vi.mocked(useParams).mockImplementation(() => ({ roomId: ["clyw3nw6z0002tz76hwd51xfm"] }));
-    server.use(getUserRoomMyRoomHandler.member());
+    server.use(userRoomQueryMock.member());
     render(
       <Menubar>
         <MenuRoom />
@@ -88,7 +88,7 @@ describe("MenuRoom", () => {
 
   it("should open delete room modal when delete room is clicked", async () => {
     vi.mocked(useParams).mockImplementation(() => ({ roomId: ["clyw3nw6z0002tz76hwd51xfm"] }));
-    server.use(getUserRoomMyRoomHandler.default());
+    server.use(userRoomQueryMock.default());
     render(
       <Menubar>
         <MenuRoom />
@@ -105,7 +105,7 @@ describe("MenuRoom", () => {
   it("should send deleteRoom mutation when delete room is clicked", async () => {
     const deleteRoomSpy = vi.fn();
     vi.mocked(useParams).mockImplementation(() => ({ roomId: ["clyw3nw6z0002tz76hwd51xfm"] }));
-    server.use(getUserRoomMyRoomHandler.default(), deleteUserRoomHandler.default(deleteRoomSpy));
+    server.use(userRoomQueryMock.default(), deleteRoomMutationMock.default(deleteRoomSpy));
     render(
       <Menubar>
         <MenuRoom />
@@ -123,7 +123,7 @@ describe("MenuRoom", () => {
 
   it("should open leave room modal when leave room is clicked", async () => {
     vi.mocked(useParams).mockImplementation(() => ({ roomId: ["clyw3nw6z0002tz76hwd51xfm"] }));
-    server.use(getUserRoomMyRoomHandler.member());
+    server.use(userRoomQueryMock.member());
     render(
       <Menubar>
         <MenuRoom />
@@ -140,7 +140,7 @@ describe("MenuRoom", () => {
   it("should send leaveRoom mutation when leave room is clicked", async () => {
     const leaveRoomSpy = vi.fn();
     vi.mocked(useParams).mockImplementation(() => ({ roomId: ["clyw3nw6z0002tz76hwd51xfm"] }));
-    server.use(getUserRoomMyRoomHandler.member(), leaveUserRoomHandler.default(leaveRoomSpy));
+    server.use(userRoomQueryMock.member(), leaveRoomMutationMock.default(leaveRoomSpy));
     render(
       <Menubar>
         <MenuRoom />

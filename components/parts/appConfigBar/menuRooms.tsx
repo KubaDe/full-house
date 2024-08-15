@@ -19,7 +19,7 @@ import { api } from "@/utils/api";
 const ROOMS_NUMBER = 5;
 
 export const MenuRooms = () => {
-  const { data: userRoomsData } = api.userRoom.myRooms.useQuery({ skip: 0, take: ROOMS_NUMBER });
+  const { data: userRoomsData } = api.room.userRoomsQuery.useQuery({ skip: 0, take: ROOMS_NUMBER });
   const params = useParams<{ roomId: string[] }>();
   const roomId = params?.roomId?.[0] ?? "";
 

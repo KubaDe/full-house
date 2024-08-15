@@ -1,13 +1,13 @@
 // import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import { router } from "../trpc";
-import { statusRouter } from "./status/statusRouter";
-import { meRouter } from "./user/meRouter";
-import { userRoomRouter } from "./room/userRoomRouter";
+import { statusRouter } from "./status/router/statusRouter";
+import { meRouter } from "./user/router/meRouter";
+import { roomRouter } from "./room/router/roomRouter";
 
 export const appRouter = router({
   status: statusRouter,
   me: meRouter,
-  userRoom: userRoomRouter,
+  room: roomRouter,
 });
 
 export type AppRouter = typeof appRouter;

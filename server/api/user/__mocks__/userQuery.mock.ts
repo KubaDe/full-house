@@ -2,9 +2,9 @@ import { http, HttpResponse } from "msw";
 import { type Mock } from "vitest";
 import { formatTrpcBodyToData } from "@/testUtils/formatters";
 
-export const getMeUserHandler = {
+export const userQueryMock = {
   default: (spy?: Mock) =>
-    http.get("*/trpc/me.user", async ({ request }) => {
+    http.get("*/trpc/me.userQuery", async ({ request }) => {
       spy?.(formatTrpcBodyToData(await request?.json()));
       return HttpResponse.json(
         {
@@ -37,7 +37,7 @@ export const getMeUserHandler = {
       );
     }),
   noProfile: (spy?: Mock) =>
-    http.get("*/trpc/me.user", async ({ request }) => {
+    http.get("*/trpc/me.userQuery", async ({ request }) => {
       spy?.(await request?.json());
       return HttpResponse.json(
         {

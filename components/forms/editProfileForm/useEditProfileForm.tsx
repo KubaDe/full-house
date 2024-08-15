@@ -26,8 +26,8 @@ type UseEditProfileFormProps = {
 const formName = "editProfileForm";
 
 export const useEditProfileForm = ({ onSuccess, onError, onInvalid }: UseEditProfileFormProps = {}) => {
-  const { mutate: updateProfile, ...mutationParams } = api.me.updateProfile.useMutation();
-  const [userData] = api.me.user.useSuspenseQuery(undefined, {});
+  const { mutate: updateProfile, ...mutationParams } = api.me.updateProfileMutation.useMutation();
+  const [userData] = api.me.userQuery.useSuspenseQuery(undefined, {});
   const utils = api.useUtils();
 
   const form = useForm<Profile>({
@@ -49,8 +49,8 @@ export const useEditProfileForm = ({ onSuccess, onError, onInvalid }: UseEditPro
         },
         onSuccess: (profile) => {
           toast.success("Profile updated successfully!");
-          void utils.me.user.invalidate();
-          void utils.userRoom.participants.invalidate();
+          void utils.me.userQuery.invalidate();
+          void utils.room.participantsQuery.invalidate();
           onSuccess?.();
           form.reset(profile ?? undefined);
         },

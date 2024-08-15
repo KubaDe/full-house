@@ -5,8 +5,6 @@ import { useMediaQuery } from "react-responsive";
 import { useState } from "react";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -55,17 +53,16 @@ export const ConfirmActionModal = createModal((props: ConfirmActionModalProps) =
     setIsLoading(true);
     try {
       await onConfirm?.();
+      setIsLoading(false);
       await hide();
     } catch {
       // handled outside the modal
     }
-    setIsLoading(false);
   };
   const onCancelHandler = async () => {
     await onCancel?.();
     await hide();
   };
-
   const onOpenChange = (value: boolean) => (value ? show() : hide());
   if (isDialog) {
     return (
@@ -76,13 +73,19 @@ export const ConfirmActionModal = createModal((props: ConfirmActionModalProps) =
             <AlertDialogDescription>{description}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={onCancelHandler} disabled={isLoading} {...cancelButtonProps}>
+            <Button
+              onClick={onCancelHandler}
+              variant="outline"
+              disabled={isLoading}
+              autoFocus
+              {...cancelButtonProps}
+            >
               {cancelButtonText}
-            </AlertDialogCancel>
-            <AlertDialogAction onClick={onConfirmHandler} {...confirmButtonProps}>
+            </Button>
+            <Button onClick={onConfirmHandler} {...confirmButtonProps}>
               <ButtonSpinner isLoading={isLoading} />
               {confirmButtonText}
-            </AlertDialogAction>
+            </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

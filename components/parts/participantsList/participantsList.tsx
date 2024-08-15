@@ -11,7 +11,7 @@ type ParticipantsListProps = {
 };
 
 export const ParticipantsList = ({ roomId }: ParticipantsListProps) => {
-  const { data: participantsData } = api.userRoom.participants.useQuery(
+  const { data: participantsData } = api.room.participantsQuery.useQuery(
     { roomId, includeMe: false },
     { enabled: !!roomId },
   );

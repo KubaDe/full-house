@@ -17,7 +17,7 @@ type UseAddRoomFormProps = {
 const formName = "addRoomForm";
 
 export const useAddRoomForm = ({ onSuccess, onError, onInvalid }: UseAddRoomFormProps = {}) => {
-  const { mutate: addRoom, ...mutationParams } = api.userRoom.addRoom.useMutation();
+  const { mutate: addRoom, ...mutationParams } = api.room.addRoomMutation.useMutation();
   const utils = api.useUtils();
 
   const form = useForm<UserRoomInput>({
@@ -38,7 +38,7 @@ export const useAddRoomForm = ({ onSuccess, onError, onInvalid }: UseAddRoomForm
       },
       onSuccess: () => {
         toast.success("Room added successfully!");
-        void utils.userRoom.myRooms.invalidate();
+        void utils.room.userRoomsQuery.invalidate();
         onSuccess?.();
         form.reset();
       },

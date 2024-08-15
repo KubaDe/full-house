@@ -2,9 +2,9 @@ import { http, HttpResponse } from "msw";
 import { type Mock } from "vitest";
 import { parse } from "superjson";
 
-export const getStatusHandler = {
+export const statusQueryMock = {
   apiOk: (spy?: Mock) =>
-    http.get("*/trpc/status.status", async ({ request }) => {
+    http.get("*/trpc/status.statusQuery", async ({ request }) => {
       const url = new URL(request.url);
       spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
@@ -22,7 +22,7 @@ export const getStatusHandler = {
       );
     }),
   apiError: (spy?: Mock) =>
-    http.get("*/trpc/status.status", async ({ request }) => {
+    http.get("*/trpc/status.statusQuery", async ({ request }) => {
       const url = new URL(request.url);
       spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
