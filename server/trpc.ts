@@ -32,15 +32,18 @@ const isAuthed = t.middleware(({ next, ctx }) => {
 
 const syncUser = t.middleware(async ({ next, ctx }) => {
   const clerkId = ctx.auth.userId;
+  const clerkEmail = ctx.auth.email;
   if (clerkId) {
-    let user = await db.user.findUnique({ where: { clerkId: ctx.auth.userId } });
+    let user = await db.user.findUnique({ where: { clerkId } });
     if (!user) {
       user = await db.user.create({
         data: {
           clerkId,
+          email: clerkEmail,
         },
       });
     }
+    // TODO: Sync user email
     return next({
       ctx: {
         ...ctx,

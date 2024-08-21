@@ -2,9 +2,11 @@
 import { useHoverDirty } from "react-use";
 import { useRef } from "react";
 import { Plus } from "lucide-react";
+import { show as showModal } from "@ebay/nice-modal-react";
 import { api } from "@/utils/api";
 import { PersonBadge } from "@/components/parts/personBadge";
 import { Button } from "@/components/uiKit/button";
+import { InviteUserToRoomModal } from "@/components/modals/inviteUserToRoomModal";
 
 type ParticipantsListProps = {
   roomId: string;
@@ -31,7 +33,12 @@ export const ParticipantsList = ({ roomId }: ParticipantsListProps) => {
         ))}
       </div>
       <div className="flex flex-col gap-2">
-        <Button className="size-8 rounded-full p-0" variant="outline" disabled aria-label="Add participant">
+        <Button
+          className="size-8 rounded-full p-0"
+          variant="outline"
+          aria-label="Add participant"
+          onClick={() => void showModal(InviteUserToRoomModal, { roomId })}
+        >
           <Plus size={20} />
         </Button>
       </div>

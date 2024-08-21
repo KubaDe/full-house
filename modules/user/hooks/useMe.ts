@@ -3,7 +3,9 @@ import { useEffect } from "react";
 import { api } from "@/utils/api";
 
 const useMockedAuth = () => {
-  return {};
+  return {
+    signOut: () => {},
+  };
 };
 
 const useMockedUser = () => {

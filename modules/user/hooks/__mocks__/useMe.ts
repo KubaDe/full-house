@@ -10,6 +10,7 @@ export const useMe = () => {
     userData: {
       id: "hardcoded-user-id",
       clerkId: "hardcoded-clerk-id",
+      email: "foo@bar.com",
       profile: {
         id: "hardcoded",
         name: "Test User",
