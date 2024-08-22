@@ -47,7 +47,7 @@ export const useInviteUserToRoomForm = ({
         },
         onSuccess: () => {
           toast.success("User invited successfully!");
-          void utils.room.userRoomsQuery.invalidate();
+          void utils.invitation.userToRoomInvitationsQuery.invalidate();
           onSuccess?.();
           form.reset();
         },
