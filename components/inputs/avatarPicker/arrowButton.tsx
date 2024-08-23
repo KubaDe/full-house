@@ -13,15 +13,15 @@ export const ArrowButton = ({ direction, onClick, className, ...rest }: ArrowBut
   const icon = useMemo(() => {
     switch (direction) {
       case "left":
-        return <ChevronLeft className="size-4" />;
+        return <ChevronLeft strokeWidth={3} className="size-4 -translate-x-px" />;
       case "right":
-        return <ChevronRight className="size-4" />;
+        return <ChevronRight strokeWidth={3} className="size-4 translate-x-px" />;
     }
   }, [direction]);
 
   return (
     <Button
-      className={cn("size-5 rounded-full", className)}
+      className={cn("flex size-5 content-center items-center rounded-full", className)}
       type="button"
       variant="default"
       size="icon"
