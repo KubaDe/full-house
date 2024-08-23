@@ -44,19 +44,20 @@ export const AddParticipantButton = ({ roomId }: AddParticipantButtonProps) => {
             </Button>
           </HoverCardTrigger>
           <HoverCardPortal>
-            <HoverCardContent className="w-80" aria-label="Pending invitationon">
+            <HoverCardContent aria-label="Pending invitationon">
               <h2 className="text-lg">Invited people</h2>
               <p className="text-xs text-muted-foreground">
                 People who received an invitation to join this room
               </p>
-              <div
-                className="mt-3 flex flex-wrap content-start items-start justify-center gap-1"
-                aria-label="invitations list"
-              >
+              <ul className="mt-3 flex w-full flex-col gap-1" aria-label="invitations list">
                 {userToTheRoomInvitationsData?.map((invitation) => (
-                  <Badge key={invitation.id}>{invitation.email}</Badge>
+                  <li key={invitation.id}>
+                    <Badge className="w-full max-w-full justify-center" variant="secondary">
+                      <div className="overflow-hidden text-ellipsis">{invitation.email}</div>
+                    </Badge>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </HoverCardContent>
           </HoverCardPortal>
         </HoverCard>

@@ -20,7 +20,7 @@ describe("AddParticipantButton", () => {
     server.close();
   });
 
-  it("should  render pending invitations counter for less than 9 invitations pending", async () => {
+  it("should render pending invitations counter for less than 9 invitations pending", async () => {
     const roomId = "test-room-id";
     server.use(userToRoomInvitationsQueryMock.default());
     render(<AddParticipantButton roomId={roomId} />);
@@ -28,7 +28,7 @@ describe("AddParticipantButton", () => {
     expect(screen.getByLabelText("pending invitations counter")).toHaveTextContent("3");
   });
 
-  it("should  render pending invitations counter for more than 9 invitations pending", async () => {
+  it("should render pending invitations counter for more than 9 invitations pending", async () => {
     const roomId = "test-room-id";
     server.use(userToRoomInvitationsQueryMock.moreThan9());
     render(<AddParticipantButton roomId={roomId} />);
