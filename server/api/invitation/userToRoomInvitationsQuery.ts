@@ -34,6 +34,5 @@ export const userToRoomInvitationsQuery = protectedProcedure
         updatedAt: "desc",
       },
     });
-
     return userToTheRoomInvitationsQueryOutputSchema.safeParse(userToRoomInvitations).data;
   });

@@ -4,7 +4,7 @@ import { DayjsProvider } from "@/components/providers/dayjsProvider";
 import { ApiProvider } from "@/components/providers/apiProvider";
 import { ModalsProvider } from "@/components/providers/niceModalProvider";
 import { OnboardingProvider } from "@/components/providers/onboardingProvider";
-import { AuthProvider } from "@/components/providers/AuthProvider";
+import { AuthProvider } from "@/components/providers/authProvider";
 
 export const CombinedProvider = ({ children }: { children: ReactNode }): ReactNode => {
   return (

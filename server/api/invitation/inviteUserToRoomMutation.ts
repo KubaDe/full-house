@@ -28,8 +28,9 @@ export const inviteUserToRoomMutation = protectedProcedure
   })
   .mutation(async ({ ctx, input }) => {
     const existingUser = await db.user.findFirst({ where: { email: input.userEmail } });
+
     const existingInvitation = await db.invitation.findFirst({
-      where: { roomId: input.roomId, email: input.userEmail },
+      where: { roomId: input.roomId, email: input.userEmail, isOpen: false },
     });
 
     if (existingInvitation) {
@@ -52,7 +53,7 @@ export const inviteUserToRoomMutation = protectedProcedure
         senderId: ctx.user.id,
         email: input.userEmail,
         roomId: input.roomId,
-        isOpen: !!input.isOpen,
+        isOpen: false,
       },
     });
 

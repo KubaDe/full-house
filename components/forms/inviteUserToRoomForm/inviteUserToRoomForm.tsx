@@ -8,6 +8,7 @@ import { Input } from "@/components/uiKit/input";
 import { api } from "@/utils/api";
 import { handleFormSubmitServerErrors } from "@/lib/handleFormSubmitServerErrors";
 import { inviteUserToRoomMutationInputSchema } from "@/modules/invitation/schemas/api";
+import { Label } from "@/components/uiKit/label";
 
 type UseInviteUserToRoomFormProps = {
   roomId: string;
@@ -18,7 +19,7 @@ type UseInviteUserToRoomFormProps = {
 
 const formName = "inviteUserForm";
 
-const formSchema = inviteUserToRoomMutationInputSchema.omit({ roomId: true, isOpen: true });
+const formSchema = inviteUserToRoomMutationInputSchema.omit({ roomId: true });
 
 export const useInviteUserToRoomForm = ({
   roomId,
@@ -64,8 +65,9 @@ export const useInviteUserToRoomForm = ({
           defaultValue=""
           render={({ field }) => (
             <FormItem>
+              <Label htmlFor="userEmail">User's email</Label>
               <FormControl>
-                <Input placeholder="User's email" {...field} autoFocus />
+                <Input placeholder="john.smith@gmail.com" id="userEmail" {...field} autoFocus />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -1,5 +1,6 @@
 import { vi, it, describe, expect, beforeAll, afterEach, afterAll } from "vitest";
 import { setupServer } from "msw/node";
+import { userEvent } from "@testing-library/user-event";
 import { fireEvent, screen, render, waitFor, renderHook } from "@/testUtils/render";
 import { inviteUserToRoomMutationMock } from "@/server/api/invitation/__mocks__/inviteUserToRoomMutation.mock";
 import { useInviteUserToRoomForm } from "@/components/forms/inviteUserToRoomForm";
@@ -29,7 +30,7 @@ describe("InviteUserToRoomForm", () => {
     await waitFor(() => expect(result.current.formUI).toBeDefined());
     render(result.current.formUI);
 
-    fireEvent.change(screen.getByPlaceholderText("User's email"), { target: { value: "foo@bar.com" } });
+    await userEvent.type(screen.getByLabelText("User's email"), "foo@bar.com");
     fireEvent.click(screen.getByText("Invite user"));
 
     await waitFor(() => expect(onSuccess).toHaveBeenCalled());

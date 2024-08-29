@@ -17,9 +17,14 @@ type AddParticipantButtonProps = {
 };
 
 export const AddParticipantButton = ({ roomId }: AddParticipantButtonProps) => {
-  const { data: userToTheRoomInvitationsData } = api.invitation.userToRoomInvitationsQuery.useQuery({
-    roomId,
-  });
+  const { data: userToTheRoomInvitationsData } = api.invitation.userToRoomInvitationsQuery.useQuery(
+    {
+      roomId,
+    },
+    {
+      select: (data) => data?.filter((invitation) => !invitation.isOpen),
+    },
+  );
   const pendingInvitationsCount = userToTheRoomInvitationsData?.length ?? 0;
   const pendingLabel = pendingInvitationsCount > 9 ? "9+" : pendingInvitationsCount;
   return (

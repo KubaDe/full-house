@@ -1,5 +1,6 @@
 import { vi, it, describe, expect, beforeAll, afterEach, afterAll } from "vitest";
 import { setupServer } from "msw/node";
+import { userEvent } from "@testing-library/user-event";
 import { useAddRoomForm } from "../addRoomForm";
 import { fireEvent, screen, render, waitFor, renderHook } from "@/testUtils/render";
 import { addRoomMutationMock } from "@/server/api/room/__mocks__/addRoomMutation.mock";
@@ -28,8 +29,7 @@ describe("AddRoomForm", () => {
     await waitFor(() => expect(result.current.formUI).toBeDefined());
     render(result.current.formUI);
 
-    fireEvent.change(screen.getByPlaceholderText("Room name"), { target: { value: "My new room" } });
-
+    await userEvent.type(screen.getByPlaceholderText("Room name"), "My new room");
     fireEvent.click(screen.getByText("Add room"));
 
     await waitFor(() => expect(onSuccess).toHaveBeenCalled());

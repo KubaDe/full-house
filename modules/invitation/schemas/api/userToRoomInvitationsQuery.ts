@@ -7,6 +7,7 @@ export const userToTheRoomInvitationsQueryInputSchema = z.object({
 export const userToTheRoomInvitationsQueryOutputSchema = z.array(
   z.object({
     id: z.string(),
-    email: z.string(),
+    email: z.string().nullable(),
+    isOpen: z.boolean().optional(),
   }),
 );
