@@ -15,3 +15,4 @@ Storybook:
 
 ### TODO
 - [ ] Change form test rendering concept - combine `renderHook` and `render`
+- [ ] Sync user email with clerk

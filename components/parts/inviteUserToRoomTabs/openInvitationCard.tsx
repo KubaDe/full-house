@@ -4,7 +4,6 @@ import { CopyInvitationLinkCard } from "@/components/parts/inviteUserToRoomTabs/
 
 type OpenInvitationCardProps = {
   roomId: string;
-  onSuccess: () => void;
 };
 export const OpenInvitationCard = ({ roomId }: OpenInvitationCardProps) => {
   const { formUI } = useOpenUserToRoomInvitationForm({
