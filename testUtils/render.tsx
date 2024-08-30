@@ -18,6 +18,12 @@ window.matchMedia = (query) => ({
 
 window.scrollTo = vi.fn() as (options?: ScrollToOptions) => void;
 
+window.ResizeObserver = vi.fn().mockImplementation(() => ({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
+}));
+
 const Provider = ({ children }: { children: ReactNode }) => (
   <ApiProvider>
     <Suspense fallback="loading">

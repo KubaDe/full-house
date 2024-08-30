@@ -7,9 +7,9 @@ import { cn } from "@/lib/utils";
 
 const HoverCard = HoverCardPrimitive.Root;
 
-const HoverCardPortal = HoverCardPrimitive.Portal;
-
 const HoverCardTrigger = HoverCardPrimitive.Trigger;
+
+const HoverCardPortal = HoverCardPrimitive.Portal;
 
 const HoverCardContent = React.forwardRef<
   React.ElementRef<typeof HoverCardPrimitive.Content>,

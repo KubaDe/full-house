@@ -1,5 +1,6 @@
 import { vi, it, describe, expect, beforeAll, afterEach, afterAll } from "vitest";
 import { setupServer } from "msw/node";
+import { userEvent } from "@testing-library/user-event";
 import { useEditProfileForm } from "../useEditProfileForm";
 import { fireEvent, screen, render, waitFor, renderHook } from "@/testUtils/render";
 import * as avatarPickerMock from "@/components/inputs/avatarPicker/__mocks__/avatarPicker.mock";
@@ -33,7 +34,8 @@ describe("EditProfileForm", () => {
 
     fireEvent.click(avatarPickerTestUtils.selectNextPart("face"));
     fireEvent.click(avatarPickerTestUtils.selectNextPart("body"));
-    fireEvent.change(screen.getByPlaceholderText("Username"), { target: { value: "John Smith" } });
+    await userEvent.clear(screen.getByPlaceholderText("Username"));
+    await userEvent.type(screen.getByPlaceholderText("Username"), "John Smith", {});
 
     fireEvent.click(screen.getByText("Save profile"));
 
