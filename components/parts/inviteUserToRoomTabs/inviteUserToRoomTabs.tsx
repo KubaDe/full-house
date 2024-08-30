@@ -31,7 +31,7 @@ export const InviteUserToRoomTabs = ({ roomId, onSuccess }: InviteUserToRoomTabs
       </TabsContent>
 
       <TabsContent value="public">
-        <OpenInvitationCard roomId={roomId} onSuccess={onSuccess} />
+        <OpenInvitationCard roomId={roomId} />
       </TabsContent>
     </Tabs>
   );
