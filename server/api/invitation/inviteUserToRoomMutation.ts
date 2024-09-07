@@ -1,5 +1,5 @@
-import { TRPCError } from "@trpc/server";
 import { protectedProcedure } from "../../trpc";
+import { requireRoomParticipantMiddleware } from "../authorization/requireRoomParticipantMiddleware";
 import { db } from "@/server/db/prisma";
 import {
   inviteUserToRoomMutationInputSchema,
@@ -9,23 +9,7 @@ import {
 export const inviteUserToRoomMutation = protectedProcedure
   .input(inviteUserToRoomMutationInputSchema)
   .output(inviteUserToRoomMutationOutputSchema.nullish())
-  .use(async (opts) => {
-    const canInvite = await db.usersOnRooms.findFirst({
-      where: {
-        userId: opts.ctx.user.id,
-        roomId: opts.input.roomId,
-      },
-    });
-
-    if (!canInvite) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "You can't invite to this room",
-      });
-    }
-
-    return opts.next();
-  })
+  .unstable_concat(requireRoomParticipantMiddleware)
   .mutation(async ({ ctx, input }) => {
     const existingUser = await db.user.findFirst({ where: { email: input.userEmail } });
 

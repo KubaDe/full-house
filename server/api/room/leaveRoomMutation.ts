@@ -1,27 +1,11 @@
 import { z } from "zod";
-import { TRPCError } from "@trpc/server";
 import { protectedProcedure } from "../../trpc";
+import { requireRoomParticipantMiddleware } from "../authorization/requireRoomParticipantMiddleware";
 import { db } from "@/server/db/prisma";
 
 export const leaveRoomMutation = protectedProcedure
   .input(z.object({ roomId: z.string() }))
-  .use(async (opts) => {
-    const canLeave = await db.usersOnRooms.findFirst({
-      where: {
-        userId: opts.ctx.user.id,
-        roomId: opts.input.roomId,
-      },
-    });
-
-    if (!canLeave) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "You can't leave this room",
-      });
-    }
-
-    return opts.next();
-  })
+  .unstable_concat(requireRoomParticipantMiddleware)
   .mutation(async ({ input, ctx }) => {
     const { roomId } = input;
     await db.usersOnRooms.deleteMany({

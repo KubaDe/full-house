@@ -1,5 +1,5 @@
-import { TRPCError } from "@trpc/server";
 import { protectedProcedure } from "../../trpc";
+import { requireRoomParticipantMiddleware } from "../authorization/requireRoomParticipantMiddleware";
 import { db } from "@/server/db/prisma";
 import {
   switchOpenInvitationMutationInputSchema,
@@ -9,23 +9,7 @@ import {
 export const switchOpenInvitationMutation = protectedProcedure
   .input(switchOpenInvitationMutationInputSchema)
   .output(switchOpenInvitationMutationOutputSchema)
-  .use(async (opts) => {
-    const canChange = await db.usersOnRooms.findFirst({
-      where: {
-        userId: opts.ctx.user.id,
-        roomId: opts.input.roomId,
-      },
-    });
-
-    if (!canChange) {
-      throw new TRPCError({
-        code: "UNAUTHORIZED",
-        message: "You can't update this invitation",
-      });
-    }
-
-    return opts.next();
-  })
+  .unstable_concat(requireRoomParticipantMiddleware)
   .mutation(async ({ ctx, input }) => {
     const existingInvitation = await db.invitation.findFirst({
       where: {
