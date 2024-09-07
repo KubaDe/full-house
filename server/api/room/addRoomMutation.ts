@@ -5,6 +5,7 @@ import { userRoomInputSchema, userRoomOutputSchema } from "@/modules/room/schema
 
 export const addRoomMutation = protectedProcedure
   .input(userRoomInputSchema)
+  .output(userRoomOutputSchema.nullish())
   .use(async (opts) => {
     const existingUserOwnedRoomsCount = await db.usersOnRooms.count({
       where: {
@@ -21,7 +22,6 @@ export const addRoomMutation = protectedProcedure
     }
     return opts.next();
   })
-  .output(userRoomOutputSchema.nullish())
   .mutation(async ({ ctx, input }) => {
     const room = await db.room.create({
       data: {
