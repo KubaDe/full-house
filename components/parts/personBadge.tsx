@@ -30,7 +30,7 @@ export const PersonBadge = ({
       whileHover={openOnHover ? "open" : undefined}
       aria-label="Avatar with name"
     >
-      <Badge variant="outline" className="max-w-44 cursor-default overflow-hidden bg-white p-0">
+      <Badge variant="outline" className="max-w-44 cursor-default overflow-hidden rounded-full bg-white p-0">
         <PersonAvatar avatar={avatar} className="rounded-l-full" />
         <motion.div variants={{ open: { width: "auto", opacity: 1 }, close: { width: 0, opacity: 0 } }}>
           <p className="truncate pl-2 pr-4 text-xs">{profile?.name}</p>
