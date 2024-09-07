@@ -4,7 +4,7 @@ import { db } from "@/server/db/prisma";
 import {
   roomOpenInvitationQueryInputSchema,
   roomOpenInvitationQueryOutputSchema,
-} from "@/modules/invitation/schemas/api/roomOpenInvitationQuery";
+} from "@/modules/invitation/schemas/api";
 
 export const roomOpenInvitationQuery = protectedProcedure
   .input(roomOpenInvitationQueryInputSchema)
