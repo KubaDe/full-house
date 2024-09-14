@@ -77,7 +77,7 @@ model UsersOnRooms {
 model Invitation {
   id     String  @id @default(cuid())
   email  String?
-  token  String  @default(cuid())
+  token  String
   isOpen Boolean @default(false)
 
   createdAt DateTime @default(now()) @map(name: "created_at")

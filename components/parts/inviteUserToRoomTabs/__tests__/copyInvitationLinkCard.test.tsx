@@ -3,7 +3,7 @@ import { setupServer } from "msw/node";
 import { userEvent } from "@testing-library/user-event";
 import { CopyInvitationLinkCard } from "../copyInvitationLinkCard";
 import { screen, render, waitFor } from "@/testUtils/render";
-import { roomOpenInvitationQueryMock } from "@/server/api/invitation/__mocks__/roomOpenInvitationQuery.mock.ts";
+import { roomOpenInvitationQueryMock } from "@/server/api/invitation/__mocks__/roomOpenInvitationQuery.mock";
 
 const server = setupServer();
 

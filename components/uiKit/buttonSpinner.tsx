@@ -15,7 +15,7 @@ export const ButtonSpinner = ({ isLoading }: ButtonSpinnerProps) => {
         setIsVisible(true);
       }
     },
-    300,
+    500,
     [isLoading],
   );
 

@@ -1,0 +1,23 @@
+import { z } from "zod";
+import { TRPCError } from "@trpc/server";
+import { protectedProcedure } from "@/server/trpc";
+import { db } from "@/server/db/prisma";
+
+export const requireInvitationReceiverMiddleware = protectedProcedure
+  .input(z.object({ invitationId: z.string() }))
+  .use(async (opts) => {
+    const canAccess = await db.invitation.findFirst({
+      where: {
+        email: opts.ctx.user.email,
+      },
+    });
+
+    if (!canAccess) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Invitation not found or you have no access to it.",
+      });
+    }
+
+    return opts.next();
+  });
