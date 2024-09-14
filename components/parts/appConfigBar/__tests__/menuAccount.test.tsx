@@ -24,6 +24,20 @@ describe("MenuAccount", () => {
     server.close();
   });
 
+  it("should render notification counter for all pending items", async () => {
+    server.use(myInvitationsQueryMock.default(), userQueryMock.default());
+    render(
+      <Menubar>
+        <MenuAccount />
+      </Menubar>,
+    );
+
+    const accountMenuButton = await screen.findByRole("menuitem", { name: /Account/ });
+    await waitFor(() =>
+      expect(within(accountMenuButton).getByTestId("badge-content")).toHaveTextContent("2"),
+    );
+  });
+
   it("should render edit profile modal when option is selected", async () => {
     server.use(myInvitationsQueryMock.default(), userQueryMock.default());
     render(
@@ -31,12 +45,12 @@ describe("MenuAccount", () => {
         <MenuAccount />
       </Menubar>,
     );
-    const accountMenuButton = await screen.findByRole("menuitem", { name: "Account" });
+    const accountMenuButton = await screen.findByRole("menuitem", { name: /Account/ });
     await userEvent.click(accountMenuButton);
     const editProfileButton = screen.getByRole("menuitem", { name: "Edit profile" });
     expect(editProfileButton).toBeDefined();
     await userEvent.click(editProfileButton);
-    expect(screen.getByRole("dialog", { name: "Edit profile" })).toBeDefined();
+    await waitFor(() => expect(screen.getByRole("dialog", { name: "Edit profile" })).toBeDefined());
   });
 
   it("should render disabled invitations button when there are no pending invitations", async () => {
@@ -46,7 +60,7 @@ describe("MenuAccount", () => {
         <MenuAccount />
       </Menubar>,
     );
-    const accountMenuButton = await screen.findByRole("menuitem", { name: "Account" });
+    const accountMenuButton = await screen.findByRole("menuitem", { name: /Account/ });
     await userEvent.click(accountMenuButton);
     const invitationsButton = screen.getByRole("menuitem", { name: "Invitations" });
     await waitFor(() => expect(invitationsButton).toHaveAttribute("aria-disabled", "true"));
@@ -59,7 +73,7 @@ describe("MenuAccount", () => {
         <MenuAccount />
       </Menubar>,
     );
-    const accountMenuButton = await screen.findByRole("menuitem", { name: "Account" });
+    const accountMenuButton = await screen.findByRole("menuitem", { name: /Account/ });
     await userEvent.click(accountMenuButton);
     const invitationsButton = screen.getByRole("menuitem", { name: /Invitations/ });
     expect(within(invitationsButton).getByTestId("badge-content")).toHaveTextContent("2");
@@ -73,10 +87,10 @@ describe("MenuAccount", () => {
         <MenuAccount />
       </Menubar>,
     );
-    const accountMenuButton = await screen.findByRole("menuitem", { name: "Account" });
+    const accountMenuButton = await screen.findByRole("menuitem", { name: /Account/ });
     await userEvent.click(accountMenuButton);
     const invitationsButton = screen.getByRole("menuitem", { name: /Invitations/ });
     await userEvent.click(invitationsButton);
-    expect(screen.getByRole("dialog", { name: "Invitations" })).toBeDefined();
+    await waitFor(() => expect(screen.getByRole("dialog", { name: "Invitations" })).toBeDefined());
   });
 });
