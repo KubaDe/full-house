@@ -47,7 +47,6 @@ export const MenuRoom = () => {
   const ownerOptions = [
     <MenubarItem
       key="delete"
-      inset
       onClick={() =>
         showModal(ConfirmActionModal, {
           title: "Delete room",
@@ -63,7 +62,6 @@ export const MenuRoom = () => {
   const memberOptions = [
     <MenubarItem
       key="leave"
-      inset
       onClick={() =>
         showModal(ConfirmActionModal, {
           title: "Leave room",

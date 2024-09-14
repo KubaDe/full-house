@@ -10,6 +10,7 @@ export const t = initTRPC.context<Context>().create({
     const { shape, error } = opts;
     return {
       ...shape,
+      message: shape.data.code === "INTERNAL_SERVER_ERROR" ? "An error occurred" : error.message,
       data: {
         ...shape.data,
         zodError:

@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import { protectedProcedure } from "../../trpc";
 import { requireRoomParticipantMiddleware } from "../authorization/requireRoomParticipantMiddleware";
 import { db } from "@/server/db/prisma";
@@ -43,6 +44,7 @@ export const switchOpenInvitationMutation = protectedProcedure
           senderId: ctx.user.id,
           roomId: input.roomId,
           isOpen: true,
+          token: crypto.randomBytes(32).toString("hex"),
         },
       });
       return switchOpenInvitationMutationOutputSchema.safeParse(invitation).data;

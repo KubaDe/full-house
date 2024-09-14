@@ -15,7 +15,6 @@ export const useOpenUserToRoomInvitationForm = ({
   onError,
 }: UseOpenUserToRoomInvitationFormProps) => {
   const { data: roomData } = api.room.userRoomQuery.useQuery({ roomId });
-  console.log(roomData ? `Allow to join the "${roomData.room.name}" room for everybody with the link.` : "");
   const [roomOpenInvitationData, queryParams] = api.invitation.roomOpenInvitationQuery.useSuspenseQuery({
     roomId,
   });

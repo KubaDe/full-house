@@ -1,7 +1,8 @@
-import { type ReactElement, type ReactNode, Suspense } from "react";
+import { Fragment, type ReactElement, type ReactNode, Suspense } from "react";
 import { render, renderHook, type RenderOptions, type RenderResult } from "@testing-library/react";
 import NiceModal from "@ebay/nice-modal-react";
 import { vi } from "vitest";
+import { omit } from "lodash";
 import { ApiProvider } from "@/components/providers/apiProvider";
 import { DayjsProvider } from "@/components/providers/dayjsProvider";
 
@@ -35,7 +36,16 @@ const Provider = ({ children }: { children: ReactNode }) => (
 );
 
 const customRender = (ui: ReactElement, options?: Omit<RenderOptions, "queries">): RenderResult => {
-  return render(ui, { wrapper: Provider, ...options });
+  const Wrapper = options?.wrapper ?? Fragment;
+
+  return render(ui, {
+    wrapper: ({ children }) => (
+      <Provider>
+        <Wrapper>{children}</Wrapper>
+      </Provider>
+    ),
+    ...omit(options, ["wrapper"]),
+  });
 };
 const customRenderHook: typeof renderHook = (render, options) => {
   return renderHook(render, { wrapper: Provider, ...options });

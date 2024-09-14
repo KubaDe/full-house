@@ -24,8 +24,9 @@ describe("Menu - MVP", () => {
     const accountMenuButton = screen.getByRole("menuitem", { name: "Account" });
     await userEvent.click(accountMenuButton);
     const accountSubMenu = await screen.findByRole("menu", { hidden: true });
-    expect(within(accountSubMenu).getAllByRole("menuitem")).toHaveLength(2);
-    expect(within(accountSubMenu).getByRole("menuitem", { name: "Edit Profile" })).toBeDefined();
+    expect(within(accountSubMenu).getAllByRole("menuitem")).toHaveLength(3);
+    expect(within(accountSubMenu).getByRole("menuitem", { name: "Edit profile" })).toBeDefined();
+    expect(within(accountSubMenu).getByRole("menuitem", { name: "Invitations" })).toBeDefined();
     expect(within(accountSubMenu).getByRole("menuitem", { name: "Logout" })).toBeDefined();
   });
 });

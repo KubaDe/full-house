@@ -53,11 +53,11 @@ export const ConfirmActionModal = createModal((props: ConfirmActionModalProps) =
     setIsLoading(true);
     try {
       await onConfirm?.();
-      setIsLoading(false);
-      await hide();
     } catch {
       // handled outside the modal
     }
+    setIsLoading(false);
+    await hide();
   };
   const onCancelHandler = async () => {
     await onCancel?.();

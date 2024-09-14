@@ -2,7 +2,7 @@ import { it, describe, expect, beforeAll, afterEach, afterAll } from "vitest";
 import { setupServer } from "msw/node";
 import { PendingInvitationsCard } from "../pendingInvitationsCard";
 import { screen, render, waitFor } from "@/testUtils/render";
-import { userToRoomInvitationsQueryMock } from "@/server/api/invitation/__mocks__/userToRoomInvitationsQuery.mock.ts";
+import { userToRoomInvitationsQueryMock } from "@/server/api/invitation/__mocks__/userToRoomInvitationsQuery.mock";
 
 const server = setupServer();
 
