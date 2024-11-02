@@ -8,9 +8,11 @@ export const deleteRoomMutation = protectedProcedure
   .unstable_concat(requireRoomOwnerMiddleware)
   .mutation(async ({ input }) => {
     const { roomId } = input;
+
     await db.room.delete({
       where: {
         id: roomId,
       },
+      include: { sessions: true },
     });
   });

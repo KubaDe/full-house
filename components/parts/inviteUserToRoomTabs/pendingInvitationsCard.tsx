@@ -12,6 +12,7 @@ export const PendingInvitationsCard = ({ roomId }: PendingInvitationsCardProps) 
     },
     {
       select: (data) => data?.filter((invitation) => !invitation.isOpen),
+      enabled: !!roomId,
     },
   );
 

@@ -56,6 +56,8 @@ model Room {
   users       UsersOnRooms[]
   invitations Invitation[]
 
+  sessions Session[]
+
   @@map(name: "room")
 }
 
@@ -93,4 +95,14 @@ model Invitation {
   roomId String
 
   @@map(name: "invitation")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  type      String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  room      Room     @relation(fields: [roomId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  roomId    String
+
+  @@map(name: "session")
 }

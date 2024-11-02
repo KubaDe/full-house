@@ -3,7 +3,7 @@ import { setupServer } from "msw/node";
 import { ParticipantsList } from "../participantsList";
 import { render, screen, waitFor } from "@/testUtils/render";
 import { participantsQueryMock } from "@/server/api/room/__mocks__/participantsQuery.mock";
-import { userToRoomInvitationsQueryMock } from "@/server/api/invitation/__mocks__/userToRoomInvitationsQuery.mock.ts";
+import { userToRoomInvitationsQueryMock } from "@/server/api/invitation/__mocks__/userToRoomInvitationsQuery.mock";
 
 export const server = setupServer();
 

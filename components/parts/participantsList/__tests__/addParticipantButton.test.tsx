@@ -2,7 +2,7 @@ import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { setupServer } from "msw/node";
 import { userEvent } from "@testing-library/user-event";
 import { render, screen } from "@/testUtils/render";
-import { userToRoomInvitationsQueryMock } from "@/server/api/invitation/__mocks__/userToRoomInvitationsQuery.mock.ts";
+import { userToRoomInvitationsQueryMock } from "@/server/api/invitation/__mocks__/userToRoomInvitationsQuery.mock";
 import { AddParticipantButton } from "@/components/parts/participantsList/addParticipantButton";
 
 export const server = setupServer();

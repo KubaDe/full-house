@@ -8,6 +8,7 @@ export const t = initTRPC.context<Context>().create({
   transformer: superjson,
   errorFormatter(opts) {
     const { shape, error } = opts;
+    console.error(error);
     return {
       ...shape,
       message: shape.data.code === "INTERNAL_SERVER_ERROR" ? "An error occurred" : error.message,

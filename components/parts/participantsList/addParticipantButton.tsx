@@ -23,6 +23,7 @@ export const AddParticipantButton = ({ roomId }: AddParticipantButtonProps) => {
     },
     {
       select: (data) => data?.filter((invitation) => !invitation.isOpen),
+      enabled: !!roomId,
     },
   );
   const pendingInvitationsCount = userToTheRoomInvitationsData?.length ?? 0;
