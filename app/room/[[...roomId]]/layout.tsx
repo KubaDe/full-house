@@ -1,6 +1,7 @@
 import { type Metadata } from "next";
 import { type ReactNode } from "react";
 import { ParticipantsList, ParticipantsListWrapper } from "@/components/parts/participantsList";
+import { EventStreamProvider } from "@/components/providers/eventStreamProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,13 +15,14 @@ type RoomLayoutProps = {
 
 const RoomLayout = ({ children, params }: RoomLayoutProps) => {
   const roomId = params?.roomId?.[0] ?? "";
+  if (!roomId) return null;
   return (
-    <>
+    <EventStreamProvider roomId={roomId}>
       {children}
       <ParticipantsListWrapper>
         <ParticipantsList roomId={roomId} />
       </ParticipantsListWrapper>
-    </>
+    </EventStreamProvider>
   );
 };
 

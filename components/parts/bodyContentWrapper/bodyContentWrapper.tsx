@@ -15,7 +15,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/uiKit/alert";
 type BodyContentWrapperProps = { children: ReactNode };
 export const BodyContentWrapper = ({ children }: BodyContentWrapperProps) => {
   const { data: statusData } = api.status.statusQuery.useQuery(undefined);
-  const hasError = statusData && (!statusData.database || !statusData.api);
+  const hasError = statusData && (!statusData.database || !statusData.api || !statusData.rds);
   if (hasError) {
     return (
       <AlertDialog open={true}>

@@ -18,8 +18,21 @@ export const userRoomQuery = protectedProcedure
           roomId,
         },
       },
-      include: {
-        room: true,
+      select: {
+        alias: true,
+        isOwner: true,
+        room: {
+          select: {
+            id: true,
+            name: true,
+            sessions: {
+              select: {
+                id: true,
+                type: true,
+              },
+            },
+          },
+        },
       },
     });
     if (!userRoom) {
@@ -28,5 +41,5 @@ export const userRoomQuery = protectedProcedure
         message: "Room not found",
       });
     }
-    return userRoom;
+    return userRoomOutputSchema.parse(userRoom);
   });

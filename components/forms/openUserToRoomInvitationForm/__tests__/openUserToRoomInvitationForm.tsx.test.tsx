@@ -4,7 +4,7 @@ import { useOpenUserToRoomInvitationForm } from "../openUserToRoomInvitationForm
 import { fireEvent, screen, render, waitFor, renderHook } from "@/testUtils/render";
 import { userRoomQueryMock } from "@/server/api/room/__mocks__/userRoomQuery.mock";
 import { switchOpenInvitationMutationMock } from "@/server/api/invitation/__mocks__/switchOpenInvitationMutation.mock";
-import { roomOpenInvitationQueryMock } from "@/server/api/invitation/__mocks__/roomOpenInvitationQuery.mock.ts";
+import { roomOpenInvitationQueryMock } from "@/server/api/invitation/__mocks__/roomOpenInvitationQuery.mock";
 
 export const server = setupServer();
 
