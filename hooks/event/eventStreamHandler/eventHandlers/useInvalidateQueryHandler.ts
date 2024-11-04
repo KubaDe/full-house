@@ -6,7 +6,9 @@ export const useInvalidateQueryHandler = () => {
   const queryClient = useQueryClient();
   return {
     invalidateQueryHandler: async (event: InvalidateQueryEvent) => {
-      await queryClient.invalidateQueries({ queryKey: [keyToQueryKey(event.payload.key)] });
+      return Promise.all(
+        event.payload.keys.map((key) => queryClient.invalidateQueries({ queryKey: [keyToQueryKey(key)] })),
+      );
     },
   };
 };

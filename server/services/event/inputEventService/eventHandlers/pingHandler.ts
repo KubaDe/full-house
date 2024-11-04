@@ -32,7 +32,10 @@ export const pingHandler = async ({ event, userId }: { event: PingEvent; userId:
         sessionId: event.sessionId,
         type: outputEventTypeSchema.enum.invalidateQuery,
         payload: {
-          key: invalidateQueryKeySchema.enum.session__activeParticipantsQuery,
+          keys: [
+            invalidateQueryKeySchema.enum.session__activeParticipantsQuery,
+            invalidateQueryKeySchema.enum.session__roomAggregatedActiveParticipantsQuery,
+          ],
         },
       },
     });

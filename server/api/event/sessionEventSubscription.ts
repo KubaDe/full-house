@@ -1,5 +1,6 @@
 import { observable } from "@trpc/server/observable";
 import { TRPCError } from "@trpc/server";
+import { match, P } from "ts-pattern";
 import { protectedProcedure } from "../../trpc";
 import { requireRoomParticipantMiddleware } from "../authorization/requireRoomParticipantMiddleware";
 import { db } from "@/server/db/prisma";
@@ -34,7 +35,26 @@ export const sessionEventSubscription = protectedProcedure
     return observable((emit) => {
       rdsSub.on("message", (_: string, message: string) => {
         const messageObj = deserializePublishToOutputEvent(message);
-        if (messageObj && sessionIds.includes(messageObj?.sessionId)) {
+        if (!messageObj || !sessionIds.includes(messageObj?.sessionId)) {
+          return;
+        }
+
+        const shouldGetMessage = match(messageObj)
+          .with({ pickRecipientIds: P.array().select(), skipRecipientIds: undefined }, (pickRecipientIds) =>
+            pickRecipientIds.includes(opts.ctx.user.id),
+          )
+          .with(
+            { pickRecipientIds: undefined, skipRecipientIds: P.array().select() },
+            (skipRecipientIds) => !skipRecipientIds?.includes(opts.ctx.user.id),
+          )
+
+          .with({ pickRecipientIds: undefined, skipRecipientIds: undefined }, () => true)
+          .with({ pickRecipientIds: P.array(), skipRecipientIds: P.array() }, () => {
+            console.error("Invalid pickRecipientIds and skipRecipientIds config");
+            return false;
+          });
+
+        if (shouldGetMessage) {
           emit.next(messageObj);
         }
       });

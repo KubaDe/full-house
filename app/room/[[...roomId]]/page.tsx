@@ -21,15 +21,11 @@ const Room = () => {
     (session) => session.type === sessionTypeSchema.enum.simpleMessage,
   )?.id;
 
-  const { data: activeParticipantsData } = api.session.activeParticipantsQuery.useQuery(
-    { sessionId: sessionId ?? "" },
-    { enabled: !!sessionId },
-  );
+  const { data: activeParticipantsData } = api.session.roomAggregatedActiveParticipantsQuery.useQuery({
+    roomId,
+  });
 
-  const { data: joinedParticipants } = api.session.joinedParticipantsQuery.useQuery(
-    { sessionId: sessionId ?? "" },
-    { enabled: !!sessionId, initialData: [] },
-  );
+  const { data: joinedParticipants } = api.session.roomAggregatedJoinedParticipantsQuery.useQuery({ roomId });
 
   useEffect(() => {
     if (sessionId) {
