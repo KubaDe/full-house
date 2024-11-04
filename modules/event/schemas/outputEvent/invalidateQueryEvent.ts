@@ -5,12 +5,14 @@ import { outputEventTypeSchema } from "./outputEventType";
 export const invalidateQueryKeySchema = z.enum([
   "session__joinedParticipantsQuery",
   "session__activeParticipantsQuery",
+  "session__roomAggregatedJoinedParticipantsQuery",
+  "session__roomAggregatedActiveParticipantsQuery",
 ]);
 
 export const invalidateQueryEventSchema = outputEventBase.extend({
   type: z.literal(outputEventTypeSchema.enum.invalidateQuery),
   payload: z.object({
-    key: invalidateQueryKeySchema,
+    keys: z.array(invalidateQueryKeySchema),
   }),
 });
 
