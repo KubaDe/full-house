@@ -1,7 +1,7 @@
 "use client";
 import { type ReactNode } from "react";
 import { api } from "@/utils/api";
-import { useEventStreamHandler } from "@/hooks/event/eventStreamHandler";
+import { useEventStreamHandler } from "@/modules/event/hooks/eventStreamHandler";
 
 type EventStreamProviderProps = { roomId: string; children: ReactNode };
 export const EventStreamProvider = ({ children, roomId }: EventStreamProviderProps) => {
