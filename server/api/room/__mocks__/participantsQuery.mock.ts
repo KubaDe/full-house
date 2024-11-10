@@ -13,25 +13,31 @@ export const participantsQueryMock = {
             data: {
               json: [
                 {
-                  id: "clzj4o50g0001ocgxsnipmpfs",
-                  name: "John Smith",
-                  avatar: {
-                    body: "Shirt",
-                    face: "Calm",
-                    hair: "HatHip",
-                    facialHair: "FullMedium",
-                    accessory: "SunglassClubmaster",
+                  id: "clzj4o50g0001ajewnsnipmpfs",
+                  profile: {
+                    id: "clzj4o50g0001ocgxsnipmpfs",
+                    name: "John Smith",
+                    avatar: {
+                      body: "Shirt",
+                      face: "Calm",
+                      hair: "HatHip",
+                      facialHair: "FullMedium",
+                      accessory: "SunglassClubmaster",
+                    },
                   },
                 },
                 {
-                  id: "clzj4o50g0001ocgxsniasdds",
-                  name: "Will Brown",
-                  avatar: {
-                    body: "Shirt",
-                    face: "Calm",
-                    hair: "HatHip",
-                    facialHair: "FullMedium",
-                    accessory: "SunglassClubmaster",
+                  id: "clzj4o50g0001ocgamdsnasdds",
+                  profile: {
+                    id: "clzj4o50g0001ocgxsniasdds",
+                    name: "Will Brown",
+                    avatar: {
+                      body: "Shirt",
+                      face: "Calm",
+                      hair: "HatHip",
+                      facialHair: "FullMedium",
+                      accessory: "SunglassClubmaster",
+                    },
                   },
                 },
               ],
@@ -42,7 +48,7 @@ export const participantsQueryMock = {
       );
     }),
   noParticipants: (spy?: Mock) =>
-    http.get("*/trpc/userRoom.participantsQuery", async ({ request }) => {
+    http.get("*/trpc/room.participantsQuery", async ({ request }) => {
       const url = new URL(request.url);
       spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
@@ -50,6 +56,78 @@ export const participantsQueryMock = {
           result: {
             data: {
               json: [],
+            },
+          },
+        },
+        { status: 200 },
+      );
+    }),
+  manyParticipants: (spy?: Mock) =>
+    http.get("*/trpc/room.participantsQuery", async ({ request }) => {
+      const url = new URL(request.url);
+      spy?.(parse(url.searchParams.get("input")!));
+      return HttpResponse.json(
+        {
+          result: {
+            data: {
+              json: [
+                {
+                  id: "clzj4o50g0001ajewnsnipmpfs",
+                  profile: {
+                    id: "clzj4o50g0001ocgxsnipmpfs",
+                    name: "John Smith",
+                    avatar: {
+                      body: "Shirt",
+                      face: "Calm",
+                      hair: "HatHip",
+                      facialHair: "FullMedium",
+                      accessory: "SunglassClubmaster",
+                    },
+                  },
+                },
+                {
+                  id: "clzj4o50g0001ocgamdsnasdds",
+                  profile: {
+                    id: "clzj4o50g0001ocgxsniasdds",
+                    name: "Will Brown",
+                    avatar: {
+                      body: "Shirt",
+                      face: "Calm",
+                      hair: "HatHip",
+                      facialHair: "FullMedium",
+                      accessory: "SunglassClubmaster",
+                    },
+                  },
+                },
+                {
+                  id: "clzj4o50g0001ocgamdsnaapskdpo",
+                  profile: {
+                    id: "clzj4o50g0001oaksdopsk",
+                    name: "Will Brown",
+                    avatar: {
+                      body: "Shirt",
+                      face: "Calm",
+                      hair: "HatHip",
+                      facialHair: "FullMedium",
+                      accessory: "SunglassClubmaster",
+                    },
+                  },
+                },
+                {
+                  id: "clzj4o50g0001ocgazmlzkxncl",
+                  profile: {
+                    id: "clzj4o50g0001ocgxopiopiewqop",
+                    name: "Will Brown",
+                    avatar: {
+                      body: "Shirt",
+                      face: "Calm",
+                      hair: "HatHip",
+                      facialHair: "FullMedium",
+                      accessory: "SunglassClubmaster",
+                    },
+                  },
+                },
+              ],
             },
           },
         },

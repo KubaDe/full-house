@@ -21,12 +21,6 @@ const Room = () => {
     (session) => session.type === sessionTypeSchema.enum.simpleMessage,
   )?.id;
 
-  const { data: activeParticipantsData } = api.session.roomAggregatedActiveParticipantsQuery.useQuery({
-    roomId,
-  });
-
-  const { data: joinedParticipants } = api.session.roomAggregatedJoinedParticipantsQuery.useQuery({ roomId });
-
   useEffect(() => {
     if (sessionId) {
       void pushEvent({ sessionId, type: inputEventTypeSchema.enum.join });
@@ -56,12 +50,7 @@ const Room = () => {
       >
         Create session
       </Button>
-      <div className="flex w-full flex-col items-center">
-        <div>Active participants:</div>
-        {activeParticipantsData?.map((participant) => <div key={participant}>{participant}</div>)}
-        <div>Joined participants:</div>
-        {joinedParticipants?.map((participant) => <div key={participant}>{participant}</div>)}
-      </div>
+      <div className="flex w-full flex-col items-center"></div>
     </section>
   );
 };
