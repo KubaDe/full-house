@@ -1,4 +1,4 @@
-const { defineConfig } = require('eslint-define-config')
+const { defineConfig } = require("eslint-define-config");
 
 module.exports = defineConfig({
   $schema: "https://json.schemastore.org/eslintrc.json",
@@ -7,6 +7,7 @@ module.exports = defineConfig({
     project: "tsconfig.json",
     tsconfigRootDir: __dirname,
   },
+
   extends: [
     "eslint:recommended",
     "plugin:storybook/recommended",
@@ -79,7 +80,7 @@ module.exports = defineConfig({
     // numbers and booleans are fine in template strings
     "@typescript-eslint/restrict-template-expressions": ["error", { allowNumber: true, allowBoolean: true }],
 
-    "@typescript-eslint/unbound-method": 'off',
+    "@typescript-eslint/unbound-method": "off",
 
     "@typescript-eslint/no-misused-promises": [
       "error",
