@@ -17,7 +17,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@clerk/nextjs": "^5.7.5",
+    "@clerk/nextjs": "^6.3.0",
     "@ebay/nice-modal-react": "^1.2.13",
     "@hookform/resolvers": "^3.9.1",
     "@prisma/client": "5.16.2",
@@ -49,7 +49,7 @@
     "ioredis": "^5.4.1",
     "lodash": "^4.17.21",
     "lucide-react": "^0.400.0",
-    "next": "14.2.17",
+    "next": "15.0.3",
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-copy-to-clipboard": "^5.1.0",
