@@ -10,10 +10,16 @@ export const metadata: Metadata = {
 
 type RoomLayoutProps = {
   children: ReactNode;
-  params: { roomId: string[] };
+  params: Promise<{ roomId: string[] }>;
 };
 
-const RoomLayout = ({ children, params }: RoomLayoutProps) => {
+const RoomLayout = async (props: RoomLayoutProps) => {
+  const params = await props.params;
+
+  const {
+    children
+  } = props;
+
   const roomId = params?.roomId?.[0] ?? "";
   if (!roomId) return null;
   return (
