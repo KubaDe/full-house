@@ -14,6 +14,12 @@ export const ParticipantsList = ({ roomId }: ParticipantsListProps) => {
     { roomId, includeMe: false },
     { enabled: !!roomId },
   );
+  const { data: activeParticipantsData } = api.session.roomAggregatedActiveParticipantsQuery.useQuery({
+    roomId,
+  });
+
+  const { data: joinedParticipants } = api.session.roomAggregatedJoinedParticipantsQuery.useQuery({ roomId });
+
   const wrapperRef = useRef<HTMLDivElement>(null);
   const isHovering = useHoverDirty(wrapperRef);
 
@@ -23,9 +29,11 @@ export const ParticipantsList = ({ roomId }: ParticipantsListProps) => {
         {participantsData?.map((participant) => (
           <PersonBadge
             key={participant.id}
-            profile={participant}
-            avatar={participant.avatar}
+            profile={participant.profile}
+            avatar={participant.profile.avatar}
             isOpen={isHovering}
+            isActive={activeParticipantsData?.includes(participant.id)}
+            isJoined={joinedParticipants?.includes(participant.id)}
           />
         ))}
       </div>

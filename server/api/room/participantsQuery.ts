@@ -2,11 +2,11 @@ import { z } from "zod";
 import { protectedProcedure } from "../../trpc";
 import { requireRoomParticipantMiddleware } from "../authorization/requireRoomParticipantMiddleware";
 import { db } from "@/server/db/prisma";
-import { participantsOutputSchema } from "@/modules/room/schemas/participantsSchema";
+import { participantsQueryOutputSchema, participantsQueryInputSchema } from "@/modules/room/schemas/api";
 
 export const participantsQuery = protectedProcedure
-  .input(z.object({ roomId: z.string(), includeMe: z.boolean().optional().default(true) }))
-  .output(participantsOutputSchema)
+  .input(participantsQueryInputSchema)
+  .output(participantsQueryOutputSchema)
   .unstable_concat(requireRoomParticipantMiddleware)
   .query(async ({ input, ctx }) => {
     const { roomId } = input;
@@ -25,6 +25,7 @@ export const participantsQuery = protectedProcedure
       select: {
         user: {
           select: {
+            id: true,
             profile: {
               select: {
                 id: true,
@@ -36,6 +37,6 @@ export const participantsQuery = protectedProcedure
         },
       },
     });
-    const participants = userRoom.map((userRoom) => userRoom.user.profile);
-    return participantsOutputSchema.safeParse(participants).data ?? [];
+    const participants = userRoom.map((userRoom) => userRoom.user);
+    return participantsQueryOutputSchema.safeParse(participants).data;
   });
