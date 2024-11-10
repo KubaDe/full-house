@@ -5,5 +5,5 @@
     "{index,main,cli}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
     "src/{index,main,cli}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
     "*/**/__mocks__/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
-  ]
+  ],
 }

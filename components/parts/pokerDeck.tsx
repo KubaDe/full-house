@@ -10,7 +10,6 @@ const c2 = new Color("#a8162e");
 const colorRange = c1.range(c2, { space: "lch" });
 
 const getDominantColor = (index: number) => {
-  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   return colorRange(index).toString({ format: "hex" });
 };
 
