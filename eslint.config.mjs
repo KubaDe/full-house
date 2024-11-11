@@ -20,8 +20,8 @@ export default [
   },
   ...fixupConfigRules(
     compat.extends(
-      "next",
       "eslint:recommended",
+      "plugin:@next/eslint-plugin-next/recommended",
       "plugin:storybook/recommended",
       "plugin:@typescript-eslint/recommended-type-checked",
       "plugin:@typescript-eslint/stylistic-type-checked",
