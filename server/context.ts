@@ -11,7 +11,8 @@ export const createContext = async (opts: trpcNext.CreateNextContextOptions) => 
     };
   }
   const auth = getAuth(opts.req);
-  const user = auth.userId ? await clerkClient.users.getUser(auth.userId) : null;
+  const client = await clerkClient();
+  const user = auth.userId ? await client.users.getUser(auth.userId) : null;
   return {
     auth: {
       email: user?.primaryEmailAddress?.emailAddress,
