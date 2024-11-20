@@ -60,7 +60,7 @@ export const useEditProfileForm = ({ onSuccess, onError, onInvalid }: UseEditPro
 
   const formUI = (
     <Form {...form}>
-      <form onSubmit={onSubmit} className="space-y-8" id={formName}>
+      <form onSubmit={onSubmit} className="space-y-8" id={formName} data-testid="editProfileForm">
         <FormItem>
           <FormControl>
             <div className="flex flex-col items-center justify-center">

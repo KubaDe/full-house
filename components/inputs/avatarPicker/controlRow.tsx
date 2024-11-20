@@ -1,4 +1,4 @@
-import { lowerCase, startCase } from "lodash";
+import { camelCase, capitalize, lowerCase, startCase } from "lodash";
 import { ArrowButton } from "./arrowButton";
 import { cn } from "@/lib/utils";
 
@@ -23,12 +23,14 @@ export const ControlRow = ({ onClick, className, partName }: ControlRowProps) =>
         direction="left"
         onClick={() => onClick(Direction.Left)}
         aria-label={`Previous ${transformPartNameToLabel(partName)}`}
+        data-testid={`previous${capitalize(camelCase(partName))}`}
       />
       <ArrowButton
         className={cn("col-start-3 row-span-1", className)}
         direction="right"
         onClick={() => onClick(Direction.Right)}
         aria-label={`Next ${transformPartNameToLabel(partName)}`}
+        data-testid={`next${capitalize(camelCase(partName))}`}
       />
     </>
   );

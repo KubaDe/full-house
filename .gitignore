@@ -41,3 +41,12 @@ storybook-static/
 .env.dev
 
 .env.development
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+.env.e2e
+
+e2e/playwright/.auth
