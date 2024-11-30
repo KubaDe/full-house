@@ -1,58 +1,41 @@
-import { expect, test } from "@playwright/test";
-import { clerk } from "@clerk/testing/playwright";
+import { expect, test as base } from "@playwright/test";
 import { db } from "@/server/db/prisma";
-import { e2eTestUtils, TestUser } from "@/e2e/utils";
+import { Account } from "@/e2e/fixtures/account";
 
-const email = e2eTestUtils.auth.getTestUserEmail(TestUser.update);
+const test = base.extend<{}, { account: Account }>({
+  account: [
+    async ({ browser }, use) => {
+      const account = new Account();
+      await account.init({ browser });
+      await use(account);
+      await account.cleanup();
+    },
+    { scope: "worker", auto: true },
+  ],
+});
 
 test.describe.serial("Update user", () => {
-  test.use({ storageState: "e2e/playwright/.auth/update.json" });
-
-  test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    await clerk.loaded({ page });
-    const user = await db.user.findFirstOrThrow({ where: { email } });
-    await db.user.delete({ where: { id: user.id } });
-    await db.user.create({
-      data: {
-        email,
-        clerkId: user.clerkId,
-        profile: {
-          create: {
-            name: "Basic test user",
-            avatar: {
-              create: {
-                accessory: "GlassAviator",
-                body: "BlazerBlackTee",
-                face: "Cheeky",
-                facialHair: "None",
-                hair: "GrayMedium",
-              },
-            },
-          },
-        },
-      },
-    });
-  });
-
-  test("Change user details", async ({ page }) => {
-    await page.getByTestId("menu.account").click();
-    await page.getByTestId("menu.account.editProfile").click();
-    await page.locator("[name='name']").fill("Update test user");
+  test("Change user details", async ({ account }) => {
+    await account.page.goto("/");
+    await account.page.getByTestId("menu.account").click();
+    await account.page.getByTestId("menu.account.editProfile").click();
+    await account.page.locator("[name='name']").fill("Update test user");
     for (let i = 0; i < 5; i++) {
-      await page.getByTestId("previousAccessory").click();
+      await account.page.getByTestId("previousAccessory").click();
     }
     for (let i = 0; i < 3; i++) {
-      await page.getByTestId("nextFace").click();
+      await account.page.getByTestId("nextFace").click();
     }
     for (let i = 0; i < 10; i++) {
-      await page.getByTestId("previousHair").click();
+      await account.page.getByTestId("previousHair").click();
     }
-    await page.locator("button[form='editProfileForm']").click();
-    await page.waitForResponse("**/api/trpc/me.updateProfileMutation");
+    await account.page.locator("button[form='editProfileForm']").click();
+    await account.page.waitForResponse("**/api/trpc/me.updateProfileMutation");
+  });
 
+  test("Assert updated user", async ({ account }) => {
     const user = await db.user.findFirst({
-      where: { email: email },
+      where: { id: account.stateHelpers.userId },
       include: {
         profile: {
           include: {
@@ -63,7 +46,7 @@ test.describe.serial("Update user", () => {
     });
 
     expect(user).toMatchObject({
-      email: email,
+      email: account.testUserEmail,
       profile: {
         avatar: {
           accessory: "None",

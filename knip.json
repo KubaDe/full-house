@@ -1,5 +1,5 @@
 {
-  "ignore": ["components/uiKit/*"],
+  "ignore": ["components/uiKit/*", "e2e/**/*"],
   "ignoreDependencies": [
     "@radix-ui/*",
     "@storybook/*",

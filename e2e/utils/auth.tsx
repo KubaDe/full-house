@@ -1,9 +1,17 @@
-export enum TestUser {
-  basic = "basic",
-  update = "update",
-}
+import { faker } from "@faker-js/faker";
+import { createClerkClient } from "@clerk/backend";
+import { db } from "@/server/db/prisma";
+
+const clerkClient = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
 
 export const auth = {
-  getTestUserEmail: (testUser: TestUser) =>
-    process.env.E2E_BASIC_USER_TEMPLATE!.replace("<<user>>", testUser),
+  generateTestUsername: () => faker.internet.username().toLowerCase(),
+  createTestUser: async (email: string) => {
+    const { id } = await clerkClient.users.createUser({
+      emailAddress: [email],
+      password: process.env.E2E_USER_PASSWORD!,
+      skipPasswordChecks: true,
+    });
+    return id;
+  },
 };

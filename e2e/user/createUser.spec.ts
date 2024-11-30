@@ -1,41 +1,41 @@
-import { test, expect } from "@playwright/test";
+import { test as base, expect } from "@playwright/test";
 import { clerk } from "@clerk/testing/playwright";
+import { Account } from "../fixtures/account";
 import { db } from "@/server/db/prisma";
-import { e2eTestUtils, TestUser } from "@/e2e/utils";
 
-const email = e2eTestUtils.auth.getTestUserEmail(TestUser.basic);
+const test = base.extend<{}, { account: Account }>({
+  account: [
+    async ({ browser }, use) => {
+      const account = new Account();
+      await account.init({ browser }, { skipProfile: true });
+      await use(account);
+      await account.cleanup();
+    },
+    { scope: "worker", auto: true },
+  ],
+});
 
 test.describe.serial("Create user", () => {
-  test.use({ storageState: "e2e/playwright/.auth/basic.json" });
-
-  test.beforeAll(async ({}) => {
-    const user = await db.user.findFirst({ where: { email } });
-    if (user) {
-      await db.user.delete({ where: { id: user.id } });
-    }
-  });
-
-  test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    await clerk.loaded({ page });
-  });
-
-  test("Fill onboarding info", async ({ page }) => {
-    await page.locator("[name='name']").fill("Basic test user");
+  test("Fill onboarding info", async ({ account }) => {
+    await account.page.goto("/");
+    await clerk.loaded({ page: account.page });
+    await account.page.locator("[name='name']").fill("Basic test user");
     for (let i = 0; i < 5; i++) {
-      await page.getByTestId("previousAccessory").click();
+      await account.page.getByTestId("previousAccessory").click();
     }
     for (let i = 0; i < 3; i++) {
-      await page.getByTestId("nextFace").click();
+      await account.page.getByTestId("nextFace").click();
     }
     for (let i = 0; i < 10; i++) {
-      await page.getByTestId("previousHair").click();
+      await account.page.getByTestId("previousHair").click();
     }
-    await page.locator("button[form='editProfileForm']").click();
-    await page.waitForResponse("**/api/trpc/me.updateProfileMutation");
+    await account.page.locator("button[form='editProfileForm']").click();
+    await account.page.waitForResponse("**/api/trpc/me.updateProfileMutation");
+  });
 
+  test("Assert created user", async ({ account }) => {
     const user = await db.user.findFirst({
-      where: { email: email },
+      where: { email: account.testUserEmail },
       include: {
         profile: {
           include: {
@@ -45,7 +45,7 @@ test.describe.serial("Create user", () => {
       },
     });
     expect(user).toMatchObject({
-      email: email,
+      email: account.testUserEmail,
       profile: {
         avatar: {
           accessory: "GlassAviator",

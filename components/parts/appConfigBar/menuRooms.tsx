@@ -25,14 +25,18 @@ export const MenuRooms = () => {
 
   return (
     <MenubarMenu>
-      <MenubarTrigger>Rooms</MenubarTrigger>
+      <MenubarTrigger data-testid="menu.rooms">Rooms</MenubarTrigger>
       <MenubarContent>
         {!isEmpty(userRoomsData?.items) && (
           <>
             <MenubarRadioGroup value={roomId}>
               {userRoomsData?.items.map((userRoom) => (
                 <Link href={`/room/${userRoom.room.id}`} key={userRoom.room.id}>
-                  <MenubarRadioItem key={userRoom.room.id} value={userRoom.room.id}>
+                  <MenubarRadioItem
+                    data-testid={`menu.rooms.room.${userRoom.room.id}`}
+                    key={userRoom.room.id}
+                    value={userRoom.room.id}
+                  >
                     {userRoom.room.name}
                     {userRoom.isOwner && (
                       <MenubarShortcut data-testid="owner">
@@ -47,7 +51,7 @@ export const MenuRooms = () => {
             {(userRoomsData?.total ?? 0) > ROOMS_NUMBER && (
               <>
                 <MenubarSeparator />
-                <MenubarItem disabled inset>
+                <MenubarItem data-testid="menu.rooms.showAllRooms" disabled inset>
                   Show all rooms...
                 </MenubarItem>
               </>
@@ -56,7 +60,7 @@ export const MenuRooms = () => {
             <MenubarSeparator />
           </>
         )}
-        <MenubarItem inset onClick={() => showModal(AddRoomModal)}>
+        <MenubarItem data-testid="menu.rooms.addRoom" inset onClick={() => showModal(AddRoomModal)}>
           Add room...
         </MenubarItem>
       </MenubarContent>

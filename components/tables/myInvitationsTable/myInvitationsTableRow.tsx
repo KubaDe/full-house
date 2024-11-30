@@ -49,7 +49,7 @@ export const MyInvitationsTableRow = ({ invitation }: MyInvitationsTableRowProps
   };
 
   return (
-    <TableRow key={invitation.id}>
+    <TableRow>
       <TableCell className="font-medium">{invitation.room.name}</TableCell>
       <TableCell>{invitation.sender.email}</TableCell>
       <TableCell className="flex justify-end gap-1 text-right">
@@ -59,6 +59,7 @@ export const MyInvitationsTableRow = ({ invitation }: MyInvitationsTableRowProps
           onClick={() => acceptInvitation(invitation.id)}
           disabled={isPending}
           aria-label="Accept invitation"
+          data-testid={`acceptInvitation.room_${invitation.room.id}`}
         >
           {isPending ? <ButtonSpinner isLoading /> : <Check size={16} />}
         </Button>
@@ -69,6 +70,7 @@ export const MyInvitationsTableRow = ({ invitation }: MyInvitationsTableRowProps
           onClick={() => rejectInvitation(invitation.id)}
           disabled={isPending}
           aria-label="Reject invitation"
+          data-testid={`rejectInvitation.room_${invitation.room.id}`}
         >
           {isPending ? <ButtonSpinner isLoading /> : <X size={16} />}
         </Button>

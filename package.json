@@ -7,20 +7,21 @@
     "dev-e2e": "next dev",
     "dev-prisma-generate": "dotenv -e .env.development -- npx prisma generate",
     "dev-prisma-push": "dotenv -e .env.development -- npx prisma db push",
-    "playwright-dev": "playwright test --ui --project=chromium ",
+    "playwright-dev": "playwright test --ui --project=chromium",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "knip": "knip",
-    "madge": "madge --circular --ts-config ./tsconfig.json --extensions js,jsx,ts,tsx ./ ",
+    "madge": "madge --circular --ts-config ./tsconfig.json --extensions js,jsx,ts,tsx  --exclude playwright-report ./ ",
     "test": "vitest",
     "test-ci": "vitest run",
     "postinstall": "prisma generate",
     "prepare": "husky"
   },
   "dependencies": {
+    "@clerk/backend": "^1.17.1",
     "@clerk/nextjs": "^6.3.0",
     "@ebay/nice-modal-react": "^1.2.13",
     "@hookform/resolvers": "^3.9.1",
@@ -76,6 +77,7 @@
     "@eslint/compat": "^1.2.2",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.14.0",
+    "@faker-js/faker": "^9.2.0",
     "@next/eslint-plugin-next": "^15.0.3",
     "@playwright/test": "^1.49.0",
     "@storybook/addon-actions": "^8.4.2",
@@ -125,5 +127,6 @@
   },
   "prisma": {
     "schema": "./server/prisma/schema.prisma"
-  }
+  },
+  "packageManager": "pnpm@9.4.0+sha512.f549b8a52c9d2b8536762f99c0722205efc5af913e77835dbccc3b0b0b2ca9e7dc8022b78062c17291c48e88749c70ce88eb5a74f1fa8c4bf5e18bb46c8bd83a"
 }
