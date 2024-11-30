@@ -15,7 +15,7 @@ const getTestUserEmail = (username: string) => {
 };
 
 class StateHelpers {
-  static DEFAULTS = {
+  static readonly DEFAULTS = {
     username: "Basic test user",
     avatar: {
       accessory: "GlassAviator",

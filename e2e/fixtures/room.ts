@@ -1,7 +1,7 @@
 import { db } from "@/server/db/prisma";
 
 class StateHelpers {
-  static DEFAULTS = {
+  static readonly DEFAULTS = {
     name: "Test room",
   };
   private _roomId?: string;
