@@ -46,6 +46,7 @@ export const MenuRoom = () => {
 
   const ownerOptions = [
     <MenubarItem
+      data-testid="menu.room.delete"
       key="delete"
       onClick={() =>
         showModal(ConfirmActionModal, {
@@ -61,6 +62,7 @@ export const MenuRoom = () => {
 
   const memberOptions = [
     <MenubarItem
+      data-testid="menu.room.leave"
       key="leave"
       onClick={() =>
         showModal(ConfirmActionModal, {
@@ -79,7 +81,7 @@ export const MenuRoom = () => {
       <ChevronRight className="size-4" />
 
       <MenubarMenu>
-        <MenubarTrigger>{roomData.room.name}</MenubarTrigger>
+        <MenubarTrigger data-testid="menu.room">{roomData.room.name}</MenubarTrigger>
         <MenubarContent>
           {roomData.isOwner && ownerOptions}
           {memberOptions}

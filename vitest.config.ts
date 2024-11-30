@@ -8,6 +8,7 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./"),
     },
+    exclude: ["node_modules", "dist", "storybook-static", ".next", ".storybook", "e2e"],
     setupFiles: ["./vitest-setup.ts"],
     environment: "jsdom",
     globals: true,

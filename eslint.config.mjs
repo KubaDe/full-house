@@ -54,7 +54,6 @@ export default [
       "import/no-cycle": "error",
       "import/no-default-export": "error",
       "import/no-unresolved": "off",
-
       "no-irregular-whitespace": [
         "error",
         {
@@ -121,6 +120,12 @@ export default [
 
     rules: {
       "import/no-default-export": "off",
+    },
+  },
+  {
+    files: ["**/*.spec.ts", "**/fixtures/**/*.ts"],
+    rules: {
+      "react-hooks/rules-of-hooks": "off",
     },
   },
 ];

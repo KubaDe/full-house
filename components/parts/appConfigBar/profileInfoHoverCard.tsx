@@ -16,7 +16,11 @@ export const ProfileInfoHoverCard = ({ children }: ProfileInfoHoverCardProps) =>
   const { userData } = useMe();
   return (
     <HoverCard closeDelay={500}>
-      <HoverCardTrigger aria-label="Avatar" className="flex cursor-pointer items-center">
+      <HoverCardTrigger
+        aria-label="Avatar"
+        data-testid="myAvatar"
+        className="flex cursor-pointer items-center"
+      >
         {children}
       </HoverCardTrigger>
       <HoverCardPortal>

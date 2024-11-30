@@ -32,6 +32,7 @@ export const AddParticipantButton = ({ roomId }: AddParticipantButtonProps) => {
     <div className="flex">
       <div className="relative">
         <Button
+          data-testid="addParticipant"
           className="size-8 rounded-full p-0"
           variant="outline"
           aria-label="Add participant"

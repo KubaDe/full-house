@@ -78,11 +78,16 @@ export const ConfirmActionModal = createModal((props: ConfirmActionModalProps) =
               variant="outline"
               disabled={isLoading}
               autoFocus
+              data-testid="confirmationModal.cancelAction"
               {...cancelButtonProps}
             >
               {cancelButtonText}
             </Button>
-            <Button onClick={onConfirmHandler} {...confirmButtonProps}>
+            <Button
+              onClick={onConfirmHandler}
+              data-testid="confirmationModal.confirmAction"
+              {...confirmButtonProps}
+            >
               <ButtonSpinner isLoading={isLoading} />
               {confirmButtonText}
             </Button>

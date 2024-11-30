@@ -16,9 +16,11 @@ export const inviteUserToRoomMutation = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const existingUser = await db.user.findFirst({ where: { email: input.userEmail } });
 
-    const existingRoomParticipant = await db.usersOnRooms.findFirst({
-      where: { userId: existingUser?.id, roomId: input.roomId },
-    });
+    const existingRoomParticipant = existingUser
+      ? await db.usersOnRooms.findFirst({
+          where: { userId: existingUser.id, roomId: input.roomId },
+        })
+      : null;
 
     if (existingRoomParticipant) {
       throw new TRPCError({

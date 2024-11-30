@@ -21,13 +21,19 @@ export const MenuAccount = () => {
 
   return (
     <MenubarMenu>
-      <MenubarTrigger>
+      <MenubarTrigger data-testid="menu.account">
         Account
         {countItems > 0 && <CountBadge>{myInvitationsData?.length}</CountBadge>}
       </MenubarTrigger>
       <MenubarContent>
-        <MenubarItem onClick={() => showModal(EditProfileModal)}>Edit profile</MenubarItem>
-        <MenubarItem onClick={() => showModal(InvitationsModal)} disabled={countItems === 0}>
+        <MenubarItem data-testid="menu.account.editProfile" onClick={() => showModal(EditProfileModal)}>
+          Edit profile
+        </MenubarItem>
+        <MenubarItem
+          data-testid="menu.account.invitations"
+          onClick={() => showModal(InvitationsModal)}
+          disabled={countItems === 0}
+        >
           Invitations
           {countItems > 0 && <CountBadge>{myInvitationsData?.length}</CountBadge>}
         </MenubarItem>
