@@ -1,8 +1,13 @@
-import { DialogHeader } from "next/dist/client/components/react-dev-overlay/internal/components/Dialog";
 import { useModal, create as createModal } from "@ebay/nice-modal-react";
 import theme from "tailwindcss/defaultTheme";
 import { useMediaQuery } from "react-responsive";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/uiKit/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogHeader,
+} from "@/components/uiKit/dialog";
 
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/uiKit/sheet";
 

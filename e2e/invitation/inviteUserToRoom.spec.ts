@@ -36,6 +36,7 @@ const test = base.extend<{}, { invited: Account; inviting: Account; room: Room }
 test.describe.serial("Invite user to room", () => {
   test("Inviting user sends invitation", async ({ inviting, room, invited }) => {
     await inviting.page.goto(`/room/${room.stateHelpers.roomId}`);
+    await inviting.page.getByTestId("noMetaSessionModal.startMeetingButton").click();
     await inviting.page.getByTestId("addParticipant").click();
     await inviting.page.locator("[name='userEmail']").fill(invited.testUserEmail);
     await inviting.page.locator("button[form='inviteUserForm']").click();

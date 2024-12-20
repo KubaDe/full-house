@@ -6,7 +6,7 @@ export const userToRoomInvitationsQueryMock = {
   default: (spy?: Mock) =>
     http.get("*/trpc/invitation.userToRoomInvitationsQuery", async ({ request }) => {
       const url = new URL(request.url);
-      spy?.(parse(url.searchParams.get("input")!));
+      await spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
         {
           result: {
@@ -34,7 +34,7 @@ export const userToRoomInvitationsQueryMock = {
   moreThan9: (spy?: Mock) =>
     http.get("*/trpc/invitation.userToRoomInvitationsQuery", async ({ request }) => {
       const url = new URL(request.url);
-      spy?.(parse(url.searchParams.get("input")!));
+      await spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
         {
           result: {
@@ -90,7 +90,7 @@ export const userToRoomInvitationsQueryMock = {
   empty: (spy?: Mock) =>
     http.get("*/trpc/invitation.userToRoomInvitationsQuery", async ({ request }) => {
       const url = new URL(request.url);
-      spy?.(parse(url.searchParams.get("input")!));
+      await spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
         {
           result: {

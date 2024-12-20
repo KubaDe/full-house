@@ -6,7 +6,7 @@ export const participantsQueryMock = {
   default: (spy?: Mock) =>
     http.get("*/trpc/room.participantsQuery", async ({ request }) => {
       const url = new URL(request.url);
-      spy?.(parse(url.searchParams.get("input")!));
+      await spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
         {
           result: {
@@ -50,7 +50,7 @@ export const participantsQueryMock = {
   noParticipants: (spy?: Mock) =>
     http.get("*/trpc/room.participantsQuery", async ({ request }) => {
       const url = new URL(request.url);
-      spy?.(parse(url.searchParams.get("input")!));
+      await spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
         {
           result: {
@@ -65,7 +65,7 @@ export const participantsQueryMock = {
   manyParticipants: (spy?: Mock) =>
     http.get("*/trpc/room.participantsQuery", async ({ request }) => {
       const url = new URL(request.url);
-      spy?.(parse(url.searchParams.get("input")!));
+      await spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
         {
           result: {
