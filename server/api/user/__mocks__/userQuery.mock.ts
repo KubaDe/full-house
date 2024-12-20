@@ -5,7 +5,7 @@ import { formatTrpcBodyToData } from "@/testUtils/formatters";
 export const userQueryMock = {
   default: (spy?: Mock) =>
     http.get("*/trpc/me.userQuery", async ({ request }) => {
-      spy?.(formatTrpcBodyToData(await request?.json()));
+      await spy?.(formatTrpcBodyToData(await request?.json()));
       return HttpResponse.json(
         {
           result: {
@@ -38,7 +38,7 @@ export const userQueryMock = {
     }),
   noProfile: (spy?: Mock) =>
     http.get("*/trpc/me.userQuery", async ({ request }) => {
-      spy?.(await request?.json());
+      await spy?.(await request?.json());
       return HttpResponse.json(
         {
           result: {

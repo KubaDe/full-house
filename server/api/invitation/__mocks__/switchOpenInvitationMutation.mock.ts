@@ -5,7 +5,7 @@ import { formatTrpcBodyToData } from "@/testUtils/formatters";
 export const switchOpenInvitationMutationMock = {
   default: (spy?: Mock) =>
     http.post("*/trpc/invitation.switchOpenInvitationMutation", async ({ request }) => {
-      spy?.(formatTrpcBodyToData(await request?.json()));
+      await spy?.(formatTrpcBodyToData(await request?.json()));
       return HttpResponse.json(
         {
           result: {

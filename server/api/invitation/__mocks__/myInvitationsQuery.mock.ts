@@ -6,7 +6,7 @@ export const myInvitationsQueryMock = {
   default: (spy?: Mock) =>
     http.get("*/trpc/invitation.myInvitationsQuery", async ({ request }) => {
       const url = new URL(request.url);
-      spy?.(parse(url.searchParams.get("input")!));
+      await spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
         {
           result: {
@@ -42,7 +42,7 @@ export const myInvitationsQueryMock = {
   empty: (spy?: Mock) =>
     http.get("*/trpc/invitation.myInvitationsQuery", async ({ request }) => {
       const url = new URL(request.url);
-      spy?.(parse(url.searchParams.get("input")!));
+      await spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
         {
           result: {

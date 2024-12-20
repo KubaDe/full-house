@@ -6,7 +6,7 @@ export const userRoomsQueryMock = {
   default: (spy?: Mock) =>
     http.get("*/trpc/room.userRoomsQuery", async ({ request }) => {
       const url = new URL(request.url);
-      spy?.(parse(url.searchParams.get("input")!));
+      await spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
         {
           result: {
@@ -72,7 +72,7 @@ export const userRoomsQueryMock = {
   lessThan5Rooms: (spy?: Mock) =>
     http.get("*/trpc/room.userRoomsQuery", async ({ request }) => {
       const url = new URL(request.url);
-      spy?.(parse(url.searchParams.get("input")!));
+      await spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
         {
           result: {

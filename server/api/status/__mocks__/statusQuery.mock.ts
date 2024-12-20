@@ -6,7 +6,7 @@ export const statusQueryMock = {
   apiOk: (spy?: Mock) =>
     http.get("*/trpc/status.statusQuery", async ({ request }) => {
       const url = new URL(request.url);
-      spy?.(parse(url.searchParams.get("input")!));
+      await spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
         {
           result: {
@@ -24,7 +24,7 @@ export const statusQueryMock = {
   apiError: (spy?: Mock) =>
     http.get("*/trpc/status.statusQuery", async ({ request }) => {
       const url = new URL(request.url);
-      spy?.(parse(url.searchParams.get("input")!));
+      await spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
         {
           result: {

@@ -6,7 +6,7 @@ export const roomAggregatedActiveParticipantsQueryMock = {
   default: (options: { ids: string[] }, spy?: Mock) =>
     http.get("*/trpc/session.roomAggregatedActiveParticipantsQuery", async ({ request }) => {
       const url = new URL(request.url);
-      spy?.(parse(url.searchParams.get("input")!));
+      await spy?.(parse(url.searchParams.get("input")!));
       return HttpResponse.json(
         {
           result: {
