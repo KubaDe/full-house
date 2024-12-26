@@ -3,7 +3,7 @@
 const Room = () => {
   return (
     <section>
-      <div className="flex w-full flex-col items-center">session</div>
+      <div>session</div>
     </section>
   );
 };

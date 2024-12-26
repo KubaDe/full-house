@@ -1,11 +1,9 @@
 {
-  "ignore": ["components/uiKit/*", "e2e/**/*"],
+  "ignore": ["components/uiKit/**/*", "e2e/**/*"],
   "ignoreDependencies": [
     "@radix-ui/*",
     "@storybook/*",
     "prettier-plugin-tailwindcss",
-    "dotenv-cli",
-    "next-router-mock",
     "@next/eslint-plugin-next",
     "eslint-config-next",
     "eslint-config-prettier",
@@ -16,6 +14,7 @@
   "entry": [
     "{index,main,cli}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
     "src/{index,main,cli}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
-    "*/**/__mocks__/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"
+    "*/**/__mocks__/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
+    "__mocks__/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"
   ]
 }

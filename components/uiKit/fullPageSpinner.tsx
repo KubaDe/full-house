@@ -33,7 +33,7 @@ export const FullPageSpinner = ({ isLoading = true }: ButtonSpinnerProps) => {
       <DialogPortal>
         <DialogOverlay />
 
-        <div className="fixed left-[50%] top-[50%] z-50 translate-x-[-50%] translate-y-[-50%]">
+        <div className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2">
           <Orbit
             strokeWidth={1}
             className="size-16 animate-spin text-white"
