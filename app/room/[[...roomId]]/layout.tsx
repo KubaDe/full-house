@@ -3,6 +3,7 @@ import { type ReactNode } from "react";
 import { ParticipantsList, ParticipantsListWrapper } from "@/components/parts/participantsList";
 import { EventStreamProvider } from "@/components/providers/eventStreamProvider";
 import { MetaSessionManager } from "@/components/parts/metaSessionManager";
+import { RoomSplitView } from "@/components/parts/roomSplitView";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,10 +25,10 @@ const RoomLayout = async (props: RoomLayoutProps) => {
   return (
     <MetaSessionManager roomId={roomId}>
       <EventStreamProvider roomId={roomId}>
-        {children}
         <ParticipantsListWrapper>
           <ParticipantsList roomId={roomId} />
         </ParticipantsListWrapper>
+        <RoomSplitView>{children}</RoomSplitView>
       </EventStreamProvider>
     </MetaSessionManager>
   );

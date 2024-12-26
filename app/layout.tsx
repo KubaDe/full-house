@@ -29,7 +29,7 @@ const RootLayout = ({
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         </head>
         <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
-          <ReactQueryDevtools initialIsOpen={false} />
+          <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
 
           <BodyContentWrapper>
             <AppConfigBarWrapper>
