@@ -16,8 +16,16 @@ export const RoomSplitView = ({ children }: RoomSplitViewProps) => {
   const { isOpen, setIsOpen, goToFeature, activeFeature } = useRoomSplitView();
 
   const sideContent = match(activeFeature)
-    .with(featureTypeSchema.enum.chat, () => <div data-testid="roomSplitView.sideContent.chat">chat</div>)
-    .with(featureTypeSchema.enum.poll, () => <div data-testid="roomSplitView.sideContent.poll">poll</div>)
+    .with(featureTypeSchema.enum.chat, () => ({
+      title: "Chat",
+      description: "Chat with others",
+      value: <div data-testid="roomSplitView.sideContent.chat">chat</div>,
+    }))
+    .with(featureTypeSchema.enum.poll, () => ({
+      title: "Poll",
+      description: "Vote on polls",
+      value: <div data-testid="roomSplitView.sideContent.poll">poll</div>,
+    }))
     .exhaustive();
 
   return (
