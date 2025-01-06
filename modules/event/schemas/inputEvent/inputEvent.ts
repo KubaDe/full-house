@@ -1,7 +1,10 @@
 import { z } from "zod";
-import { joinEventSchema } from "./joinEvent";
-import { pingEventSchema } from "./pingEvent";
+import { metaInputEventSchemas } from "./meta/metaInputEvent";
+import { chatInputEventSchemas } from "./chat/chatInputEvent";
 
-export const inputEventSchema = z.discriminatedUnion("type", [joinEventSchema, pingEventSchema]);
+export const inputEventSchema = z.discriminatedUnion("type", [
+  ...metaInputEventSchemas,
+  ...chatInputEventSchemas,
+]);
 
 export type InputEvent = z.infer<typeof inputEventSchema>;

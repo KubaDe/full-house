@@ -16,6 +16,7 @@ type PersonProps = {
   avatar?: Avatar;
   isActive?: boolean;
   isJoined?: boolean;
+  showStatusDot?: boolean;
 };
 type StatusDotProps = { isActive: boolean; isJoined: boolean };
 
@@ -48,6 +49,7 @@ export const PersonBadge = ({
   openOnHover = true,
   isActive = false,
   isJoined = true,
+  showStatusDot = true,
 }: PersonProps) => {
   return (
     <motion.label
@@ -57,7 +59,7 @@ export const PersonBadge = ({
       whileHover={openOnHover ? "open" : undefined}
       aria-label="Avatar with name"
     >
-      <StatusDot isActive={isActive} isJoined={isJoined} />
+      {showStatusDot && <StatusDot isActive={isActive} isJoined={isJoined} />}
       <Badge
         variant="outline"
         className={cx(

@@ -13,7 +13,7 @@ export const participantsQueryMock = {
             data: {
               json: [
                 {
-                  id: "clzj4o50g0001ajewnsnipmpfs",
+                  id: "participant-1",
                   profile: {
                     id: "clzj4o50g0001ocgxsnipmpfs",
                     name: "John Smith",
@@ -27,7 +27,7 @@ export const participantsQueryMock = {
                   },
                 },
                 {
-                  id: "clzj4o50g0001ocgamdsnasdds",
+                  id: "participant-2",
                   profile: {
                     id: "clzj4o50g0001ocgxsniasdds",
                     name: "Will Brown",

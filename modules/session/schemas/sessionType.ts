@@ -1,3 +1,3 @@
 import { z } from "zod";
 
-export const sessionTypeSchema = z.enum(["meta", "simpleMessage"]);
+export const sessionTypeSchema = z.enum(["meta", "simpleMessage", "chat"]);

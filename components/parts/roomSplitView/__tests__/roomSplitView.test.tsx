@@ -1,10 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
-import { fireEvent } from "@testing-library/react";
 import { RoomSplitView } from "../roomSplitView";
 import { useRoomSplitView } from "../useRoomSplitView";
-import { render, screen, waitFor } from "@/testUtils/render";
+import { render, screen, waitFor, fireEvent } from "@/testUtils/render";
 import { featureTypeSchema } from "@/components/parts/roomSplitView/consts";
+import { TestCurrentRoomProvider } from "@/testUtils/wrappers";
+
+vi.mock("@/components/parts/chat/chat");
 
 describe("RoomSplitView", () => {
   it("should render only main content initially", async () => {
@@ -15,14 +17,14 @@ describe("RoomSplitView", () => {
   });
 
   it("should open side content when clicking mode button", async () => {
-    render(<RoomSplitView>Page content</RoomSplitView>);
+    render(<RoomSplitView>Page content</RoomSplitView>, { wrapper: TestCurrentRoomProvider });
     fireEvent.click(screen.getByTestId("roomSplitView.modeButton.chat"));
     expect(await screen.findByTestId("splitView.sideContent")).toBeVisible();
   });
 
   it("should close side content when clicking active mode button ", async () => {
     useRoomSplitView.setState({ isOpen: true, activeFeature: featureTypeSchema.enum.chat });
-    render(<RoomSplitView>Page content</RoomSplitView>);
+    render(<RoomSplitView>Page content</RoomSplitView>, { wrapper: TestCurrentRoomProvider });
     expect(await screen.findByTestId("splitView.sideContent")).toBeVisible();
     fireEvent.click(screen.getByTestId("roomSplitView.modeButton.chat"));
     await waitFor(() => {
@@ -31,7 +33,7 @@ describe("RoomSplitView", () => {
   });
 
   it("should render all modes buttons", async () => {
-    render(<RoomSplitView>Page content</RoomSplitView>);
+    render(<RoomSplitView>Page content</RoomSplitView>, { wrapper: TestCurrentRoomProvider });
     const buttons = screen.getAllByTestId(/roomSplitView.modeButton/);
     expect(buttons).toHaveLength(2);
     expect(buttons[0]).toHaveAttribute("data-testid", "roomSplitView.modeButton.poll");
@@ -40,7 +42,7 @@ describe("RoomSplitView", () => {
 
   describe("side content", () => {
     it.each(["poll", "chat"])("%s content should be rendered properly", async (mode) => {
-      render(<RoomSplitView>Page content</RoomSplitView>);
+      render(<RoomSplitView>Page content</RoomSplitView>, { wrapper: TestCurrentRoomProvider });
       fireEvent.click(screen.getByTestId(`roomSplitView.modeButton.${mode}`));
       expect(await screen.findByTestId(`roomSplitView.sideContent.${mode}`)).toBeVisible();
     });

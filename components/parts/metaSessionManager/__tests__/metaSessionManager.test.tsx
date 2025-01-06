@@ -5,6 +5,7 @@ import { render, screen, act } from "@/testUtils/render";
 import { userRoomQueryMock } from "@/server/api/room/__mocks__/userRoomQuery.mock";
 import { pushInputEventMutationMock } from "@/server/api/event/__mocks__/pushInputEventMutation.mock";
 import { Deferred } from "@/lib/deferred";
+import { TestCurrentRoomProvider } from "@/testUtils/wrappers";
 
 vi.mock("next/navigation", async () => vi.importActual("next-router-mock"));
 
@@ -24,14 +25,14 @@ describe("MetaSessionManager", () => {
   });
 
   it("should display loader and content after loading is finished", async () => {
-    const roomId = "test-room-id";
     const { promise, resolve } = new Deferred();
     const spy = vi.fn(() => promise);
     server.use(pushInputEventMutationMock.default(), userRoomQueryMock.withSessions(spy));
     render(
-      <MetaSessionManager roomId={roomId}>
+      <MetaSessionManager>
         <div>Test content</div>
       </MetaSessionManager>,
+      { wrapper: TestCurrentRoomProvider },
     );
 
     expect(await screen.findByTestId("full-page-spinner")).toBeVisible();
@@ -41,14 +42,14 @@ describe("MetaSessionManager", () => {
   });
 
   it("should display loader and 'no session dialog' after loading is finished and no sessions are available", async () => {
-    const roomId = "test-room-id";
     const { promise, resolve } = new Deferred();
     const spy = vi.fn(() => promise);
     server.use(pushInputEventMutationMock.default(), userRoomQueryMock.default(spy));
     render(
-      <MetaSessionManager roomId={roomId}>
+      <MetaSessionManager>
         <div>Test content</div>
       </MetaSessionManager>,
+      { wrapper: TestCurrentRoomProvider },
     );
 
     expect(await screen.findByTestId("full-page-spinner")).toBeVisible();

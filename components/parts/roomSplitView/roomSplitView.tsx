@@ -7,6 +7,7 @@ import { ModeButton } from "./modeButton";
 import { SideContentModePickerWrapper } from "./sideContentModePickerWrapper";
 import { useRoomSplitView } from "./useRoomSplitView";
 import { featureTypeSchema } from "@/components/parts/roomSplitView/consts";
+import { Chat } from "@/components/parts/chat";
 
 type RoomSplitViewProps = {
   children: ReactNode;
@@ -19,7 +20,11 @@ export const RoomSplitView = ({ children }: RoomSplitViewProps) => {
     .with(featureTypeSchema.enum.chat, () => ({
       title: "Chat",
       description: "Chat with others",
-      value: <div data-testid="roomSplitView.sideContent.chat">chat</div>,
+      value: (
+        <div className="h-full" data-testid="roomSplitView.sideContent.chat">
+          <Chat />
+        </div>
+      ),
     }))
     .with(featureTypeSchema.enum.poll, () => ({
       title: "Poll",

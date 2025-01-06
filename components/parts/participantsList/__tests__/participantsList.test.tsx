@@ -6,6 +6,7 @@ import { participantsQueryMock } from "@/server/api/room/__mocks__/participantsQ
 import { userToRoomInvitationsQueryMock } from "@/server/api/invitation/__mocks__/userToRoomInvitationsQuery.mock";
 import { roomAggregatedActiveParticipantsQueryMock } from "@/server/api/session/__mocks__/roomAggregatedActiveParticipantsQuery.mock";
 import { roomAggregatedJoinedParticipantsQueryMock } from "@/server/api/session/__mocks__/roomAggregatedJoinedParticipantsQuery.mock";
+import { TEST_ROOM_ID, TestCurrentRoomProvider } from "@/testUtils/wrappers";
 
 export const server = setupServer();
 
@@ -30,35 +31,31 @@ describe("ParticipantsList", () => {
   });
 
   it("should fetch participants for chosen room without current user", async () => {
-    const roomId = "test-room-id";
     const getParticipantsSpy = vi.fn();
     server.use(participantsQueryMock.default(getParticipantsSpy), ...defaultMocks);
-    render(<ParticipantsList roomId={roomId} />);
+    render(<ParticipantsList />, { wrapper: TestCurrentRoomProvider });
     await waitFor(() => expect(getParticipantsSpy).toHaveBeenCalled());
     expect(getParticipantsSpy).toHaveBeenCalledWith({
       includeMe: false,
-      roomId,
+      roomId: TEST_ROOM_ID,
     });
   });
 
   it("should render participants list", async () => {
-    const roomId = "test-room-id";
     server.use(...defaultMocks);
-    render(<ParticipantsList roomId={roomId} />);
+    render(<ParticipantsList />, { wrapper: TestCurrentRoomProvider });
     await waitFor(() => expect(screen.getAllByLabelText("Avatar with name")).toHaveLength(2));
     expect(screen.getAllByLabelText("Avatar with name")[0]).toHaveTextContent("John Smith");
     expect(screen.getAllByLabelText("Avatar with name")[1]).toHaveTextContent("Will Brown");
   });
 
   it("should render add participant button", async () => {
-    const roomId = "test-room-id";
     server.use(...defaultMocks);
-    render(<ParticipantsList roomId={roomId} />);
+    render(<ParticipantsList />, { wrapper: TestCurrentRoomProvider });
     await waitFor(() => expect(screen.getByRole("button", { name: "Add participant" })).toBeDefined());
   });
 
   it("should display users status based on joined and active participants", async () => {
-    const roomId = "test-room-id";
     server.use(
       participantsQueryMock.manyParticipants(),
       userToRoomInvitationsQueryMock.default(),
@@ -67,7 +64,7 @@ describe("ParticipantsList", () => {
         ids: ["clzj4o50g0001ajewnsnipmpfs", "clzj4o50g0001ocgamdsnasdds"],
       }),
     );
-    render(<ParticipantsList roomId={roomId} />);
+    render(<ParticipantsList />, { wrapper: TestCurrentRoomProvider });
 
     await waitFor(() => expect(screen.getAllByLabelText("Avatar with name")).toHaveLength(4));
     expect(screen.getAllByTestId("statusDot")[0]).toHaveAttribute("aria-label", "Present");

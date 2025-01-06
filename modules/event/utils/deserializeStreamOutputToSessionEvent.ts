@@ -11,10 +11,15 @@ export const deserializeStreamOutputToSessionEvent = ([id, fields]: [id: string,
   const extendedParseData = match(parsedData)
     .with({ payload: P.string }, (data) => ({
       ...data,
+      id,
       timestamp: id.split("-")[0],
       payload: superjson.parse(data.payload),
     }))
-    .otherwise(() => parsedData);
+    .otherwise((data) => ({
+      ...data,
+      id,
+      timestamp: id.split("-")[0],
+    }));
 
   const { data } = sessionEventSchema.safeParse(extendedParseData);
   return data;

@@ -1,7 +1,7 @@
-import { activeParticipantsProjection } from "./activeParticipantsProjection";
-import { joinedParticipantsProjection } from "./joinedParticipantsProjection";
+import { meta } from "./meta";
+import { chat } from "./chat";
 
 export const projections = {
-  activeParticipantsProjection,
-  joinedParticipantsProjection,
+  meta,
+  chat,
 };

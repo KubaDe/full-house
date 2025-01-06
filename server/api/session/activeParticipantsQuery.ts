@@ -11,7 +11,7 @@ export const activeParticipantsQuery = protectedProcedure
   .output(activeParticipantsQueryOutputSchema)
   .unstable_concat(requireSessionAllowedMiddleware)
   .query(async ({ input }) => {
-    const activeParticipants = await sessionEventService.projections.activeParticipantsProjection({
+    const activeParticipants = await sessionEventService.projections.meta.activeParticipantsProjection({
       sessionId: input.sessionId,
     });
     return activeParticipantsQueryOutputSchema.parse(activeParticipants);

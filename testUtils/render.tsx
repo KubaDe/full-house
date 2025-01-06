@@ -5,6 +5,7 @@ import { vi } from "vitest";
 import { omit } from "lodash";
 import { ApiProvider } from "@/components/providers/apiProvider";
 import { DayjsProvider } from "@/components/providers/dayjsProvider";
+import { Toaster } from "@/components/uiKit/sonner";
 
 window.matchMedia = (query) => ({
   matches: false,
@@ -29,7 +30,10 @@ const Provider = ({ children }: { children: ReactNode }) => (
   <ApiProvider>
     <Suspense fallback="loading">
       <NiceModal.Provider>
-        <DayjsProvider>{children}</DayjsProvider>
+        <DayjsProvider>
+          {children}
+          <Toaster />
+        </DayjsProvider>
       </NiceModal.Provider>
     </Suspense>
   </ApiProvider>
@@ -48,7 +52,16 @@ const customRender = (ui: ReactElement, options?: Omit<RenderOptions, "queries">
   });
 };
 const customRenderHook: typeof renderHook = (render, options) => {
-  return renderHook(render, { wrapper: Provider, ...options });
+  const Wrapper = options?.wrapper ?? Fragment;
+
+  return renderHook(render, {
+    wrapper: ({ children }) => (
+      <Provider>
+        <Wrapper>{children}</Wrapper>
+      </Provider>
+    ),
+    ...omit(options, ["wrapper"]),
+  });
 };
 
 // eslint-disable-next-line import/export
