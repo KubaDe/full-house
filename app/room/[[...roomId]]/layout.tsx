@@ -4,6 +4,7 @@ import { ParticipantsList, ParticipantsListWrapper } from "@/components/parts/pa
 import { EventStreamProvider } from "@/components/providers/eventStreamProvider";
 import { MetaSessionManager } from "@/components/parts/metaSessionManager";
 import { RoomSplitView } from "@/components/parts/roomSplitView";
+import { CurrentRoomProvider } from "@/modules/room/hooks/useCurrentRoom";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,14 +24,16 @@ const RoomLayout = async (props: RoomLayoutProps) => {
   const roomId = params?.roomId?.[0] ?? "";
   if (!roomId) return null;
   return (
-    <MetaSessionManager roomId={roomId}>
-      <EventStreamProvider roomId={roomId}>
-        <ParticipantsListWrapper>
-          <ParticipantsList roomId={roomId} />
-        </ParticipantsListWrapper>
-        <RoomSplitView>{children}</RoomSplitView>
-      </EventStreamProvider>
-    </MetaSessionManager>
+    <CurrentRoomProvider roomId={roomId}>
+      <MetaSessionManager>
+        <EventStreamProvider>
+          <ParticipantsListWrapper>
+            <ParticipantsList />
+          </ParticipantsListWrapper>
+          <RoomSplitView>{children}</RoomSplitView>
+        </EventStreamProvider>
+      </MetaSessionManager>
+    </CurrentRoomProvider>
   );
 };
 

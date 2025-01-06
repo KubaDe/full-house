@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { inputEventTypeSchema } from "./inputEventType";
-import { inputEventBase } from "./inputEventBase";
+import { inputEventTypeSchema } from "../inputEventType";
+import { inputEventBase } from "../inputEventBase";
 
 export const pingEventSchema = inputEventBase.extend({
   type: z.literal(inputEventTypeSchema.enum.ping),

@@ -1,5 +1,5 @@
 import { match } from "ts-pattern";
-import { eventHandlers } from "./eventHandlers";
+import { metaEventHandlers, chatEventHandlers } from "./eventHandlers";
 import { type InputEvent, inputEventTypeSchema } from "@/modules/event/schemas/inputEvent";
 
 type OnPushProps = {
@@ -10,8 +10,11 @@ type OnPushProps = {
 export const inputEventService = {
   onPush: async (props: OnPushProps) => {
     await match(props)
-      .with({ event: { type: inputEventTypeSchema.enum.join } }, eventHandlers.joinHandler)
-      .with({ event: { type: inputEventTypeSchema.enum.ping } }, eventHandlers.pingHandler)
+      // META
+      .with({ event: { type: inputEventTypeSchema.enum.join } }, metaEventHandlers.joinHandler)
+      .with({ event: { type: inputEventTypeSchema.enum.ping } }, metaEventHandlers.pingHandler)
+      // CHAT
+      .with({ event: { type: inputEventTypeSchema.enum.message } }, chatEventHandlers.messageHandler)
       .exhaustive();
   },
 };

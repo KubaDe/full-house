@@ -31,7 +31,7 @@ export const roomAggregatedJoinedParticipantsQuery = protectedProcedure
     const joinedParticipantsIds = (
       await Promise.all(
         sessionIds.map((sessionId) =>
-          sessionEventService.projections.joinedParticipantsProjection({
+          sessionEventService.projections.meta.joinedParticipantsProjection({
             sessionId,
           }),
         ),

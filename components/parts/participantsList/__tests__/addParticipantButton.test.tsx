@@ -4,6 +4,7 @@ import { userEvent } from "@testing-library/user-event";
 import { render, screen } from "@/testUtils/render";
 import { userToRoomInvitationsQueryMock } from "@/server/api/invitation/__mocks__/userToRoomInvitationsQuery.mock";
 import { AddParticipantButton } from "@/components/parts/participantsList/addParticipantButton";
+import { TestCurrentRoomProvider } from "@/testUtils/wrappers";
 
 export const server = setupServer();
 
@@ -21,25 +22,22 @@ describe("AddParticipantButton", () => {
   });
 
   it("should render pending invitations counter for less than 9 invitations pending", async () => {
-    const roomId = "test-room-id";
     server.use(userToRoomInvitationsQueryMock.default());
-    render(<AddParticipantButton roomId={roomId} />);
+    render(<AddParticipantButton />, { wrapper: TestCurrentRoomProvider });
     expect(await screen.findByLabelText("pending invitations counter")).toBeVisible();
     expect(screen.getByLabelText("pending invitations counter")).toHaveTextContent("3");
   });
 
   it("should render pending invitations counter for more than 9 invitations pending", async () => {
-    const roomId = "test-room-id";
     server.use(userToRoomInvitationsQueryMock.moreThan9());
-    render(<AddParticipantButton roomId={roomId} />);
+    render(<AddParticipantButton />, { wrapper: TestCurrentRoomProvider });
     expect(await screen.findByLabelText("pending invitations counter")).toBeVisible();
     expect(screen.getByLabelText("pending invitations counter")).toHaveTextContent("9+");
   });
 
   it("should render hover card with emails of invited people", async () => {
-    const roomId = "test-room-id";
     server.use(userToRoomInvitationsQueryMock.default());
-    render(<AddParticipantButton roomId={roomId} />);
+    render(<AddParticipantButton />, { wrapper: TestCurrentRoomProvider });
     expect(await screen.findByLabelText("pending invitations counter")).toBeVisible();
     await userEvent.hover(screen.getByLabelText("pending invitations counter"));
     expect(await screen.findByText("Invited people")).toBeVisible();

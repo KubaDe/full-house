@@ -11,12 +11,10 @@ import {
   HoverCardTrigger,
 } from "@/components/uiKit/hover-card";
 import { Badge } from "@/components/uiKit/badge";
+import { useCurrentRoom } from "@/modules/room/hooks/useCurrentRoom";
 
-type AddParticipantButtonProps = {
-  roomId: string;
-};
-
-export const AddParticipantButton = ({ roomId }: AddParticipantButtonProps) => {
+export const AddParticipantButton = () => {
+  const { roomId } = useCurrentRoom();
   const { data: userToTheRoomInvitationsData } = api.invitation.userToRoomInvitationsQuery.useQuery(
     {
       roomId,

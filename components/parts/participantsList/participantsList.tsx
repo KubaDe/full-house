@@ -4,12 +4,10 @@ import { useRef } from "react";
 import { api } from "@/utils/api";
 import { PersonBadge } from "@/components/parts/personBadge";
 import { AddParticipantButton } from "@/components/parts/participantsList/addParticipantButton";
+import { useCurrentRoom } from "@/modules/room/hooks/useCurrentRoom";
 
-type ParticipantsListProps = {
-  roomId: string;
-};
-
-export const ParticipantsList = ({ roomId }: ParticipantsListProps) => {
+export const ParticipantsList = () => {
+  const { roomId } = useCurrentRoom();
   const { data: participantsData } = api.room.participantsQuery.useQuery(
     { roomId, includeMe: false },
     { enabled: !!roomId },
@@ -38,7 +36,7 @@ export const ParticipantsList = ({ roomId }: ParticipantsListProps) => {
         ))}
       </div>
       <div className="flex flex-col gap-2">
-        <AddParticipantButton roomId={roomId} />
+        <AddParticipantButton />
       </div>
     </div>
   );

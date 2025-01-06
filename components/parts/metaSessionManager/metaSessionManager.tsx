@@ -7,13 +7,14 @@ import { sessionTypeSchema } from "@/modules/session/schemas/sessionType";
 import { inputEventTypeSchema } from "@/modules/event/schemas/inputEvent";
 import { FullPageSpinner } from "@/components/uiKit/fullPageSpinner";
 import { NoMetaSessionModal } from "@/components/modals/noMetaSessionModal";
+import { useCurrentRoom } from "@/modules/room/hooks/useCurrentRoom";
 
 type MetaSessionManagerProps = {
-  roomId: string;
   children: ReactNode;
 };
 
-export const MetaSessionManager = ({ roomId, children }: MetaSessionManagerProps) => {
+export const MetaSessionManager = ({ children }: MetaSessionManagerProps) => {
+  const { roomId } = useCurrentRoom();
   const { data: roomData, isFetching } = api.room.userRoomQuery.useQuery({ roomId }, { enabled: !!roomId });
 
   const { mutateAsync: pushEvent } = api.event.pushInputEventMutation.useMutation();

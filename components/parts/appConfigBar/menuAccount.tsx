@@ -1,4 +1,5 @@
 import { show as showModal } from "@ebay/nice-modal-react";
+import { useQueryClient } from "@tanstack/react-query";
 import { CountBadge } from "./countBadge";
 import {
   MenubarContent,
@@ -14,6 +15,7 @@ import { api } from "@/utils/api";
 
 export const MenuAccount = () => {
   const { auth } = useMe();
+  const queryClient = useQueryClient();
 
   const { data: myInvitationsData } = api.invitation.myInvitationsQuery.useQuery();
 
@@ -38,7 +40,9 @@ export const MenuAccount = () => {
           {countItems > 0 && <CountBadge>{myInvitationsData?.length}</CountBadge>}
         </MenubarItem>
         <MenubarSeparator />
-        <MenubarItem onClick={() => auth.signOut()}>Logout</MenubarItem>
+        <MenubarItem onClick={() => auth.signOut()?.then(() => queryClient.resetQueries())}>
+          Logout
+        </MenubarItem>
       </MenubarContent>
     </MenubarMenu>
   );

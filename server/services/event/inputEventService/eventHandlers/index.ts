@@ -1,1 +1,2 @@
-export * as eventHandlers from "./eventHandlers";
+export * from "./meta";
+export * from "./chat";
