@@ -5,7 +5,7 @@ import { screen, render } from "@/testUtils/render";
 import { roomSessionsQueryMock } from "@/server/api/session/__mocks__/roomSessionsQuery.mock";
 import { TestCurrentRoomProvider } from "@/testUtils/wrappers";
 import { Deferred } from "@/lib/deferred";
-import { messagesQueryMock } from "@/server/api/session/chat/__mocks__/messagesQuery";
+import { headCursorQueryMock } from "@/server/api/session/chat/__mocks__/headCursorQuery";
 
 vi.mock("@/modules/user/hooks/useMe");
 export const server = setupServer();
@@ -38,7 +38,7 @@ describe("Chat", () => {
   });
 
   it("should render chat content when session started", async () => {
-    server.use(roomSessionsQueryMock.default(), messagesQueryMock.singleMessageOnce());
+    server.use(roomSessionsQueryMock.default(), headCursorQueryMock.once());
     render(<Chat />, { wrapper: TestCurrentRoomProvider });
     expect(await screen.findByTestId("chat.chatContent")).toBeVisible();
   });

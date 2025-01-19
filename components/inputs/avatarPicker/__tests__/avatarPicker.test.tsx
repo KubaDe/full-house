@@ -1,6 +1,6 @@
 import { expect, vi, it, describe } from "vitest";
 import { render, fireEvent } from "@testing-library/react";
-import { get } from "lodash";
+import { get } from "lodash-es";
 import { AvatarPicker } from "../avatarPicker";
 import * as avatarPickerMock from "../__mocks__/avatarPicker.mock";
 import * as avatarPickerTestUtils from "./avatarPicker.testUtils";

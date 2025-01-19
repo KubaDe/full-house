@@ -1,4 +1,6 @@
 import { db } from "@/server/db/prisma";
+import { sessionLifecycleService } from "@/server/services/session/sessionLifecycleService";
+import { sessionTypeSchema, type SessionType } from "@/modules/session/schemas/sessionType";
 
 class StateHelpers {
   static readonly DEFAULTS = {
@@ -24,6 +26,14 @@ class StateHelpers {
     this.roomId = id;
   }
 
+  async startSession({ type, userId }: { userId: string; type: SessionType }) {
+    await sessionLifecycleService.createSession({
+      roomId: this.roomId,
+      userId,
+      type,
+    });
+  }
+
   async addUser(userId: string) {
     await db.usersOnRooms.create({
       data: {
@@ -45,8 +55,22 @@ export class Room {
     this.stateHelpers = new StateHelpers();
   }
 
-  async init() {
+  async init(
+    props:
+      | {
+          skipSession: true;
+          userId: undefined;
+        }
+      | {
+          skipSession?: false;
+          userId: string;
+        },
+  ) {
+    const { skipSession, userId } = props;
     await this.stateHelpers.createRoom({ name: StateHelpers.DEFAULTS.name });
+    if (!skipSession) {
+      await this.stateHelpers.startSession({ type: sessionTypeSchema.enum.meta, userId });
+    }
   }
 
   async cleanup() {

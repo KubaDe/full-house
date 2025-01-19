@@ -1,4 +1,4 @@
-import { sortBy, uniq } from "lodash";
+import { sortBy, uniq } from "lodash-es";
 import dayjs from "dayjs";
 import { rds } from "@/server/db/redis";
 import { deserializeStreamOutputToSessionEvent } from "@/modules/event/utils/deserializeStreamOutputToSessionEvent";

@@ -5,6 +5,7 @@ import { renderHook, waitFor } from "@/testUtils/render";
 import { TestCurrentRoomProvider } from "@/testUtils/wrappers";
 import { messagesQueryMock } from "@/server/api/session/chat/__mocks__/messagesQuery";
 import { liveMessagesQueryMock } from "@/server/api/session/chat/__mocks__/liveMessagesQuery";
+import { headCursorQueryMock } from "@/server/api/session/chat/__mocks__/headCursorQuery";
 
 vi.mock("@/modules/user/hooks/useMe");
 export const server = setupServer();
@@ -27,7 +28,7 @@ describe("useMessages", () => {
   it("should initially load first result to get the starting index", async () => {
     const spy = vi.fn();
     server.use(
-      messagesQueryMock.singleMessageOnce(spy),
+      headCursorQueryMock.once(spy),
       messagesQueryMock.middleMessagesPageOnce(),
       liveMessagesQueryMock.empty(),
     );
@@ -35,14 +36,14 @@ describe("useMessages", () => {
       wrapper: TestCurrentRoomProvider,
     });
     await waitFor(() => {
-      expect(spy).toHaveBeenCalledWith({ sessionId: testSessionId, limit: 1 });
+      expect(spy).toHaveBeenCalledWith({ sessionId: testSessionId });
     });
   });
 
   it("should load first page of results based on the returned index", async () => {
     const spy = vi.fn();
     server.use(
-      messagesQueryMock.singleMessageOnce(),
+      headCursorQueryMock.once(),
       messagesQueryMock.middleMessagesPageOnce(spy),
       liveMessagesQueryMock.empty(),
     );
@@ -66,7 +67,7 @@ describe("useMessages", () => {
 
   it("should returns true for hasNextPage for middle page", async () => {
     server.use(
-      messagesQueryMock.singleMessageOnce(),
+      headCursorQueryMock.once(),
       messagesQueryMock.middleMessagesPageOnce(),
       liveMessagesQueryMock.empty(),
     );
@@ -80,7 +81,7 @@ describe("useMessages", () => {
 
   it("should return false from hasNextPage for last page", async () => {
     server.use(
-      messagesQueryMock.singleMessageOnce(),
+      headCursorQueryMock.once(),
       messagesQueryMock.lastMessagesPageOnce(),
       liveMessagesQueryMock.empty(),
     );
@@ -94,7 +95,7 @@ describe("useMessages", () => {
 
   it("should return false from hasNextPage for last page", async () => {
     server.use(
-      messagesQueryMock.singleMessageOnce(),
+      headCursorQueryMock.once(),
       messagesQueryMock.lastMessagesPageOnce(),
       liveMessagesQueryMock.empty(),
     );
@@ -109,7 +110,7 @@ describe("useMessages", () => {
   it("should load more messages on demand", async () => {
     const spy = vi.fn();
     server.use(
-      messagesQueryMock.singleMessageOnce(),
+      headCursorQueryMock.once(),
       messagesQueryMock.middleMessagesPageOnce(),
       messagesQueryMock.lastMessagesPageOnce(spy),
       liveMessagesQueryMock.empty(),
@@ -143,7 +144,7 @@ describe("useMessages", () => {
   it("should merge live messages with paginated results", async () => {
     const spy = vi.fn();
     server.use(
-      messagesQueryMock.singleMessageOnce(),
+      headCursorQueryMock.once(),
       messagesQueryMock.middleMessagesPageOnce(),
       messagesQueryMock.lastMessagesPageOnce(spy),
       liveMessagesQueryMock.default(),

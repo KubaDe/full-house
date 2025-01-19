@@ -14,17 +14,32 @@ export const infinityMessagesProjection = async ({
   limit,
   cursor = "+",
 }: activeParticipantsProjectionProps) => {
-  const entries = await rds.xrevrange(`sessionEvents:${sessionId}`, cursor, "-", "COUNT", String(limit));
-  const moreCount =
-    (await rds.xrevrange(`sessionEvents:${sessionId}`, `(${entries[entries.length - 1]?.[0]}`, "-")).length ??
-    0;
-  const messages = entries
-    .map(deserializeStreamOutputToSessionEvent)
-    .filter((event) => messageEventSchema.safeParse(event).data)
-    .filter((event): event is MessageEvent => !!event);
+  try {
+    const entries = await rds.xrevrange(`sessionEvents:${sessionId}`, cursor, "-", "COUNT", String(limit));
+    const remainedEntries = await rds.xrevrange(
+      `sessionEvents:${sessionId}`,
+      `(${entries[entries.length - 1]?.[0]}`,
+      "-",
+    );
+    const moreCount = remainedEntries
+      .map(deserializeStreamOutputToSessionEvent)
+      .filter((event) => messageEventSchema.safeParse(event).data)
+      .filter((event): event is MessageEvent => !!event).length;
 
-  return {
-    messages,
-    moreCount,
-  };
+    const messages = entries
+      .map(deserializeStreamOutputToSessionEvent)
+      .filter((event) => messageEventSchema.safeParse(event).data)
+      .filter((event): event is MessageEvent => !!event);
+
+    return {
+      messages,
+      moreCount,
+    };
+  } catch (error) {
+    console.error("infinityMessagesProjection error", error);
+    return {
+      messages: [],
+      moreCount: 0,
+    };
+  }
 };

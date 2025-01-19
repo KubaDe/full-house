@@ -1,7 +1,8 @@
 import path from "path";
-import { defineConfig, devices } from "@playwright/test";
-
+import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+import { defineConfig, devices } from "@playwright/test";
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 dotenv.config({ path: path.resolve(__dirname, ".env.development") });
 
@@ -13,7 +14,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 2,
   reporter: "html",
   use: {
     baseURL: process.env.NEXT_PUBLIC_BASE_URL,

@@ -1,5 +1,5 @@
 import { match, P } from "ts-pattern";
-import { chunk, fromPairs } from "lodash";
+import { chunk, fromPairs } from "lodash-es";
 import superjson from "superjson";
 import type { SessionEventBase } from "../schemas/sessionEvent/sessionEventBase";
 import { sessionEventSchema } from "../schemas/sessionEvent";

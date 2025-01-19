@@ -7,7 +7,15 @@ import { outputEventService } from "@/server/services/event/outputEventService";
 import { invalidateQueryKeySchema, outputEventTypeSchema } from "@/modules/event/schemas/outputEvent";
 import { projections } from "@/server/services/event/sessionEventService/projections";
 
-export const pingHandler = async ({ event, userId }: { event: PingEvent; userId: string }) => {
+export const pingHandler = async ({
+  event,
+  userId,
+  roomId,
+}: {
+  event: PingEvent;
+  userId: string;
+  roomId: string;
+}) => {
   const userPingEvent = userPingEventSchema.parse({
     userId,
   });
@@ -30,7 +38,7 @@ export const pingHandler = async ({ event, userId }: { event: PingEvent; userId:
   if (activeParticipantsString !== previousActiveParticipantsString) {
     await outputEventService.onPush({
       event: {
-        sessionId: event.sessionId,
+        roomId,
         type: outputEventTypeSchema.enum.invalidateQuery,
         payload: {
           keys: [

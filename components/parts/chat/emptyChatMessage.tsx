@@ -21,7 +21,7 @@ export const EmptyChatMessage = () => {
     <div className="flex size-full items-center justify-center" data-testid="chat.emptyChatMessage">
       <div className="flex flex-col items-center justify-center gap-4">
         <p className="text-gray-500">No chat messages yet</p>
-        <Button variant="outline" onClick={onClick}>
+        <Button variant="outline" onClick={onClick} data-testid="chat.startChat">
           <ButtonSpinner isLoading={isPending} />
           Start chatting
         </Button>

@@ -1,6 +1,6 @@
 import { show as showModal } from "@ebay/nice-modal-react";
 import { UserCog } from "lucide-react";
-import { isEmpty } from "lodash";
+import { isEmpty } from "lodash-es";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import {

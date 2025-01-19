@@ -62,13 +62,18 @@ export const useMessageForm = ({ onSuccess, onError, onInvalid, sessionId }: Use
           render={({ field }) => (
             <FormItem className="flex-1">
               <FormControl>
-                <Input placeholder="Type a message" {...field} autoFocus />
+                <Input placeholder="Type a message" {...field} autoFocus data-testid="chat.messageInput" />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button className="aspect-square size-9 p-0" type="submit" aria-label="Send message">
+        <Button
+          className="aspect-square size-9 p-0"
+          type="submit"
+          aria-label="Send message"
+          data-testid="chat.sendMessage"
+        >
           <SendIcon size={16} />
         </Button>
       </form>

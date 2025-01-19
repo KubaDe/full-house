@@ -7,6 +7,7 @@ import { messagesQueryMock } from "@/server/api/session/chat/__mocks__/messagesQ
 import { liveMessagesQueryMock } from "@/server/api/session/chat/__mocks__/liveMessagesQuery";
 import { ChatContent } from "@/components/parts/chat/chatContent";
 import { participantsQueryMock } from "@/server/api/room/__mocks__/participantsQuery.mock";
+import { headCursorQueryMock } from "@/server/api/session/chat/__mocks__/headCursorQuery";
 
 vi.mock("@/modules/user/hooks/useMe");
 export const server = setupServer();
@@ -29,7 +30,7 @@ describe("Messages", () => {
   it("should load initial chat data, fetch live messages, and loads second page after clicking button", async () => {
     server.use(
       participantsQueryMock.default(),
-      messagesQueryMock.singleMessageOnce(),
+      headCursorQueryMock.once(),
       messagesQueryMock.middleMessagesPageOnce(),
       messagesQueryMock.lastMessagesPageOnce(),
       liveMessagesQueryMock.default(),

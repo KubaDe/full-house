@@ -22,17 +22,18 @@ export const ParticipantsList = () => {
   const isHovering = useHoverDirty(wrapperRef);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2" data-testid="participantList">
       <div ref={wrapperRef} className="flex flex-col gap-2">
         {participantsData?.map((participant) => (
-          <PersonBadge
-            key={participant.id}
-            profile={participant.profile}
-            avatar={participant.profile.avatar}
-            isOpen={isHovering}
-            isActive={activeParticipantsData?.includes(participant.id)}
-            isJoined={joinedParticipants?.includes(participant.id)}
-          />
+          <div key={participant.id} data-testid={`participantList.${participant.id}`}>
+            <PersonBadge
+              profile={participant.profile}
+              avatar={participant.profile.avatar}
+              isOpen={isHovering}
+              isActive={activeParticipantsData?.includes(participant.id)}
+              isJoined={joinedParticipants?.includes(participant.id)}
+            />
+          </div>
         ))}
       </div>
       <div className="flex flex-col gap-2">

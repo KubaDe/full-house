@@ -3,36 +3,6 @@ import { type Mock } from "vitest";
 import { parse } from "superjson";
 
 export const messagesQueryMock = {
-  singleMessageOnce: (spy?: Mock) =>
-    http.get(
-      "*/trpc/session.chat.messagesQuery",
-      async ({ request }) => {
-        const url = new URL(request.url);
-        await spy?.(parse(url.searchParams.get("input")!));
-        return HttpResponse.json(
-          {
-            result: {
-              data: {
-                json: {
-                  moreCount: 63,
-                  messages: [
-                    {
-                      id: "1735741291228-0",
-                      payload: {
-                        message: "Single message",
-                      },
-                      userId: "participant-1",
-                    },
-                  ],
-                },
-              },
-            },
-          },
-          { status: 200 },
-        );
-      },
-      { once: true },
-    ),
   middleMessagesPageOnce: (spy?: Mock) =>
     http.get(
       "*/trpc/session.chat.messagesQuery",

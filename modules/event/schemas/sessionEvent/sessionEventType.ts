@@ -5,4 +5,5 @@ import { chatSessionEventTypeSchema } from "./chat/chatEventType";
 export const sessionEventTypeSchema = z.enum([
   ...metaSessionEventTypeSchema.options,
   ...chatSessionEventTypeSchema.options,
+  "create",
 ]);
