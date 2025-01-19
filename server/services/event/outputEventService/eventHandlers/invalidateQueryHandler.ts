@@ -4,5 +4,5 @@ import { serializeOutputEventToPublish } from "@/modules/event/utils/serializeOu
 
 export const invalidateQueryHandler = async ({ event }: { event: InvalidateQueryEvent }) => {
   const invalidateQueryEvent = serializeOutputEventToPublish(event);
-  await rds.publish(`outputEvents:${event.sessionId}`, invalidateQueryEvent);
+  await rds.publish(`outputEvents:${event.roomId}`, invalidateQueryEvent);
 };

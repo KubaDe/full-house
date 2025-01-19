@@ -1,13 +1,24 @@
 import { match } from "ts-pattern";
-import { metaEventHandlers, chatEventHandlers } from "./eventHandlers";
+import { createHandler, metaEventHandlers, chatEventHandlers } from "./eventHandlers";
 import { type InputEvent, inputEventTypeSchema } from "@/modules/event/schemas/inputEvent";
 
 type OnPushProps = {
   event: InputEvent;
   userId: string;
+  roomId: string;
+};
+
+type OnCreateProps = {
+  sessionId: string;
+  userId: string;
+  roomId: string;
 };
 
 export const inputEventService = {
+  onCreate: async (props: OnCreateProps) => {
+    await createHandler(props);
+  },
+
   onPush: async (props: OnPushProps) => {
     await match(props)
       // META

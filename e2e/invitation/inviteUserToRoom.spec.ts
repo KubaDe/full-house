@@ -24,7 +24,7 @@ const test = base.extend<{}, { invited: Account; inviting: Account; room: Room }
   room: [
     async ({ inviting }, use) => {
       const room = new Room();
-      await room.init();
+      await room.init({ userId: inviting.stateHelpers.userId });
       await room.stateHelpers.addUser(inviting.stateHelpers.userId);
       await use(room);
       await room.cleanup();
@@ -36,7 +36,6 @@ const test = base.extend<{}, { invited: Account; inviting: Account; room: Room }
 test.describe.serial("Invite user to room", () => {
   test("Inviting user sends invitation", async ({ inviting, room, invited }) => {
     await inviting.page.goto(`/room/${room.stateHelpers.roomId}`);
-    await inviting.page.getByTestId("noMetaSessionModal.startMeetingButton").click();
     await inviting.page.getByTestId("addParticipant").click();
     await inviting.page.locator("[name='userEmail']").fill(invited.testUserEmail);
     await inviting.page.locator("button[form='inviteUserForm']").click();

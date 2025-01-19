@@ -5,7 +5,15 @@ import { serializeSessionEventToStreamInput } from "@/modules/event/utils/serial
 import { outputEventService } from "@/server/services/event/outputEventService";
 import { invalidateQueryKeySchema, outputEventTypeSchema } from "@/modules/event/schemas/outputEvent";
 
-export const messageHandler = async ({ event, userId }: { event: MessageEvent; userId: string }) => {
+export const messageHandler = async ({
+  event,
+  userId,
+  roomId,
+}: {
+  event: MessageEvent;
+  userId: string;
+  roomId: string;
+}) => {
   const messageEvent = messageEventSchema.parse({ userId, payload: { message: event.message } });
 
   await rds.xadd(
@@ -16,7 +24,7 @@ export const messageHandler = async ({ event, userId }: { event: MessageEvent; u
 
   await outputEventService.onPush({
     event: {
-      sessionId: event.sessionId,
+      roomId,
       type: outputEventTypeSchema.enum.invalidateQuery,
       payload: {
         keys: [invalidateQueryKeySchema.enum.session__chat__liveMessagesQuery],

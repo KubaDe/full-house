@@ -7,7 +7,15 @@ import { invalidateQueryKeySchema, outputEventTypeSchema } from "@/modules/event
 import { serializeSessionEventToStreamInput } from "@/modules/event/utils/serializeSessionEventToStreamInput";
 import { projections } from "@/server/services/event/sessionEventService/projections";
 
-export const joinHandler = async ({ event, userId }: { event: JoinEvent; userId: string }) => {
+export const joinHandler = async ({
+  event,
+  userId,
+  roomId,
+}: {
+  event: JoinEvent;
+  userId: string;
+  roomId: string;
+}) => {
   const userJoinEvent = userJoinEventSchema.parse({ userId });
 
   await rds.xadd(
@@ -28,7 +36,7 @@ export const joinHandler = async ({ event, userId }: { event: JoinEvent; userId:
   if (activeParticipantsString !== previousActiveParticipantsString) {
     await outputEventService.onPush({
       event: {
-        sessionId: event.sessionId,
+        roomId: roomId,
         type: outputEventTypeSchema.enum.invalidateQuery,
         payload: {
           keys: [

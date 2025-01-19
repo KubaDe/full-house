@@ -14,5 +14,6 @@ export const pushInputEventMutation = protectedProcedure
     await inputEventService.onPush({
       event: input,
       userId: ctx.user.id,
+      roomId: ctx.roomId,
     });
   });

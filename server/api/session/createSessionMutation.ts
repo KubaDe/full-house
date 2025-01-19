@@ -6,12 +6,13 @@ import {
   createSessionMutationOutputSchema,
 } from "@/modules/session/schemas/api";
 import { db } from "@/server/db/prisma";
+import { sessionLifecycleService } from "@/server/services/session/sessionLifecycleService";
 
 export const createSessionMutation = protectedProcedure
   .input(createSessionMutationInputSchema)
   .output(createSessionMutationOutputSchema)
   .unstable_concat(requireRoomParticipantMiddleware)
-  .mutation(async ({ input }) => {
+  .mutation(async ({ input, ctx }) => {
     const { roomId, type } = input;
 
     const existingSession = await db.session.findFirst({
@@ -26,11 +27,9 @@ export const createSessionMutation = protectedProcedure
         message: "Session already exists",
       });
     }
-
-    await db.session.create({
-      data: {
-        roomId,
-        type,
-      },
+    await sessionLifecycleService.createSession({
+      roomId,
+      userId: ctx.user.id,
+      type,
     });
   });

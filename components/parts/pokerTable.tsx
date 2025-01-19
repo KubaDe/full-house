@@ -1,5 +1,4 @@
-import groupBy from "lodash/groupBy";
-import orderBy from "lodash/orderBy";
+import { groupBy, orderBy } from "lodash-es";
 
 import { PokerSeat, type PokerSeatProps, SeatState } from "@/components/parts/pokerSeat";
 import { PersonBadge } from "@/components/parts/personBadge";
@@ -18,7 +17,7 @@ export const PokerTable = ({ seats }: PokerTableProps) => {
       <Card className="flex flex-col gap-8 px-10 py-4">
         <div className="flex">
           {groupedSeats[SeatState.Covered].map(({ id, ...seat }) => (
-            <div key={id} className="z-10 w-6 hover:z-20 ">
+            <div key={id} className="z-10 w-6 hover:z-20">
               <PokerSeat {...seat} showBackground={false} />
             </div>
           ))}
@@ -30,7 +29,7 @@ export const PokerTable = ({ seats }: PokerTableProps) => {
               <div key={activeValue} className="flex gap-12">
                 <div className="flex">
                   {seats.map(({ id, ...seat }) => (
-                    <div key={id} className="z-10 w-4 hover:z-20 ">
+                    <div key={id} className="z-10 w-4 hover:z-20">
                       <PokerSeat {...seat} showBadge={false} showBackground={false} />
                     </div>
                   ))}

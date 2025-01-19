@@ -1,4 +1,4 @@
-import { camelCase, capitalize, lowerCase, startCase } from "lodash";
+import { camelCase, capitalize, lowerCase, startCase } from "lodash-es";
 import { ArrowButton } from "./arrowButton";
 import { cn } from "@/lib/utils";
 

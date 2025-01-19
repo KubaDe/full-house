@@ -1,4 +1,5 @@
 "use client";
+import { match, P } from "ts-pattern";
 import { type MessagesGroup } from "./useMessages";
 import { cn } from "@/lib/utils";
 import { PersonBadge } from "@/components/parts/personBadge";
@@ -12,7 +13,7 @@ type MessageGroupProps = {
 
 export const MessagesGroupContent = ({ messagesGroup }: MessageGroupProps) => {
   const { roomId } = useCurrentRoom();
-  const { data: participantsData } = api.room.participantsQuery.useQuery(
+  const { data: participantsData, isLoading } = api.room.participantsQuery.useQuery(
     { roomId, includeMe: true },
     { enabled: !!roomId },
   );
@@ -46,7 +47,7 @@ export const MessagesGroupContent = ({ messagesGroup }: MessageGroupProps) => {
                 : "ml-auto bg-primary text-primary-foreground",
             )}
           >
-            <p className="break-all" data-testid="chat.message.content">
+            <p className="break-all" data-testid="chat.message.content" data-author={messagesGroup.userId}>
               {message.payload.message}
             </p>
           </div>
@@ -58,7 +59,11 @@ export const MessagesGroupContent = ({ messagesGroup }: MessageGroupProps) => {
           )}
           data-testid="chat.messageGroup.sender"
         >
-          {profile?.name ?? "Unknown"}
+          {match([profile?.name, isLoading])
+            .with([P.nullish, true], () => "")
+            .with([P.nullish, false], () => "Unknown")
+            .with([P.string, P.any], ([name]) => name)
+            .exhaustive()}
         </p>
       </div>
     </div>

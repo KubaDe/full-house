@@ -22,9 +22,9 @@ type StatusDotProps = { isActive: boolean; isJoined: boolean };
 
 const StatusDot = ({ isActive, isJoined }: StatusDotProps) => {
   const attrs = match([isActive, isJoined])
-    .with([true, true], () => ({ color: "bg-green-400", ariaLabel: "Present" }))
-    .with([false, true], () => ({ color: "bg-gray-400", ariaLabel: "Inactive" }))
-    .with([false, false], () => ({ color: "bg-red-400", ariaLabel: "Absent" }))
+    .with([true, true], () => ({ color: "bg-green-400", ariaLabel: "Present", value: "present" }))
+    .with([false, true], () => ({ color: "bg-gray-400", ariaLabel: "Inactive", value: "inactive" }))
+    .with([false, false], () => ({ color: "bg-red-400", ariaLabel: "Absent", value: "absent" }))
     .otherwise(() => null);
 
   if (!attrs) return null;
@@ -32,8 +32,9 @@ const StatusDot = ({ isActive, isJoined }: StatusDotProps) => {
   return (
     <div
       className="absolute bottom-[-2px] left-[-3px] z-10"
-      data-testid="statusDot"
       aria-label={attrs.ariaLabel}
+      data-testid="statusDot"
+      data-value={attrs.value}
     >
       <div className={cx("size-[14px] rounded-full border-2 border-white", attrs.color)} />
     </div>
@@ -58,6 +59,7 @@ export const PersonBadge = ({
       initial={isOpen ? "open" : "close"}
       whileHover={openOnHover ? "open" : undefined}
       aria-label="Avatar with name"
+      data-testid="personBadge"
     >
       {showStatusDot && <StatusDot isActive={isActive} isJoined={isJoined} />}
       <Badge

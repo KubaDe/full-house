@@ -1,4 +1,4 @@
-import { uniq } from "lodash";
+import { uniq } from "lodash-es";
 import { rds } from "@/server/db/redis";
 import { deserializeStreamOutputToSessionEvent } from "@/modules/event/utils/deserializeStreamOutputToSessionEvent";
 import { sessionEventTypeSchema } from "@/modules/event/schemas/sessionEvent";

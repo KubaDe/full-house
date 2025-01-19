@@ -15,7 +15,7 @@ export const requireSessionAllowedMiddleware = protectedProcedure
     if (!session) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Session not found",
+        message: `Session ${opts.input.sessionId} not found`,
       });
     }
     const roomId = session.roomId;
@@ -23,7 +23,7 @@ export const requireSessionAllowedMiddleware = protectedProcedure
     if (!roomId) {
       throw new TRPCError({
         code: "NOT_FOUND",
-        message: "Session not found",
+        message: `Session ${opts.input.sessionId} not found`,
       });
     }
 
@@ -41,5 +41,14 @@ export const requireSessionAllowedMiddleware = protectedProcedure
       });
     }
 
-    return opts.next();
+    return opts.next({
+      ...opts,
+      ctx: {
+        ...opts.ctx,
+        roomId,
+      },
+      input: {
+        ...opts.input,
+      },
+    });
   });

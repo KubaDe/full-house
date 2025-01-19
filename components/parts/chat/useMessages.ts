@@ -10,15 +10,18 @@ export type MessagesGroup = { userId: string; id: string; messages: Message[] };
 const MESSAGE_PAGE_SIZE = 20;
 
 export const useMessages = ({ sessionId }: MessagesProps) => {
-  const [initMessagesData] = api.session.chat.messagesQuery.useSuspenseQuery(
-    { sessionId, limit: 1 },
+  const [headCursor] = api.session.chat.headCursorQuery.useSuspenseQuery(
+    { sessionId },
     { staleTime: Infinity },
   );
-  const initialCursor = initMessagesData.messages[0]?.id;
-  const { data: liveMessages = [] } = api.session.chat.liveMessagesQuery.useQuery({
-    sessionId,
-    cursor: `(${initialCursor}`,
-  });
+
+  const { data: liveMessages = [] } = api.session.chat.liveMessagesQuery.useQuery(
+    {
+      sessionId,
+      cursor: headCursor ? `(${headCursor}` : undefined,
+    },
+    { refetchOnWindowFocus: "always" },
+  );
 
   const {
     data: messagesData,
@@ -30,7 +33,7 @@ export const useMessages = ({ sessionId }: MessagesProps) => {
       limit: MESSAGE_PAGE_SIZE,
     },
     {
-      initialCursor,
+      initialCursor: headCursor ?? undefined,
       getNextPageParam: ({ messages, moreCount }) => {
         if (moreCount > 0) {
           return `(${messages[messages.length - 1].id}`;

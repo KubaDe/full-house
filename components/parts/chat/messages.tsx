@@ -24,6 +24,7 @@ export const Messages = ({ sessionId }: MessagesProps) => {
             variant="ghost"
             onClick={() => fetchNextPage()}
             data-testid="chat.loadMore"
+            data-value={moreCount}
           >
             Load more ({moreCount})
           </Button>

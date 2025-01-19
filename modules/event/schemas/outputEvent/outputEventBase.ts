@@ -3,7 +3,7 @@ import { outputEventTypeSchema } from "./outputEventType";
 
 export const outputEventBase = z.object({
   type: outputEventTypeSchema,
-  sessionId: z.string(),
+  roomId: z.string(),
   skipRecipientIds: z.array(z.string()).optional(),
   pickRecipientIds: z.array(z.string()).optional(),
   payload: z.object({}).optional(),

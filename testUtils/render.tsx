@@ -2,7 +2,7 @@ import { Fragment, type ReactElement, type ReactNode, Suspense } from "react";
 import { render, renderHook, type RenderOptions, type RenderResult } from "@testing-library/react";
 import NiceModal from "@ebay/nice-modal-react";
 import { vi } from "vitest";
-import { omit } from "lodash";
+import { omit } from "lodash-es";
 import { ApiProvider } from "@/components/providers/apiProvider";
 import { DayjsProvider } from "@/components/providers/dayjsProvider";
 import { Toaster } from "@/components/uiKit/sonner";
