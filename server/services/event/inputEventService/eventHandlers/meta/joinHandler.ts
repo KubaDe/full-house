@@ -44,6 +44,7 @@ export const joinHandler = async ({
             invalidateQueryKeySchema.enum.session__roomAggregatedJoinedParticipantsQuery,
             invalidateQueryKeySchema.enum.session__activeParticipantsQuery,
             invalidateQueryKeySchema.enum.session__roomAggregatedActiveParticipantsQuery,
+            invalidateQueryKeySchema.enum.room__participantsQuery,
           ],
         },
       },

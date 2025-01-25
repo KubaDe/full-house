@@ -5,6 +5,7 @@ import { outputEventTypeSchema } from "./outputEventType";
 export const invalidateQueryKeySchema = z.enum([
   //ROOM
   "session__roomSessionsQuery",
+  "room__participantsQuery",
   // META
   "session__joinedParticipantsQuery",
   "session__activeParticipantsQuery",
