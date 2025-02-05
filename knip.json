@@ -1,20 +1,61 @@
 {
-  "ignore": ["components/uiKit/**/*", "e2e/**/*"],
-  "ignoreDependencies": [
-    "@radix-ui/*",
-    "@storybook/*",
-    "prettier-plugin-tailwindcss",
-    "@next/eslint-plugin-next",
-    "eslint-config-next",
-    "eslint-config-prettier",
-    "eslint-plugin-prettier",
-    "eslint-plugin-storybook",
-    "eslint-plugin-tailwindcss"
-  ],
-  "entry": [
-    "{index,main,cli}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
-    "src/{index,main,cli}.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
-    "*/**/__mocks__/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}",
-    "__mocks__/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"
-  ]
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "vitest": {
+    "config": [
+      "vitest.config.{js,mjs,ts,cjs,mts,cts}",
+      "vitest.{workspace,projects}.{js,mjs,ts,cjs,mts,cts,json}"
+    ],
+    "entry": ["**/*.{bench,test,test-d,spec}.?(c|m)[jt]s?(x)"]
+  },
+  "workspaces": {
+    "apps/storybook": {
+      "storybook": {
+        "config": [".storybook/{main,test-runner}.{js,ts}"],
+        "entry": [
+          ".storybook/{manager,preview}.{js,jsx,ts,tsx}",
+          "**/*.@(mdx|stories.@(mdx|js|jsx|mjs|ts|tsx))"
+        ],
+        "project": [".storybook/**/*.{js,jsx,ts,tsx}"]
+      }
+    },
+    "apps/web": {
+      "entry": ["**/components/uiKit/**", "**/__mocks__/**"],
+      "next": {
+        "entry": [
+          "next.config.{js,ts,cjs,mjs}",
+          "{instrumentation,middleware}.{js,ts}",
+          "app/global-error.{js,jsx,ts,tsx}",
+          "app/**/{error,layout,loading,not-found,page,template,default}.{js,jsx,ts,tsx}",
+          "app/**/route.{js,jsx,ts,tsx}",
+          "app/{manifest,sitemap,robots}.{js,ts}",
+          "app/**/{icon,apple-icon}.{js,jsx,ts,tsx}",
+          "app/**/{opengraph,twitter}-image.{js,jsx,ts,tsx}",
+          "pages/**/*.{js,jsx,ts,tsx}",
+          "components/parts/**/*.{js,jsx,ts,tsx}"
+        ]
+      },
+      "storybook": {
+        "config": [".storybook/{main,test-runner}.{js,ts}"],
+        "entry": [
+          ".storybook/{manager,preview}.{js,jsx,ts,tsx}",
+          "**/*.@(mdx|stories.@(mdx|js|jsx|mjs|ts|tsx))"
+        ],
+        "project": [".storybook/**/*.{js,jsx,ts,tsx}"]
+      }
+    },
+    "apps/playwright": {
+      "playwright": {
+        "config": [
+          "playwright.config.ts"
+        ],
+        "entry": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+          "e2e/global.setup.ts"
+        ]
+      }
+    },
+    "packages/tools-config": {
+        "entry": ["prettier/.prettierrc.*"]
+    }
+  }
 }
