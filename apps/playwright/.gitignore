@@ -1,0 +1,5 @@
+.vercel
+.env*.local
+playwright-report
+test-results
+/e2e/playwright/.auth/
