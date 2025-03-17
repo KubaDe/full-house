@@ -9,7 +9,6 @@ import NiceModal from "@ebay/nice-modal-react";
 import { vi } from "vitest";
 import { omit } from "lodash-es";
 import { ApiProvider } from "../components/apiProvider";
-import { DayjsProvider } from "../components/dayjsProvider";
 import { Toaster } from "../components/sonner";
 
 window.matchMedia = (query) => ({
@@ -35,10 +34,8 @@ const Provider = ({ children }: { children: ReactNode }) => (
   <ApiProvider>
     <Suspense fallback="loading">
       <NiceModal.Provider>
-        <DayjsProvider>
-          {children}
-          <Toaster />
-        </DayjsProvider>
+        {children}
+        <Toaster />
       </NiceModal.Provider>
     </Suspense>
   </ApiProvider>

@@ -1,5 +1,5 @@
 import { sortBy, uniq } from "lodash-es";
-import dayjs from "dayjs";
+import { dayjs } from "@repo/libs/dayjs";
 import { rds } from "@repo/db";
 import { deserializeStreamOutputToSessionEvent } from "@repo/utils";
 

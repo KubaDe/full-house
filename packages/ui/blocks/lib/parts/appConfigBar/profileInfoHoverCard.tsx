@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import { dayjs } from "@repo/libs/dayjs";
 import {
   HoverCard,
   HoverCardContent,

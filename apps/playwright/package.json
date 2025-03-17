@@ -19,14 +19,15 @@
     "@faker-js/faker": "^9.2.0",
     "@playwright/test": "^1.50.1",
     "@repo/db": "workspace:*",
-    "@repo/tools-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
     "@repo/schemas": "workspace:*",
     "@repo/services": "workspace:*",
+    "@repo/tools-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
     "eslint": "^9.21.0",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.12",
     "dotenv": "^16.4.5"
   }
 }

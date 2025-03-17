@@ -1,5 +1,5 @@
 {
-  "name": "@repo/utils",
+  "name": "@repo/libs",
   "version": "0.0.0",
   "type": "module",
   "main": "index.js",
@@ -11,21 +11,15 @@
   "author": "",
   "license": "ISC",
   "exports": {
-    ".": {
-      "import": "./index.ts"
-    }
+    "./dayjs": "./lib/dayjs/index.ts"
   },
   "dependencies": {
-    "@repo/schemas": "workspace:*",
     "@repo/tools-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "eslint": "^9.20.0",
-    "lodash-es": "^4.17.21",
-    "superjson": "^2.2.1",
-    "ts-pattern": "^5.5.0"
+    "dayjs": "^1.11.13",
+    "eslint": "^9.20.0"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.6.3",
-    "@types/lodash-es": "^4.17.12"
+    "@testing-library/jest-dom": "^6.6.3"
   }
 }

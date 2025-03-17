@@ -20,7 +20,7 @@
     "@repo/tools-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@repo/utils": "workspace:*",
-    "dayjs": "^1.11.13",
+    "@repo/libs": "workspace:*",
     "eslint": "^9.21.0",
     "lodash-es": "^4.17.21",
     "superjson": "^2.2.1",
