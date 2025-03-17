@@ -6,12 +6,12 @@
   "exports": {
     "./eslint/base": "./eslint/base.js",
     "./eslint/next-js": "./eslint/next.js",
-    "./eslint/react-internal": "./eslint/react-internal.js"
+    "./eslint/react-internal": "./eslint/react-internal.js",
+    "./tailwind": "./tailwind/tailwind.config.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.18.0",
     "@next/eslint-plugin-next": "^15.1.6",
-    "eslint": "9.14.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.1.0",

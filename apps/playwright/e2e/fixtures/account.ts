@@ -6,7 +6,7 @@ import {
 } from "@clerk/testing/playwright";
 import { faker } from "@faker-js/faker";
 import { createClerkClient } from "@clerk/backend";
-import { db } from "@/app/server/db/prisma";
+import { db } from "@repo/db";
 
 const clerkClient = createClerkClient({
   secretKey: process.env.CLERK_SECRET_KEY,

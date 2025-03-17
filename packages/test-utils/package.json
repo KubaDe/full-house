@@ -1,0 +1,40 @@
+{
+  "name": "@repo/test-utils",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "exports": {
+    "./vitest.config": "./lib/vitest.config.js",
+    ".": {
+      "import": "./lib/index.ts"
+    }
+  },
+  "dependencies": {
+    "@ebay/nice-modal-react": "^1.2.13",
+    "@repo/api": "workspace:*",
+    "@repo/tools-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@testing-library/react": "^16.2.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "dayjs": "^1.11.13",
+    "eslint": "^9.20.0",
+    "lodash-es": "^4.17.21",
+    "next-themes": "^0.4.3",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "sonner": "^1.7.0",
+    "vitest": "^3.0.7"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.12"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "@repo/db",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "prisma generate",
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "exports": {
+    ".": {
+      "import": "./index.ts"
+    }
+  },
+  "dependencies": {
+    "@prisma/client": "^6.3.1",
+    "@repo/tools-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "eslint": "^9.21.0",
+    "ioredis": "^5.4.1",
+    "prisma": "^6.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0"
+  },
+  "prisma": {
+    "schema": "./prisma/schema.prisma"
+  }
+}

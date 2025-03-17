@@ -1,15 +1,17 @@
-import "./globals.css";
+import "@repo/ui-kit/globals.css";
 import { Inter as FontSans } from "next/font/google";
 import { type Metadata } from "next";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { cn } from "@/lib/utils";
+import { cn } from "@repo/ui-kit/utils";
 import {
   AppConfigBar,
   AppConfigBarWrapper,
-} from "@/components/parts/appConfigBar";
-import { CombinedProvider } from "@/components/providers/combinedProvider";
-import { Toaster } from "@/components/uiKit/sonner";
-import { BodyContentWrapper } from "@/components/parts/bodyContentWrapper";
+  BodyContentWrapper,
+} from "@repo/ui-blocks/parts";
+import {
+  CombinedProvider,
+  ReactQueryDevtoolsProvider,
+} from "@repo/ui-blocks/providers";
+import { Toaster } from "@repo/ui-kit/sonner";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -40,18 +42,15 @@ const RootLayout = ({
             fontSans.variable,
           )}
         >
-          <ReactQueryDevtools
-            initialIsOpen={false}
-            buttonPosition="bottom-left"
-          />
-
-          <BodyContentWrapper>
-            <AppConfigBarWrapper>
-              <AppConfigBar />
-            </AppConfigBarWrapper>
-            {children}
-            <Toaster />
-          </BodyContentWrapper>
+          <ReactQueryDevtoolsProvider>
+            <BodyContentWrapper>
+              <AppConfigBarWrapper>
+                <AppConfigBar />
+              </AppConfigBarWrapper>
+              {children}
+              <Toaster />
+            </BodyContentWrapper>
+          </ReactQueryDevtoolsProvider>
         </body>
       </html>
     </CombinedProvider>

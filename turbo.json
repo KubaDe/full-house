@@ -22,6 +22,7 @@
       "cache": false
     },
     "check-types": {
+      "cache": false,
       "dependsOn": [
         "^check-types"
       ]
@@ -42,5 +43,25 @@
         "^madge"
       ]
     }
-  }
+  },
+  "globalEnv": [
+    "NODE_ENV",
+    "CLERK_SECRET_KEY",
+    "E2E_AUTH_FILE_PATH_TEMPLATE",
+    "E2E_BASIC_USER_TEMPLATE",
+    "E2E_USER_PASSWORD",
+    "NEXT_PUBLIC_BASE_URL",
+    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+    "NEXT_PUBLIC_CLERK_SIGN_IN_URL",
+    "NEXT_PUBLIC_CLERK_SIGN_UP_URL",
+    "NEXT_PUBLIC_MOCKED_USER_ID",
+    "PORT",
+    "RENDER_INTERNAL_HOSTNAME",
+    "VERCEL_URL",
+    "NEXT_PUBLIC_MOCKED_USER_EMAIL",
+    "POSTGRES_PRISMA_URL",
+    "POSTGRES_URL_NON_POOLING",
+    "REDIS_URL",
+    "CI"
+  ]
 }
