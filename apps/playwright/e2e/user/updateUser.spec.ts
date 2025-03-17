@@ -1,5 +1,5 @@
 import { expect, test as base } from "@playwright/test";
-import { db } from "@/app/server/db/prisma";
+import { db } from "@repo/db";
 import { Account } from "@/e2e/fixtures/account";
 
 const test = base.extend<{}, { account: Account }>({

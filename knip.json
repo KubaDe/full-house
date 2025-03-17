@@ -8,16 +8,6 @@
     "entry": ["**/*.{bench,test,test-d,spec}.?(c|m)[jt]s?(x)"]
   },
   "workspaces": {
-    "apps/storybook": {
-      "storybook": {
-        "config": [".storybook/{main,test-runner}.{js,ts}"],
-        "entry": [
-          ".storybook/{manager,preview}.{js,jsx,ts,tsx}",
-          "**/*.@(mdx|stories.@(mdx|js|jsx|mjs|ts|tsx))"
-        ],
-        "project": [".storybook/**/*.{js,jsx,ts,tsx}"]
-      }
-    },
     "apps/web": {
       "entry": ["**/components/uiKit/**", "**/__mocks__/**"],
       "next": {
@@ -33,17 +23,14 @@
           "pages/**/*.{js,jsx,ts,tsx}",
           "components/parts/**/*.{js,jsx,ts,tsx}"
         ]
-      },
-      "storybook": {
-        "config": [".storybook/{main,test-runner}.{js,ts}"],
-        "entry": [
-          ".storybook/{manager,preview}.{js,jsx,ts,tsx}",
-          "**/*.@(mdx|stories.@(mdx|js|jsx|mjs|ts|tsx))"
-        ],
-        "project": [".storybook/**/*.{js,jsx,ts,tsx}"]
       }
     },
     "apps/playwright": {
+      "eslint": {
+        "config": [
+          ".eslintrc.{js,ts,cjs,mjs}"
+        ]
+      },
       "playwright": {
         "config": [
           "playwright.config.ts"
@@ -56,6 +43,68 @@
     },
     "packages/tools-config": {
         "entry": ["prettier/.prettierrc.*"]
+    },
+    "packages/db": {
+     "eslint": {
+        "config": [
+          ".eslintrc.{js,ts,cjs,mjs}"
+        ]
+      }
+    },
+    "packages/services": {
+      "eslint": {
+        "config": [
+          ".eslintrc.{js,ts,cjs,mjs}"
+        ]
+      }
+    },
+    "packages/libs": {
+      "ignoreDependencies": ["@testing-library/jest-dom"],
+      "eslint": {
+        "config": [
+          ".eslintrc.{js,ts,cjs,mjs}"
+        ]
+      }
+    },
+    "packages/test-utils": {
+      "ignoreDependencies": ["@testing-library/jest-dom"],
+      "eslint": {
+        "config": [
+          ".eslintrc.{js,ts,cjs,mjs}"
+        ]
+      }
+    },
+    "packages/utils": {
+      "ignoreDependencies": ["@testing-library/jest-dom"],
+      "eslint": {
+        "config": [
+          ".eslintrc.{js,ts,cjs,mjs}"
+        ]
+      }
+    },
+    "packages/ui/blocks": {
+      "eslint": {
+        "config": [
+          ".eslintrc.{js,ts,cjs,mjs}"
+        ]
+      },
+      "entry": ["**/__mocks__/**"]
+    },
+    "packages/ui/kit": {
+      "ignoreDependencies": ["@testing-library/jest-dom"],
+      "eslint": {
+        "config": [
+          ".eslintrc.{js,ts,cjs,mjs}"
+        ]
+      },
+    },
+    "packages/ui/hooks": {
+      "eslint": {
+        "config": [
+          ".eslintrc.{js,ts,cjs,mjs}"
+        ]
+      },
+      "entry": ["**/__mocks__/**"]
     }
   }
 }

@@ -2,7 +2,7 @@
 import { SignIn } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useMe } from "@/modules/user/hooks/useMe";
+import { useMe } from "@repo/ui-hooks/user";
 
 export default function Page() {
   const { replace } = useRouter();

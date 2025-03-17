@@ -1,11 +1,10 @@
 import * as trpcNext from "@trpc/server/adapters/next";
-import dayjs from "dayjs";
+import { dayjs } from "@repo/libs/dayjs";
 import "dayjs/locale/en";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import utc from "dayjs/plugin/utc";
 
-import { appRouter } from "@/server/api/_app";
-import { createContext } from "@/server/context";
+import { appRouter, createContext } from "@repo/api/server";
 
 dayjs.extend(localizedFormat);
 dayjs.extend(utc);

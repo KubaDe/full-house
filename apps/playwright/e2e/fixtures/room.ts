@@ -1,9 +1,6 @@
-import { db } from "@/app/server/db/prisma";
-import { sessionLifecycleService } from "@/app/server/services/session/sessionLifecycleService";
-import {
-  sessionTypeSchema,
-  type SessionType,
-} from "@/app/modules/session/schemas/sessionType";
+import { db } from "@repo/db";
+import { SessionType, sessionTypeSchema } from "@repo/schemas";
+import { sessionLifecycleService } from "@repo/services/session";
 
 class StateHelpers {
   static readonly DEFAULTS = {

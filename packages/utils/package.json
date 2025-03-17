@@ -1,0 +1,31 @@
+{
+  "name": "@repo/utils",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "exports": {
+    ".": {
+      "import": "./index.ts"
+    }
+  },
+  "dependencies": {
+    "@repo/schemas": "workspace:*",
+    "@repo/tools-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "eslint": "^9.20.0",
+    "lodash-es": "^4.17.21",
+    "superjson": "^2.2.1",
+    "ts-pattern": "^5.5.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@types/lodash-es": "^4.17.12"
+  }
+}

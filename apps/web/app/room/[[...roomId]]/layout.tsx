@@ -1,13 +1,13 @@
 import { type Metadata } from "next";
 import { type ReactNode } from "react";
+import { CurrentRoomProvider } from "@repo/ui-hooks/room";
 import {
+  MetaSessionManager,
   ParticipantsList,
   ParticipantsListWrapper,
-} from "@/components/parts/participantsList";
-import { EventStreamProvider } from "@/components/providers/eventStreamProvider";
-import { MetaSessionManager } from "@/components/parts/metaSessionManager";
-import { RoomSplitView } from "@/components/parts/roomSplitView";
-import { CurrentRoomProvider } from "@/modules/room/hooks/useCurrentRoom";
+  RoomSplitView,
+} from "@repo/ui-blocks/parts";
+import { EventStreamProvider } from "@repo/ui-blocks/providers";
 
 export const metadata: Metadata = {
   title: "Create Next App",

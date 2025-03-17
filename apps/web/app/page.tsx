@@ -1,6 +1,6 @@
 "use client";
-import { Badge } from "@/components/uiKit/badge";
-import { api } from "@/utils/api";
+import { Badge } from "@repo/ui-kit/badge";
+import { api } from "@repo/api/client";
 
 const Home = () => {
   const { data: statusData } = api.status.statusQuery.useQuery();

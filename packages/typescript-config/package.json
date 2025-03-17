@@ -7,6 +7,7 @@
     "access": "public"
   },
   "dependencies": {
-    "next": "15.0.3"
+    "@testing-library/jest-dom": "^6.6.3",
+    "next": "15.1.7"
   }
 }
